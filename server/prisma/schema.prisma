@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id           String       @id @unique @default(uuid()) @db.Uuid
+  posts        posts[]
+  createdAt    DateTime     @default(now())
+  firstname    String
+  lastName     String
+  email        String       @unique
+  userName     String       @unique
+  password     String
+  savedMeal    threedmeal[]
+  savedMeals   savedMeals?  @relation(fields: [savedMealsId], references: [id])
+  savedMealsId String?      @db.Uuid
+
+  @@index([id, createdAt, email])
+}
+
+model savedMeals {
+  id    String       @id @unique @default(uuid()) @db.Uuid
+  users users[]
+  meals threedmeal[]
+}
+
+model posts {
+  id           String      @id @unique @default(uuid()) @db.Uuid
+  title        String
+  body         String
+  comments     Comments[]
+  photo        String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now())
+  threedmeal   threedmeal? @relation(fields: [threedmealId], references: [id])
+  threedmealId String?     @db.Uuid
+  users        users?      @relation(fields: [usersId], references: [id])
+  usersId      String?     @db.Uuid
+
+  @@index([id, createdAt])
+}
+
+model Comments {
+  id        String   @id @unique @default(uuid()) @db.Uuid
+  body      String
+  createdAt DateTime @default(now())
+  likes     Int      @default(0)
+  posts     posts?   @relation(fields: [postsId], references: [id])
+  postsId   String?  @db.Uuid
+
+  @@index([id, likes])
+}
+
+model mealPlans {
+  id        String       @id @unique @default(uuid()) @db.Uuid
+  meals     threedmeal[]
+  createdAt DateTime     @default(now())
+
+  @@index([id])
+}
+
+model threedmeal {
+  id        String      @id @unique @default(uuid()) @db.Uuid
+  content   String
+  mealPlans mealPlans[]
+  posts     posts[]
+  createdBy users       @relation(fields: [usersId], references: [id])
+
+  createdAt    DateTime    @default(now())
+  savedMeals   savedMeals? @relation(fields: [savedMealsId], references: [id])
+  savedMealsId String?     @db.Uuid
+  usersId      String      @db.Uuid
+
+  @@index([id])
+}

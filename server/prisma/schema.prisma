@@ -19,7 +19,7 @@ model users {
   email        String       @unique
   userName     String       @unique
   password     String
-  savedMeal    threedmeal[]
+  savedMeal    threeDmeal[]
   comments     Comments[]
   savedMeals   savedMeals?  @relation(fields: [savedMealsId], references: [id])
   savedMealsId String?      @db.Uuid
@@ -30,7 +30,7 @@ model users {
 model savedMeals {
   id    String       @id @unique @default(uuid()) @db.Uuid
   users users[]
-  meals threedmeal[]
+  meals threeDmeal[]
 }
 
 model posts {
@@ -41,7 +41,7 @@ model posts {
   photo        String?
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @default(now())
-  threedmeal   threedmeal? @relation(fields: [threedmealId], references: [id])
+  threedmeal   threeDmeal? @relation(fields: [threedmealId], references: [id])
   threedmealId String?     @db.Uuid
   users        users?      @relation(fields: [usersId], references: [id])
   usersId      String?     @db.Uuid
@@ -65,13 +65,13 @@ model Comments {
 
 model mealPlans {
   id        String       @id @unique @default(uuid()) @db.Uuid
-  meals     threedmeal[]
+  meals     threeDmeal[]
   createdAt DateTime     @default(now())
 
   @@index([id])
 }
 
-model threedmeal {
+model threeDmeal {
   id        String      @id @unique @default(uuid()) @db.Uuid
   content   String
   mealPlans mealPlans[]

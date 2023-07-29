@@ -50,15 +50,17 @@ model posts {
 }
 
 model Comments {
-  id   String @id @unique @default(uuid()) @db.Uuid
+  id String @id @unique @default(uuid()) @db.Uuid
+
   body String
 
   createdAt DateTime @default(now())
   likes     Int      @default(0)
-  posts     posts?   @relation(fields: [postsId], references: [id])
-  postsId   String?  @db.Uuid
-  users     users?   @relation(fields: [usersId], references: [id])
-  usersId   String?  @db.Uuid
+
+  posts   posts?  @relation(fields: [postsId], references: [id])
+  postsId String? @db.Uuid
+  users   users?  @relation(fields: [usersId], references: [id])
+  usersId String? @db.Uuid
 
   @@index([id, likes])
 }

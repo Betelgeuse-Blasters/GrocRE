@@ -11,7 +11,7 @@ const seedDataConstructor = () => {
     userName: faker.internet.userName(),
   };
 };
-//written in part by mike g
+//written in part by mike G
 const seedData = Array.from({ length: 5 }, seedDataConstructor);
 async function main() {
   // ... you will write your Prisma Client queries here

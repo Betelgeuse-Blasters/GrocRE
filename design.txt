@@ -1,13 +1,36 @@
+tables:
+  meals
+  meal_meta
+  meal_photos
+  meal_comments
+
+  recipies
+
+  ingredients
+
+
+  meal_plans
+
+
+  meal_plan_meta
+  meal_plan_comments
+
+
 meals {
   id:
   name:
   recipes: []
 }
 
+photos: {
+  id:
+  meal_id:
+}
+
 recipe: {
   id:
   name:
-  ingredients:
+  ingredients: [ {ingredient_id: ..., qty: ...} ]
 }
 
 recipe_meta
@@ -22,12 +45,101 @@ ingredients: {
 
 users
 
-user_saved_meals {
+user_saved_meals: {
   user_id:
   meals_id:
 }
 
+meal_plans: {
+  id:
+  name:
+  user_id:
+  meals: [
+    {meal_id: ..., day: ...}
+  ]
+}
 
-ingredients
+
+meals: {
+  id: ...
+  "recipe": "Cheeseburger with Bacon",
+  servingSize: 1,
+  ingredients: [
+    { id: ..., qty: ..., substitutes: [ ingredientid1, ingredientid2, .... ] }
+  ]
+}
+
+meals_photos: {
+  id:
+  meal_id:
+  photo: [base64 || url]
+}
+
+meals_meta: {
+  meal_id:
+  likes:
+  dislikes:
+}
+
+meals_comments: {
+  id:
+  meal_id:
+  user_id:
+  title:
+  body:
+  ...
+}
+
+meals_comments_meta: {
+  meals_comments_id:
+  likes:
+  dislikes:
+}
+
+meals_comments_lookup: {
+  id:
+  meal_id:
+  user_id:
+}
+
+users: {
+  id:
+  name: {}
+  username:
+  email:
+  password:
+}
+
+user_meals_comments: {
+  id:
+  userid:
+  mealsid:
+  title:
+  body:
+  createdAt:
+  updatedAt:
+}
+
+user_posts_meta: {
+  id:
+  user_posts_id:
+  likes:
+  dislikes:
+
+}
+
+posts: {
+  userid:
+  recipeid:
+  user_post_id:
+}
+
+ingredients: {
+  id: ..
+  portion: 1g
+  nutritionalInformation: {}
+}
+
+
 
 

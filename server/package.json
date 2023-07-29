@@ -8,7 +8,7 @@
   "license": "ISC",
   "scripts": {
     "prisma-migrate": "npx prisma migrate dev --name init",
-    "seed": "node /prisma/seed.js",
+    "seed": "node ./prisma/seed.js",
     "test": "test"
   },
   "dependencies": {
@@ -19,6 +19,7 @@
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
     "nodemon": "^3.0.1",
+    "openai": "^3.3.0",
     "redis": "^4.6.7"
   },
   "devDependencies": {

@@ -1,1 +1,1 @@
-import { db } from "../utils/db.server";
+import { db } from "../utils/db.server.js";

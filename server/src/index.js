@@ -2,9 +2,9 @@ import * as dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 
-import { snsRouter } from "./routes/routes.sns";
-import { aiRouter } from "./routes/routes.ai";
-import { editorRouter } from "./routes/routes.editor";
+import { snsRouter } from "./routes/routes.sns.js";
+import { aiRouter } from "./routes/routes.ai.js";
+import { editorRouter } from "./routes/routes.editor.js";
 dotenv.config();
 process.env.PORT = 3000;
 if (!process.env.PORT) {

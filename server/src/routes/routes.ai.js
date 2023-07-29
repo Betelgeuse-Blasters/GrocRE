@@ -1,4 +1,9 @@
 import express from "express";
 import { body } from "express-validator";
-import * as controller from "../controller/controller.ai";
-export const aiRouter = express.Router();
+import { getRecipe } from '../controller/controller.ai.js';
+
+const aiRouter = express.Router();
+
+aiRouter.post('/getRecipe', getRecipe);
+
+export { aiRouter };

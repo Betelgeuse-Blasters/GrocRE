@@ -1,0 +1,33 @@
+meals {
+  id:
+  name:
+  recipes: []
+}
+
+recipe: {
+  id:
+  name:
+  ingredients:
+}
+
+recipe_meta
+
+recipe_comments
+
+ingredients: {
+  id:
+  name:
+  nutritionalFacts: {}
+}
+
+users
+
+user_saved_meals {
+  user_id:
+  meals_id:
+}
+
+
+ingredients
+
+

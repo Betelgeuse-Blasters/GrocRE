@@ -6,7 +6,7 @@ import { snsRouter } from "./routes/routes.sns";
 import { aiRouter } from "./routes/routes.ai";
 import { editorRouter } from "./routes/routes.editor";
 dotenv.config();
-
+process.env.PORT = 3000;
 if (!process.env.PORT) {
   process.exit(1);
 }

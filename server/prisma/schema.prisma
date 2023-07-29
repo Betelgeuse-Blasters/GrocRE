@@ -20,6 +20,7 @@ model users {
   userName     String       @unique
   password     String
   savedMeal    threedmeal[]
+  comments     Comments[]
   savedMeals   savedMeals?  @relation(fields: [savedMealsId], references: [id])
   savedMealsId String?      @db.Uuid
 
@@ -49,12 +50,15 @@ model posts {
 }
 
 model Comments {
-  id        String   @id @unique @default(uuid()) @db.Uuid
-  body      String
+  id   String @id @unique @default(uuid()) @db.Uuid
+  body String
+
   createdAt DateTime @default(now())
   likes     Int      @default(0)
   posts     posts?   @relation(fields: [postsId], references: [id])
   postsId   String?  @db.Uuid
+  users     users?   @relation(fields: [usersId], references: [id])
+  usersId   String?  @db.Uuid
 
   @@index([id, likes])
 }

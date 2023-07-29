@@ -19,6 +19,7 @@
     "redis": "^4.6.7"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "prisma": "^5.0.0"
   }
 }

@@ -1,27 +1,21 @@
 import { PrismaClient } from "@prisma/client";
-import { faker } from "faker-js/faker";
+import { faker } from "@faker-js/faker";
 const prisma = new PrismaClient();
 
 const seedDataConstructor = () => {
   return {
-    firstname: faker.dataType.string(),
-    lastName: faker.dataType.string(),
+    firstname: faker.person.firstName(),
+    lastName: faker.person.lastName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
-    posts: [
-      {
-        title: faker.dataType.string(),
-        body: faker.dataType.string(),
-        createdAt: faker.date.past(),
-      },
-    ],
+    userName: faker.internet.userName(),
   };
 };
 //written in part by mike g
-const seedData = faker.helpers.multiple(seedDataConstructor, { count: 5 });
+const seedData = Array.from({ length: 5 }, seedDataConstructor);
 async function main() {
   // ... you will write your Prisma Client queries here
-  await prisma.users.createMany({
+  return await prisma.users.createMany({
     data: seedData,
   });
 }

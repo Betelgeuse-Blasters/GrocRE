@@ -78,7 +78,8 @@ model threeDmeal {
   posts     posts[]
   createdBy users       @relation(fields: [usersId], references: [id])
 
-  createdAt    DateTime    @default(now())
+  createdAt DateTime @default(now())
+
   savedMeals   savedMeals? @relation(fields: [savedMealsId], references: [id])
   savedMealsId String?     @db.Uuid
   usersId      String      @db.Uuid

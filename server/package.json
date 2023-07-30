@@ -8,7 +8,7 @@
   "license": "ISC",
   "scripts": {
     "prisma-migrate": "npx prisma migrate dev --name init",
-    "seed": "node ./prisma/seed.js",
+    "seed": "node /prisma/seed.js",
     "studio": "npx prisma studio",
     "test": "test"
   },

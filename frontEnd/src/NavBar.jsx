@@ -4,7 +4,14 @@ import { Link } from "react-router-dom";
 export default function NavBar() {
   const menuListItems = [
     {
-      label: <Link to="/">Home</Link>,
+      label: (
+        <Link to="/">
+          <img
+            width={40}
+            src="https://cdn.discordapp.com/attachments/1134186275109355592/1134644009181126666/IMG_0094.png"
+          />
+        </Link>
+      ),
       key: "home",
     },
     {
@@ -20,7 +27,7 @@ export default function NavBar() {
       key: "mealplan",
     },
     {
-      label: <Link to="/sns">SNS</Link>,
+      label: <Link to="/sns/home">SNS</Link>,
       key: "sns",
     },
   ];

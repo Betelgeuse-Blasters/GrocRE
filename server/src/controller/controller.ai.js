@@ -21,3 +21,9 @@ export const getRecipe = async (req, res) => {
 
   res.json({ recipe: response.data.choices[0].message.content });
 };
+
+export const getRecipe = async (req, res) => {
+
+
+
+}

@@ -1,5 +1,5 @@
-import { Card, Avatar, Collapse, message, Button, List } from 'antd';
-import { LikeOutlined, DislikeOutlined, CommentOutlined, HeartOutlined } from "@ant-design/icons";
+import { Card, Avatar, Collapse, message, List } from 'antd';
+import { LikeOutlined, DislikeOutlined, CommentOutlined, HeartOutlined, HeartFilled } from "@ant-design/icons";
 import {useState} from 'react';
 const {Meta} = Card;
 
@@ -7,12 +7,20 @@ export default function Post() {
   const mealTitle = 'Cheesieburger';
   const username = 'username';
   const postTitle = `${mealTitle} by ${username}`;
-  const [commentsOpen, setCommentsOpen] = useState(false)
+  const [heartColor, setHeartColor] = useState('white');
+  const [color, setColor] = useState('grey');
+  const [saved, setSaved] = useState(false);
+
   const messageTime = 2.5;
   const Cheesieburger = 'https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'
 
   function savePost() {
-    message.success(`${mealTitle} added to Saved Meals`, messageTime)
+    if (!saved) {
+      message.success(`${mealTitle} added to Saved Meals`, messageTime);
+    } else {
+      message.success(`${mealTitle} removed from Saved Meals`, messageTime);
+    }
+    setSaved(!saved);
   }
   function like(like) {
     if (like) {
@@ -22,22 +30,23 @@ export default function Post() {
     }
   }
 
-  function openComment() {
-    setCommentsOpen(!commentsOpen);
+ function commentHover(hover, target) {
+  if (hover) {
+    if (target === 'like') {
+      setColor('#1677ff')
+    } else {
+      setHeartColor('red')
+    }
+  } else {
+    setColor('grey');
+    setHeartColor('white');
   }
-  const comments = [{
-    username: 'Test User One',
-    comment: 'test comment one'
-  },
-  {
-    username: 'Test User Two',
-    comment: 'test comment two'
-  }]
+ }
 
   return (
     <div>
       <Card
-        style={{width:600}}
+        style={{width:600, margin: '15px'}}
         cover={
           <img alt = 'example' src={Cheesieburger}/>
         }
@@ -48,11 +57,13 @@ export default function Post() {
             key='collapse'
             bordered={false}
             style={{backgroundColor:"white"}}
-            showArrow={false}
             items={[
              {
               key: '1',
-              label: <CommentOutlined key='comments'/>,
+              onMouseEnter: () => {commentHover(true, 'like')},
+              onMouseLeave: () => {commentHover(false, 'like')},
+              label: <CommentOutlined style={{color: color, position: 'absolute', top: '15%' }} />,
+              showArrow: false,
               children: <List
               style={{width:'300%', right: "220%", backgroundColor: 'white'}}
               itemLayout='horizontal'
@@ -71,8 +82,8 @@ export default function Post() {
                 <List.Item>
                   <List.Item.Meta
                     avatar= {<Avatar src={Cheesieburger}/>}
-                    title={<p>{item.username}</p>}
-                    description={item.comment}
+                    title={<a style={{position:'relative', right:'38%'}}>{item.username}</a>}
+                    description={<a style={{position: 'relative', right: '35%'}}>{item.comment}</a>}
                   />
                 </List.Item>
               )}
@@ -88,7 +99,22 @@ export default function Post() {
           title={postTitle}
           description='A Royale with Cheese'
         />
-        <Button onClick={savePost} type='primary' icon={<HeartOutlined />} style={{position: 'absolute', top:'1%', right: '2%'}} />
+        {!saved ?
+          <HeartOutlined
+            onMouseEnter={() => {commentHover(true, 'heart')}}
+            onMouseLeave={() => {commentHover(false, 'heart')}}
+            onClick={savePost}
+            style={{color: heartColor, position: 'absolute', top:'10px', right: '15px', fontSize: '20px'}}
+            />
+          :
+          <HeartFilled
+            onMouseEnter={() => {commentHover(true, 'heart')}}
+            onMouseLeave={() => {commentHover(false, 'heart')}}
+            onClick={savePost}
+            style={{color: heartColor, position: 'absolute', top:'10px', right: '15px', fontSize: '20px'}}
+          />
+          }
+
         <Collapse items={[
           {
             key: '1',
@@ -104,42 +130,12 @@ export default function Post() {
             key: '3',
             label: 'Recipe/Steps',
             children: <p>Get food, add fire, ?, profit</p>
-          },
-          {
-            key: '4',
-            label: 'Comments',
-            children: <p>This heckin sick bro</p>
           }
         ]}
         bordered={false}
         style={{backgroundColor:"white", paddingTop:'10px'}}
         />
       </Card>
-      {commentsOpen &&
-        <List
-        itemLayout='horizontal'
-        bordered
-        dataSource={[
-          {
-            username: 'Test User One',
-            comment: 'test comment one'
-          },
-          {
-            username: 'Test User Two',
-            comment: 'test comment two'
-          }
-        ]}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta
-              avatar= {<Avatar src={Cheesieburger}/>}
-              title={<p>{item.username}</p>}
-              description={item.comment}
-            />
-          </List.Item>
-        )}
-        />
-      }
     </div>
   )
 }

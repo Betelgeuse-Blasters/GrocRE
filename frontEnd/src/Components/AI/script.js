@@ -59,8 +59,8 @@ data---- {
   usage: { prompt_tokens: 44, completion_tokens: 242, total_tokens: 286 }
 }
 Recipe: {
-  "recipeName": "Classic Cheeseburger",
-  "recipe": "The classic cheeseburger is an all-time favorite, combining juicy beef, melted cheese, and fresh toppings. It's perfect for any cookout or weeknight dinner.",
+  "name": "Classic Cheeseburger",
+  "description": "The classic cheeseburger is an all-time favorite, combining juicy beef, melted cheese, and fresh toppings. It's perfect for any cookout or weeknight dinner.",
   "servingSize": "1 burger",
   "nutritionFacts": {
     "calories": ,
@@ -88,10 +88,11 @@ Recipe: {
   ]
 }
 
-prompt = `please give in this format: {  "recipeName": "",
+prompt = `please give in this format:
+{ "recipeName": "",
 "recipeDescription": ""
 "recipeSteps": "",
-"servingSize": "1 burger",
+"servingSize": "",
 "nutritionFacts": {
   "calories": ,
   "totalFat": ,
@@ -105,7 +106,7 @@ prompt = `please give in this format: {  "recipeName": "",
 },
 "ingredients": [
   {
-    "name"
+    "name": "quantity string"
   }
 
 ]}`

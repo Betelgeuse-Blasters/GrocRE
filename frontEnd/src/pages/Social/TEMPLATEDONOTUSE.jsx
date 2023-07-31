@@ -1,7 +1,9 @@
-import { Menu, Space, Typography } from "antd";
-import { CoffeeOutlined, HomeOutlined } from "@ant-design/icons";
+import { Menu, Space, Typography, Card, Avatar, Collapse, message, Button } from "antd";
+import { CoffeeOutlined, HomeOutlined, LikeOutlined, DislikeOutlined, CommentOutlined, HeartOutlined } from "@ant-design/icons";
 import "./styles/sns.css";
 import NavBar from "../../NavBar";
+import Post from './components/Post.jsx';
+const {Meta} = Card;
 export default function AppTEMP() {
   return (
     <div className="app">
@@ -55,9 +57,24 @@ function SideBar() {
     </div>
   );
 }
+function savePost() {
+  message.success(`${mealTitle} added to Saved Meals`, messageTime)
+}
+function like(like) {
+  if (like) {
+    message.info(`${mealTitle} liked!`, messageTime)
+  } else {
+    message.info(`${mealTitle} disliked!`, messageTime)
+  }
+}
+
+const mealTitle = 'Cheesieburger';
+const username = 'username';
+const postTitle = `${mealTitle} by ${username}`;
+const messageTime = 2.5;
 
 function PageContent() {
-  return <div className="PageContent">page content</div>;
+  return <Post />;
 }
 function Footer() {
   return (

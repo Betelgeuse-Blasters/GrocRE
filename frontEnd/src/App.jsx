@@ -12,8 +12,8 @@ export default function App() {
       <Route path="/ai" element={<Ai />} />
       <Route path="/account" element={<Login />} />
       <Route path="/mealplan" element={<MealPlan />} />
-      <Route path="/sns">
-        <Route path="home" element={<Sns />} />
+      <Route path="/sns" element={<Sns />}>
+        <Route path="home" />
       </Route>
     </Routes>
   );

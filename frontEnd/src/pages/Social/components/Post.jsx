@@ -30,7 +30,7 @@ export default function Post() {
     }
   }
 
- function commentHover(hover, target) {
+ function onHover(hover, target) {
   if (hover) {
     if (target === 'like') {
       setColor('#1677ff')
@@ -60,8 +60,8 @@ export default function Post() {
             items={[
              {
               key: '1',
-              onMouseEnter: () => {commentHover(true, 'like')},
-              onMouseLeave: () => {commentHover(false, 'like')},
+              onMouseEnter: () => {onHover(true, 'like')},
+              onMouseLeave: () => {onHover(false, 'like')},
               label: <CommentOutlined style={{color: color, position: 'absolute', top: '15%' }} />,
               showArrow: false,
               children: <List
@@ -101,15 +101,15 @@ export default function Post() {
         />
         {!saved ?
           <HeartOutlined
-            onMouseEnter={() => {commentHover(true, 'heart')}}
-            onMouseLeave={() => {commentHover(false, 'heart')}}
+            onMouseEnter={() => {onHover(true, 'heart')}}
+            onMouseLeave={() => {onHover(false, 'heart')}}
             onClick={savePost}
             style={{color: heartColor, position: 'absolute', top:'10px', right: '15px', fontSize: '20px'}}
             />
           :
           <HeartFilled
-            onMouseEnter={() => {commentHover(true, 'heart')}}
-            onMouseLeave={() => {commentHover(false, 'heart')}}
+            onMouseEnter={() => {onHover(true, 'heart')}}
+            onMouseLeave={() => {onHover(false, 'heart')}}
             onClick={savePost}
             style={{color: heartColor, position: 'absolute', top:'10px', right: '15px', fontSize: '20px'}}
           />

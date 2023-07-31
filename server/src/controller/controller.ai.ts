@@ -5,13 +5,6 @@ import { validationResult } from "express-validator";
 import { Configuration, OpenAIApi } from "openai";
 import { config } from "dotenv"
 config()
-const response = await openai.createChatCompletion({
-  model: "gpt-3.5-turbo",
-  max_tokens: 1000,
-  messages: [
-    { "role": "system", "content": prompt }
-  ]
-});
 
 export const getRecipe = async (req, res) => {
   const input = req.body.meal;
@@ -22,7 +15,7 @@ export const getRecipe = async (req, res) => {
   const prompt = `Provide a meal recipe that best fits this prompt: "${input}" give it this JSON format with all measures in decimal format:
   { "recipeName": "",
   "recipeDescription": ""
-  "recipeSteps": [["1. ..."]],
+  "recipeSteps": [["1. ..."], ...],
   "servingSize": "",
   "nutritionFacts": {
     "calories": ,
@@ -40,21 +33,16 @@ export const getRecipe = async (req, res) => {
        [number, "measurement", "ingredient"]
 
   ]}`;
-  createChatComplettionWithHandling(prompt).then(response => {
-    const recipeData = JSON.parse(response.data.choices[0].message.content);
-
-  }).catch(err=> {
-    console.log(err)
-  })
-  // console.log(prompt)
-  // const response = await openai.createChatCompletion({
-  //   model: "gpt-3.5-turbo",
-  //   max_tokens: 1000,
-  //   messages: [
-  //     { "role": "system", "content": prompt }
-  //   ]
-  // });
+  console.log(prompt)
+  const response = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    max_tokens: 1000,
+    messages: [
+      { "role": "system", "content": prompt }
+    ]
+  });
   //parse the recipe received from OpenAI
+  const recipeData = JSON.parse(response.data.choices[0].message.content);
 
 /* USER NEEDS TO BE CHANGED TO GUY WHO ACTUALLY REACTED IT LATER!!!!!!!!!!____!_!_!__!_!_!_!__!_!_!__!__!_!_!__!_!_!_!__!*/
 data: {
@@ -64,15 +52,34 @@ data: {
   servingSize: recipeData.servingSize,
   nutritionFacts: recipeData.nutritionFacts,
   ingredients: recipeData.ingredients,
+},
+
+type DatabaseCall = {
+  recipeName: string;
+  recipeDescription:JSON;
+  recipeSteps: string[];
+  servingSize: number;
+  nutritionFacts: JSON;
+  ingredients: [number, string, string][];
+
 }
 
-  const saveRecipe = await db.threeDmeal.create({
-    where:{
-      id: "b88f4e22-ec17-4aec-bd80-921e65e6a123",
-      savedMeal: {
-        create: {
-        }
-      }
+  const saveRecipe = await db.threeDmeal.create: Promise<Select<DatabaseCall>>({
+    data: {
+      recipeName: recipeData.recipeName,
+      recipeDescription: recipeData.recipeDescription,
+      recipeSteps: recipeData.recipeSteps,
+      servingSize: recipeData.servingSize,
+      nutritionFacts: recipeData.nutritionFacts,
+      ingredients: recipeData.ingredients,
+    },
+    select: {
+      recipeName: true,
+      recipeDescription: true,
+      recipeSteps: true,
+      servingSize: true,
+      nutritionFacts: true,
+      ingredients: true
     }
   })
   console.log(response.data)

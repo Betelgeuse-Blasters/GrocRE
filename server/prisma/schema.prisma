@@ -75,7 +75,12 @@ model mealPlans {
 
 model threeDmeal {
   id        String      @id @unique @default(uuid()) @db.Uuid
-  content   String
+  recipeName          String
+  recipeDescription   String
+  recipeSteps         Json
+  servingSize         String
+  nutritionFacts      Json
+  ingredients         Json
   mealPlans mealPlans[]
   posts     posts[]
   createdBy users       @relation(fields: [usersId], references: [id])

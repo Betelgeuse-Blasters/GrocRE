@@ -10,6 +10,12 @@ export default function Post() {
   const [heartColor, setHeartColor] = useState('white');
   const [color, setColor] = useState('grey');
   const [saved, setSaved] = useState(false);
+  const heartProps = {
+    onMouseEnter: () => {onHover(true, 'heart')},
+    onMouseLeave: () => {onHover(false, 'heart')},
+    onClick: savePost,
+    style: {color: heartColor, position: 'absolute', top:'10px', right: '15px', fontSize: '20px'}
+  }
 
   const messageTime = 2.5;
   const Cheesieburger = 'https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'
@@ -99,21 +105,7 @@ export default function Post() {
           title={postTitle}
           description='A Royale with Cheese'
         />
-        {!saved ?
-          <HeartOutlined
-            onMouseEnter={() => {onHover(true, 'heart')}}
-            onMouseLeave={() => {onHover(false, 'heart')}}
-            onClick={savePost}
-            style={{color: heartColor, position: 'absolute', top:'10px', right: '15px', fontSize: '20px'}}
-            />
-          :
-          <HeartFilled
-            onMouseEnter={() => {onHover(true, 'heart')}}
-            onMouseLeave={() => {onHover(false, 'heart')}}
-            onClick={savePost}
-            style={{color: heartColor, position: 'absolute', top:'10px', right: '15px', fontSize: '20px'}}
-          />
-          }
+        {!saved ? <HeartOutlined {...heartProps}/> : <HeartFilled {...heartProps} /> }
 
         <Collapse items={[
           {

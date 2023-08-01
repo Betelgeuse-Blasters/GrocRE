@@ -1,15 +1,15 @@
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
-
+import { useAuth0 } from "@auth0/auth0-react";
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
 export default function NavBar() {
+  const { isAuthenticated } = useAuth0();
   const menuListItems = [
     {
       label: (
         <Link to="/">
-          <img
-            width={40}
-            src="https://cdn.discordapp.com/attachments/1134186275109355592/1134644009181126666/IMG_0094.png"
-          />
+          <img width={40} src="../../public/logo.png" />
         </Link>
       ),
       key: "home",
@@ -29,6 +29,10 @@ export default function NavBar() {
     {
       label: <Link to="/sns/home">SNS</Link>,
       key: "sns",
+    },
+    {
+      label: isAuthenticated ? <LogoutButton /> : <LoginButton />,
+      key: "login/logout",
     },
   ];
 

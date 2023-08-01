@@ -1,24 +1,17 @@
-import NavBar from '../../NavBar';
-import EditMeals from './EditMeals';
+import NavBar from "../../Components/NavBar";
+import EditMeals from "./EditMeals";
 
 export default function MealPlan() {
-
   return (
     <>
-      <div> <NavBar /> </div>
+      <div>
+        {" "}
+        <NavBar />{" "}
+      </div>
       <EditMeals />
     </>
   );
-
 }
-
-
-
-
-
-
-
-
 
 // import { Card } from 'antd';
 // export default function MealPlan() {
@@ -90,8 +83,6 @@ export default function MealPlan() {
 //     </div>
 //   );
 // }
-
-
 
 // -------- garbage pile
 

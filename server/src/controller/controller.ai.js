@@ -13,15 +13,16 @@ config();
   })
 }
 export const getRecipe = async (req, res) => {
-  try{
-  const input = req.body.meal;
-  const openai = new OpenAIApi(
-    new Configuration({
-      apiKey: process.env.API_KEY,
-    })
-  );
+  try {
+    const input = req.body.meal;
+    const openai = new OpenAIApi(
+      new Configuration({
+        apiKey: process.env.API_KEY,
+      })
+    );
 
   const prompt = `Provide a meal recipe that best fits this prompt: "${input}" give it this JSON format with all measure numbers in decimal format, do not use any '/', no fractions allowed:
+ 
   { "recipeName": "",
   "recipeDescription": "",
   "recipeSteps": [["1. ..."] ...],
@@ -42,6 +43,7 @@ export const getRecipe = async (req, res) => {
        ["number(0.0)", "measurement", "ingredient"]
 
   ]}`;
+
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     max_tokens: 1000,
@@ -57,29 +59,30 @@ export const getRecipe = async (req, res) => {
   console.log("SANITIZED CONTENT",sanitized)
   const recipeData = JSON.parse(sanitized);
 
-  // console.log(prompt)
-  // const response = await openai.createChatCompletion({
-  //   model: "gpt-3.5-turbo",
-  //   max_tokens: 1000,
-  //   messages: [
-  //     { "role": "system", "content": prompt }
-  //   ]
-  // });
-  //parse the recipe received from OpenAI
+    // console.log(prompt)
+    // const response = await openai.createChatCompletion({
+    //   model: "gpt-3.5-turbo",
+    //   max_tokens: 1000,
+    //   messages: [
+    //     { "role": "system", "content": prompt }
+    //   ]
+    // });
+    //parse the recipe received from OpenAI
 
-  /* USER NEEDS TO BE CHANGED TO GUY WHO ACTUALLY REACTED IT LATER!!!!!!!!!!____!_!_!__!_!_!_!__!_!_!__!__!_!_!__!_!_!_!__!*/
+    /* USER NEEDS TO BE CHANGED TO GUY WHO ACTUALLY REACTED IT LATER!!!!!!!!!!____!_!_!__!_!_!_!__!_!_!__!__!_!_!__!_!_!_!__!*/
 
   const saveRecipe = await model.saveRecipe(recipeData);
   console.log(response.data);
   res.json({recipe:recipeData});
   } catch (err) {
     console.log("all hail the meatball man", err);
-    res.status(500).send(err)
+    res.status(500).send(err);
   }
 };
 
-// export const getRecipe = async (req, res) => {
 
+export const getRecipe2 = async (req, res) => {
+}
 // }
 // let prompt = `Please provide a meal recipe that best fits this prompt: ${input}. Please give in this format:
 // { "recipeName": "",

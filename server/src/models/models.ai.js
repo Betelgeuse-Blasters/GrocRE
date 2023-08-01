@@ -10,5 +10,15 @@ export const saveRecipe = async (recipeData) => {
     ingredients,
   } = recipeData;
 
-  return await db.threeDmeal.create({});
+  return await db.recipe.create({
+    data: {
+      recipeName,
+      recipeDescription,
+      recipeSteps,
+      servingSize,
+      nutritionFacts,
+      ingredients,
+      creatorId: 1,
+    },
+  });
 };

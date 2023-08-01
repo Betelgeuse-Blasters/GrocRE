@@ -5,15 +5,15 @@ import { config } from "dotenv";
 config();
 
 export const getRecipe = async (req, res) => {
-  try{
-  const input = req.body.meal;
-  const openai = new OpenAIApi(
-    new Configuration({
-      apiKey: process.env.API_KEY,
-    })
-  );
+  try {
+    const input = req.body.meal;
+    const openai = new OpenAIApi(
+      new Configuration({
+        apiKey: process.env.API_KEY,
+      })
+    );
 
-  const prompt = `Provide a meal recipe that best fits this prompt: "${input}" give it this JSON format with all measures in decimal format:
+    const prompt = `Provide a meal recipe that best fits this prompt: "${input}" give it this JSON format with all measures in decimal format:
   { "recipeName": "",
   "recipeDescription": "",
   "recipeSteps": [["1. ..."]],
@@ -34,43 +34,38 @@ export const getRecipe = async (req, res) => {
        [number, "measurement", "ingredient"]
 
   ]}`;
-  const response = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
-    max_tokens: 1000,
-    messages: [
-      { "role": "system", "content": prompt }
-    ]
-  });
-  console.log(response.data.choices[0].message.content)
-  const recipeData = JSON.parse(response.data.choices[0].message.content);
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      max_tokens: 1000,
+      messages: [{ role: "system", content: prompt }],
+    });
+    console.log(response.data.choices[0].message.content);
+    const recipeData = JSON.parse(response.data.choices[0].message.content);
 
-  // console.log(prompt)
-  // const response = await openai.createChatCompletion({
-  //   model: "gpt-3.5-turbo",
-  //   max_tokens: 1000,
-  //   messages: [
-  //     { "role": "system", "content": prompt }
-  //   ]
-  // });
-  //parse the recipe received from OpenAI
+    // console.log(prompt)
+    // const response = await openai.createChatCompletion({
+    //   model: "gpt-3.5-turbo",
+    //   max_tokens: 1000,
+    //   messages: [
+    //     { "role": "system", "content": prompt }
+    //   ]
+    // });
+    //parse the recipe received from OpenAI
 
-  /* USER NEEDS TO BE CHANGED TO GUY WHO ACTUALLY REACTED IT LATER!!!!!!!!!!____!_!_!__!_!_!_!__!_!_!__!__!_!_!__!_!_!_!__!*/
+    /* USER NEEDS TO BE CHANGED TO GUY WHO ACTUALLY REACTED IT LATER!!!!!!!!!!____!_!_!__!_!_!_!__!_!_!__!__!_!_!__!_!_!_!__!*/
 
-  const saveRecipe = await model.saveRecipe(recipeData);
-  console.log(response.data);
-  res.json({ recipe: response.data.choices[0].message.content });
+    const saveRecipe = await model.saveRecipe(recipeData);
+    console.log(response.data);
+    res.json({ recipe: response.data.choices[0].message.content });
   } catch (err) {
     console.log("all hail the meatball man", err);
-    res.status(500).send(err)
+    res.status(500).send(err);
   }
 };
 
-<<<<<<< HEAD
-export const getRecipe2 = async (req, res) => {
-=======
-// export const getRecipe = async (req, res) => {
->>>>>>> origin
 
+export const getRecipe2 = async (req, res) => {
+}
 // }
 // let prompt = `Please provide a meal recipe that best fits this prompt: ${input}. Please give in this format:
 // { "recipeName": "",

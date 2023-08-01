@@ -4,18 +4,17 @@ const prisma = new PrismaClient();
 
 const seedDataConstructor = () => {
   return {
-    firstname: faker.person.firstName(),
-    lastName: faker.person.lastName(),
+    name: faker.person.fullName(),
     email: faker.internet.email(),
+    username: faker.internet.userName(),
     password: faker.internet.password(),
-    userName: faker.internet.userName(),
   };
 };
 //written in part by mike G
 const seedData = Array.from({ length: 5 }, seedDataConstructor);
 async function main() {
   // ... you will write your Prisma Client queries here
-  return await prisma.users.createMany({
+  return await prisma.user.createMany({
     data: seedData,
   });
 }

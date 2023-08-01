@@ -1,6 +1,5 @@
 import * as model from "../models/models.ai.js";
-import { db } from "../utils/db.server.js";
-
+import * as model from "../models/models.ai.js";
 import { validationResult } from "express-validator";
 import { Configuration, OpenAIApi } from "openai";
 import { config } from "dotenv";
@@ -53,23 +52,8 @@ export const getRecipe = async (req, res) => {
   //parse the recipe received from OpenAI
 
   /* USER NEEDS TO BE CHANGED TO GUY WHO ACTUALLY REACTED IT LATER!!!!!!!!!!____!_!_!__!_!_!_!__!_!_!__!__!_!_!__!_!_!_!__!*/
-  // data: {
-  //   recipeName: recipeData.recipeName,
-  //   recipeDescription: recipeData.recipeDescription,
-  //   recipeSteps: recipeData.recipeSteps,
-  //   servingSize: recipeData.servingSize,
-  //   nutritionFacts: recipeData.nutritionFacts,
-  //   ingredients: recipeData.ingredients,
-  // }
 
-  const saveRecipe = await db.threeDmeal.create({
-    where: {
-      id: "b88f4e22-ec17-4aec-bd80-921e65e6a123",
-      savedMeal: {
-        create: {},
-      },
-    },
-  });
+  const saveRecipe = await model.saveRecipe(recipeData);
   console.log(response.data);
   res.json({ recipe: response.data.choices[0].message.content });
 };

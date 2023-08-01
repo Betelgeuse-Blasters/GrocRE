@@ -1,10 +1,14 @@
 /* eslint-disable */
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import { Col, Row } from 'antd';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
 import * as dummyMeals from './dummyMeals.json';
+
+import UserContext from '../../Context/User.js';
+
 
 
 
@@ -24,39 +28,104 @@ function MealMenu({meals}) {
 
 }
 
-function Ingredients({ingredients}) {
+function Ingredient({ingredient, isEditing, mealEdits, setMealEdits}) {
+  const ingredientNameChange = (e) => {}
+  const changeName = (e) => {}
+  const amountChange = (e) => {}
 
   return (
     <>
-
+      {
+        isEditing
+        ? <>
+          <input onChange={ingredientNameChange} placeholder={ingredient.name} />
+          <button onClick={changeName}></button>
+          </>
+        : ingredient.name
+      }
+      {
+        isEditing
+        ? <>
+            <input onChange={amountChange} placeholder={ingredient.amount.value} />
+          </>
+        : 
+          <>
+          {ingredient.amount.value}
+          </>
+      }
     </>
   );
 }
 
-function Recipe({recipe}) {
-  console.log('recipe', recipe);
+function Step({step, isEditing, mealEdits, setMealEdits}) {
+  const stepChange = (e) => {}
+
   return (
-    <div>
-      <p>Name: {recipe.name}</p>
+    <>
+      {
+        isEditing
+        ? <>
+            <input onChange={stepChange} placeholder={step.text} />
+          </>
+        : 
+          <>
+          {step.text}
+          </>
+      }
+    </>
+  );
+}
+
+function Recipe({recipe, isEditing, mealEdits, setMealEdits}) {
+  const recipeNameChange = (e) => {}
+  const changeName = (e) => {}
+
+  return (
+    <div> 
+
+      {
+        isEditing
+        ? <>
+          <input onChange={recipeNameChange} placeholder={recipe.name} />
+          <button onClick={changeName}></button>
+          </>
+        : recipe.name
+      }
       <p>Serves: {recipe.serving}</p>
       {
         recipe.ingredients.map((ingredient) => {
-          return <p>{ingredient.name}</p>
+          return <Ingredient ingredient={ingredient} isEditing={isEditing} mealEdits={mealEdits} setMealEdits={setMealEdits} />
         })
+      }
+      
+      {
+        recipe.steps.map((step) => {
+            return <Step step={step} isEditing={isEditing} mealEdits={mealEdits} setMealEdits={setMealEdits} />
+          })
       }
     </div>
   );
 }
 
 function Meal({meal, isEditing, mealEdits, setMealEdits}) {
-  const mealNameChange = (e) => {
+  const [changes, setChanges] = useState(meal);
+  const handleChange = (e) => {
     // let edits = { name: e.target.value };
-
+    setChanges({...changes, [e.target.name]: e.target.value})
     // let update = Object.assign({}, ...edits);
     // console.log(update);
     // setMealEdits()
   }
 
+  const mealNameChange = (e) => {}
+
+
+  const changeName = (e) => {
+
+  }
+
+  const confirmChanges = (e) => {}
+  const cancelChanges = (e) => {}
 
   return (
     <>
@@ -64,15 +133,16 @@ function Meal({meal, isEditing, mealEdits, setMealEdits}) {
         {
           isEditing
           ? <>
-            <input onChange={mealNameChange} placeholder={meal.name} />
-            <button onClick={changeName}></button>
+            <input onChange={mealNameChange} name='name' placeholder={meal.name} />
+            <button onClick={cancelChanges}><CloseOutlined /></button>
+            <button onClick={confirmChanges}><CheckOutlined /></button>
             </>
           : meal.name
         }
       </h3>
       {
         meal.recipes.map((recipe, i) => {
-          return <Recipe key={i} recipe={recipe} />
+          return <Recipe key={i} recipe={recipe} isEditing={isEditing} mealEdits={mealEdits} setMealEdits={setMealEdits} />
         })
       }
 
@@ -83,8 +153,11 @@ function Meal({meal, isEditing, mealEdits, setMealEdits}) {
 function EditMeal() {
   let meals = dummyMeals.default;
   const [activeMeal, setActiveMeal] = useState(meals[0]);
-  const [mealEdits, setMealEdits] = useState({});
+  const [mealEdits, setMealEdits] = useState(meals[0]);
   const [isEditing, setIsEditing] = useState(false);
+  const [user, setUser] = useContext(UserContext);
+
+
 
   return (
     <>
@@ -98,6 +171,7 @@ function EditMeal() {
           />
         </Col>
         <Col span={6}>
+          {user.loggedIn ? `Hello, ${user.name}` : `Hello, ANONYMOUS`}
           <Meal meal={activeMeal} isEditing={isEditing} mealEdits={mealEdits} setMealEdits={setMealEdits}/>
         </Col>
       </Row>

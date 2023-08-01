@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 
-var globalForPrisma = global;
+let db;
 
-export var db =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log: ["query"],
-  });
+if (!global.__db) {
+  global.__db = new PrismaClient();
+}
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+db = global.__db;
+
+export { db };

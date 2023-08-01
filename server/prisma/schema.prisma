@@ -10,81 +10,118 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id           String       @id @unique @default(uuid()) @db.Uuid
-  posts        posts[]
-  createdAt    DateTime     @default(now())
-  firstname    String
-  lastName     String
-  email        String       @unique
-  userName     String       @unique
-  password     String
-  savedMeal    threeDmeal[]
-  comments     Comments[]
-  savedMeals   savedMeals?  @relation(fields: [savedMealsId], references: [id])
-  savedMealsId String?      @db.Uuid
-
-  @@index([id, createdAt, email])
+model sessions {
+  id          Int    @id @unique @default(autoincrement())
+  user        User   @relation(fields: [userId], references: [id])
+  sessionHash String
+  userId      Int
 }
 
-model savedMeals {
-  id    String       @id @unique @default(uuid()) @db.Uuid
-  users users[]
-  meals threeDmeal[]
+model User {
+  id               Int                @id @unique @default(autoincrement())
+  name             String
+  email            String
+  username         String
+  password         String
+  createdMeals     Recipe[]           @relation("UserCreatedMeals")
+  savedMeals       Recipe[]           @relation("UserSavedMeals")
+  mealPlans        MealPlan[]
+  posts            Post[]
+  UserSavedMeals   UserSavedMeals[]
+  UserCreatedMeals UserCreatedMeals[]
+  sessions         sessions[]
 }
 
-model posts {
-  id           String      @id @unique @default(uuid()) @db.Uuid
-  title        String
-  body         String
-  comments     Comments[]
-  photo        String?
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @default(now())
-  threedmeal   threeDmeal? @relation(fields: [threedmealId], references: [id])
-  threedmealId String?     @db.Uuid
-  users        users?      @relation(fields: [usersId], references: [id])
-  usersId      String?     @db.Uuid
-
-  @@index([id, createdAt])
+model Recipe {
+  id                Int                @id @unique @default(autoincrement())
+  recipeName        String
+  recipeDescription String
+  recipeSteps       Json
+  servingSize       Int
+  nutritionFacts    Json
+  ingredients       Json
+  creator           User?              @relation("UserCreatedMeals", fields: [creatorId], references: [id])
+  creatorId         Int?
+  savedBy           User[]             @relation("UserSavedMeals")
+  mealPlans         MealPlan[]         @relation("MealPlanToRecipe")
+  posts             Post[]
+  MealPlanToRecipe  MealPlanToRecipe[]
+  UserSavedMeals    UserSavedMeals[]
+  UserCreatedMeals  UserCreatedMeals[]
 }
 
-model Comments {
-  id String @id @unique @default(uuid()) @db.Uuid
-
-  body String
-
-  createdAt DateTime @default(now())
-  likes     Int      @default(0)
-
-  posts   posts?  @relation(fields: [postsId], references: [id])
-  postsId String? @db.Uuid
-  users   users?  @relation(fields: [usersId], references: [id])
-  usersId String? @db.Uuid
-
-  @@index([id, likes])
+model MealPlan {
+  id               Int                @id @unique @default(autoincrement())
+  name             String
+  description      String?
+  user             User?              @relation(fields: [userId], references: [id])
+  userId           Int?
+  recipes          Recipe[]           @relation("MealPlanToRecipe")
+  posts            Post[]
+  MealPlanToRecipe MealPlanToRecipe[]
 }
 
-model mealPlans {
-  id        String       @id @unique @default(uuid()) @db.Uuid
-  meals     threeDmeal[]
-  createdAt DateTime     @default(now())
+model MealPlanToRecipe {
+  mealPlanId Int
+  recipeId   Int
+  mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id])
+  recipe     Recipe   @relation(fields: [recipeId], references: [id])
 
-  @@index([id])
+  @@id([mealPlanId, recipeId])
 }
 
-model threeDmeal {
-  id        String      @id @unique @default(uuid()) @db.Uuid
-  content   String
-  mealPlans mealPlans[]
-  posts     posts[]
-  createdBy users       @relation(fields: [usersId], references: [id])
+model UserSavedMeals {
+  userId   Int
+  recipeId Int
+  user     User   @relation(fields: [userId], references: [id])
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
 
-  createdAt DateTime @default(now())
+  @@id([userId, recipeId])
+}
 
-  savedMeals   savedMeals? @relation(fields: [savedMealsId], references: [id])
-  savedMealsId String?     @db.Uuid
-  usersId      String      @db.Uuid
+model UserCreatedMeals {
+  userId   Int
+  recipeId Int
+  user     User   @relation(fields: [userId], references: [id])
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
 
-  @@index([id])
+  @@id([userId, recipeId])
+}
+
+model Post {
+  id         Int             @id @unique @default(autoincrement())
+  title      String
+  createdBy  Int
+  createdAt  DateTime        @default(now())
+  mealId     Int?
+  mealPlanId Int?
+  type       Boolean
+  likes      LikesDislikes[]
+  photos     Photo[]
+  comments   Comment[]
+  meal       Recipe?         @relation(fields: [mealId], references: [id])
+  mealPlan   MealPlan?       @relation(fields: [mealPlanId], references: [id])
+  User       User?           @relation(fields: [userId], references: [id])
+  userId     Int?
+}
+
+model LikesDislikes {
+  id     Int     @id @unique @default(autoincrement())
+  postId Int
+  isLike Boolean
+  post   Post    @relation(fields: [postId], references: [id])
+}
+
+model Photo {
+  id     Int    @id @unique @default(autoincrement())
+  postId Int
+  url    String
+  post   Post   @relation(fields: [postId], references: [id])
+}
+
+model Comment {
+  id      Int    @id @unique @default(autoincrement())
+  postId  Int
+  content String
+  post    Post   @relation(fields: [postId], references: [id])
 }

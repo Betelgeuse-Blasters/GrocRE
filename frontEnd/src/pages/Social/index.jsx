@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space} from "antd";
 import NavBar from "../../NavBar";
 import SideBar from "./components/Sidebar";
 import PageContent from "./components/PageContent";

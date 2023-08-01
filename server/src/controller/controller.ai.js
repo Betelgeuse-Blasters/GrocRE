@@ -1,11 +1,11 @@
 import * as model from "../models/models.ai.js";
-import * as model from "../models/models.ai.js";
 import { validationResult } from "express-validator";
 import { Configuration, OpenAIApi } from "openai";
 import { config } from "dotenv";
 config();
 
 export const getRecipe = async (req, res) => {
+  try{
   const input = req.body.meal;
   const openai = new OpenAIApi(
     new Configuration({
@@ -15,32 +15,35 @@ export const getRecipe = async (req, res) => {
 
   const prompt = `Provide a meal recipe that best fits this prompt: "${input}" give it this JSON format with all measures in decimal format:
   { "recipeName": "",
-  "recipeDescription": ""
+  "recipeDescription": "",
   "recipeSteps": [["1. ..."]],
-  "servingSize": "",
+  "servingSize": number,
   "nutritionFacts": {
-    "calories": ,
-    "totalFat": ,
-    "saturatedFat": ,
-    "cholesterol": ,
-    "sodium": ,
-    "carbohydrates": ,
-    "fiber": ,
-    "sugars": ,
-    "protein":
+    "calories": number,
+    "totalFat": number,
+    "saturatedFat": number,
+    "cholesterol": number,
+    "sodium": number,
+    "carbohydrates": number,
+    "fiber": number,
+    "sugars": number,
+    "protein": number
   },
   "ingredients": [
 
        [number, "measurement", "ingredient"]
 
   ]}`;
-  createChatComplettionWithHandling(prompt)
-    .then((response) => {
-      const recipeData = JSON.parse(response.data.choices[0].message.content);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  const response = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    max_tokens: 1000,
+    messages: [
+      { "role": "system", "content": prompt }
+    ]
+  });
+  console.log(response.data.choices[0].message.content)
+  const recipeData = JSON.parse(response.data.choices[0].message.content);
+
   // console.log(prompt)
   // const response = await openai.createChatCompletion({
   //   model: "gpt-3.5-turbo",
@@ -56,6 +59,10 @@ export const getRecipe = async (req, res) => {
   const saveRecipe = await model.saveRecipe(recipeData);
   console.log(response.data);
   res.json({ recipe: response.data.choices[0].message.content });
+  } catch (err) {
+    console.log("all hail the meatball man", err);
+    res.status(500).send(err)
+  }
 };
 
 // export const getRecipe = async (req, res) => {

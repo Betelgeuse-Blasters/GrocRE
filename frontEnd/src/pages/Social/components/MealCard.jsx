@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker';
 import VirtualList from 'rc-virtual-list';
 const {Meta} = Card;
 
-export default function Post() {
+export default function MealCard({isSavedMeal}) {
   const mealTitle = 'Cheesieburger';
   const username = 'username';
   const postTitle = `${mealTitle} by ${username}`;
@@ -23,6 +23,50 @@ export default function Post() {
   const Cheesieburger = 'https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'
 
   const containerHeight = 400;
+  let action;
+  if (isSavedMeal) {
+    action = null
+  } else {
+    action = [
+      <LikeOutlined onClick={()=>{like(1)}} key='like'/>,
+      <DislikeOutlined  onClick={()=>{like(0)}} key='dislike'/>,
+      <Collapse
+        key='collapse'
+        bordered={false}
+        style={{backgroundColor:"white"}}
+        items={[
+         {
+          key: '1',
+          onMouseEnter: () => {onHover(true, 'like')},
+          onMouseLeave: () => {onHover(false, 'like')},
+          label: <CommentOutlined style={{color: color, position: 'absolute', top: '15%' }} />,
+          showArrow: false,
+          children:
+            <List>
+              <VirtualList
+                style={{width:'300%', right: "220%", backgroundColor: 'white'}}
+                itemLayout='horizontal'
+                bordered
+                data={comments}
+                height={containerHeight}
+                onScroll={(onScroll)}
+              >
+            {(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar= {<Avatar src={Cheesieburger}/>}
+                  title={<a style={{position:'relative', right:'38%'}}>{item.username}</a>}
+                  description={<p style={{position: 'relative', right: '10%', textAlign: 'left'}}>{item.comment}</p>}
+                />
+              </List.Item>
+            )}
+          </VirtualList>
+          </List>
+          }
+        ]}
+      />
+    ]
+  }
 
   useEffect(() => {
     appendData();
@@ -80,45 +124,7 @@ export default function Post() {
         cover={
           <img alt = 'example' src={Cheesieburger}/>
         }
-        actions={[
-          <LikeOutlined onClick={()=>{like(1)}} key='like'/>,
-          <DislikeOutlined  onClick={()=>{like(0)}} key='dislike'/>,
-          <Collapse
-            key='collapse'
-            bordered={false}
-            style={{backgroundColor:"white"}}
-            items={[
-             {
-              key: '1',
-              onMouseEnter: () => {onHover(true, 'like')},
-              onMouseLeave: () => {onHover(false, 'like')},
-              label: <CommentOutlined style={{color: color, position: 'absolute', top: '15%' }} />,
-              showArrow: false,
-              children:
-                <List>
-                  <VirtualList
-                    style={{width:'300%', right: "220%", backgroundColor: 'white'}}
-                    itemLayout='horizontal'
-                    bordered
-                    data={comments}
-                    height={containerHeight}
-                    onScroll={(onScroll)}
-                  >
-                {(item) => (
-                  <List.Item>
-                    <List.Item.Meta
-                      avatar= {<Avatar src={Cheesieburger}/>}
-                      title={<a style={{position:'relative', right:'38%'}}>{item.username}</a>}
-                      description={<p style={{position: 'relative', right: '10%', textAlign: 'left'}}>{item.comment}</p>}
-                    />
-                  </List.Item>
-                )}
-              </VirtualList>
-              </List>
-              }
-            ]}
-          />
-        ]}
+        actions={action}
         hoverable
         >
         <Meta

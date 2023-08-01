@@ -1,9 +1,9 @@
-import Post from '../../components/Post.jsx';
+import MealCard from '../../components/MealCard.jsx';
 
 export default function Home() {
   return (
     <div>
-      <Post/>
+      <MealCard />
     </div>
   );
 }

@@ -63,7 +63,10 @@ function Meal({meal, isEditing, mealEdits, setMealEdits}) {
       <h3>
         {
           isEditing
-          ? <input onChange={mealNameChange} placeholder={meal.name} />
+          ? <>
+            <input onChange={mealNameChange} placeholder={meal.name} />
+            <button onClick={changeName}></button>
+            </>
           : meal.name
         }
       </h3>

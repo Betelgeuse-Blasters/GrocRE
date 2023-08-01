@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
+    "animejs": "^3.2.1",
     "antd": "^5.7.3",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",

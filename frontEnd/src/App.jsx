@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Account/Login";
 import MealPlan from "./pages/MealPlans/MealPlan";
+// import EditingUtility from "./pages/MealPlans/index.jsx";
 import Ai from "./pages/AI/Ai";
 import Sns from "./pages/Social";
 import AppTEMP from './pages/Social/TEMPLATEDONOTUSE.jsx'

@@ -3,21 +3,16 @@ import { db } from "../utils/db.server.js";
 
 import { validationResult } from "express-validator";
 import { Configuration, OpenAIApi } from "openai";
-import { config } from "dotenv"
-config()
-const response = await openai.createChatCompletion({
-  model: "gpt-3.5-turbo",
-  max_tokens: 1000,
-  messages: [
-    { "role": "system", "content": prompt }
-  ]
-});
+import { config } from "dotenv";
+config();
 
 export const getRecipe = async (req, res) => {
   const input = req.body.meal;
-  const openai = new OpenAIApi(new Configuration({
-    apiKey: process.env.API_KEY
-  }));
+  const openai = new OpenAIApi(
+    new Configuration({
+      apiKey: process.env.API_KEY,
+    })
+  );
 
   const prompt = `Provide a meal recipe that best fits this prompt: "${input}" give it this JSON format with all measures in decimal format:
   { "recipeName": "",
@@ -40,12 +35,13 @@ export const getRecipe = async (req, res) => {
        [number, "measurement", "ingredient"]
 
   ]}`;
-  createChatComplettionWithHandling(prompt).then(response => {
-    const recipeData = JSON.parse(response.data.choices[0].message.content);
-
-  }).catch(err=> {
-    console.log(err)
-  })
+  createChatComplettionWithHandling(prompt)
+    .then((response) => {
+      const recipeData = JSON.parse(response.data.choices[0].message.content);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   // console.log(prompt)
   // const response = await openai.createChatCompletion({
   //   model: "gpt-3.5-turbo",
@@ -56,32 +52,29 @@ export const getRecipe = async (req, res) => {
   // });
   //parse the recipe received from OpenAI
 
-/* USER NEEDS TO BE CHANGED TO GUY WHO ACTUALLY REACTED IT LATER!!!!!!!!!!____!_!_!__!_!_!_!__!_!_!__!__!_!_!__!_!_!_!__!*/
-data: {
-  recipeName: recipeData.recipeName,
-  recipeDescription: recipeData.recipeDescription,
-  recipeSteps: recipeData.recipeSteps,
-  servingSize: recipeData.servingSize,
-  nutritionFacts: recipeData.nutritionFacts,
-  ingredients: recipeData.ingredients,
-}
+  /* USER NEEDS TO BE CHANGED TO GUY WHO ACTUALLY REACTED IT LATER!!!!!!!!!!____!_!_!__!_!_!_!__!_!_!__!__!_!_!__!_!_!_!__!*/
+  // data: {
+  //   recipeName: recipeData.recipeName,
+  //   recipeDescription: recipeData.recipeDescription,
+  //   recipeSteps: recipeData.recipeSteps,
+  //   servingSize: recipeData.servingSize,
+  //   nutritionFacts: recipeData.nutritionFacts,
+  //   ingredients: recipeData.ingredients,
+  // }
 
   const saveRecipe = await db.threeDmeal.create({
-    where:{
+    where: {
       id: "b88f4e22-ec17-4aec-bd80-921e65e6a123",
       savedMeal: {
-        create: {
-        }
-      }
-    }
-  })
-  console.log(response.data)
+        create: {},
+      },
+    },
+  });
+  console.log(response.data);
   res.json({ recipe: response.data.choices[0].message.content });
 };
 
 // export const getRecipe = async (req, res) => {
-
-
 
 // }
 // let prompt = `Please provide a meal recipe that best fits this prompt: ${input}. Please give in this format:
@@ -105,7 +98,6 @@ data: {
 //      ["number", "measurement", "ingredient"]
 
 // ]}`
-
 
 /* EXAMPLE DATA
 {

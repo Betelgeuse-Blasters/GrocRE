@@ -7,8 +7,8 @@ export default function NavBar() {
       label: (
         <Link to="/">
           <img
-            width={40}
-            src="https://cdn.discordapp.com/attachments/1134186275109355592/1134644009181126666/IMG_0094.png"
+            width={100}
+            src="/logo.png"
           />
         </Link>
       ),
@@ -33,8 +33,8 @@ export default function NavBar() {
   ];
 
   return (
-    <nav>
-      <Menu mode="horizontal" items={menuListItems} />
+    <nav >
+      <Menu className="text-xl flex items-center" mode="horizontal" items={menuListItems} />
     </nav>
   );
 }

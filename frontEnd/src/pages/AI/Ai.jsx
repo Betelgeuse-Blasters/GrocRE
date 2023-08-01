@@ -62,22 +62,25 @@ export default function Ai() {
         setPromptIndex(0);
       } else {
         var num = promptIndex;
-      setPromptIndex(num + 1);
+        setPromptIndex(num + 1);
       }
     }, 8000);
 
     return () => clearInterval(timer);
   }, [promptIndex]);
 
-
   useEffect(() => {
-    anime({
-      targets: meatballLoadRef.current,
-      rotateZ: 360,
-      loop: true,
-      easing: 'linear'
-    })
-  }, []);
+    if (loading) {
+      anime({
+        targets: meatballLoadRef.current,
+        rotateZ: 360,
+        loop: true,
+        easing: 'linear'
+      });
+    }
+  }, [loading]);
+
+
 
   // useEffect(() => {
   //   anime({
@@ -107,8 +110,8 @@ export default function Ai() {
     setInputValue(e.target.value)
   }
   return (
-    <div style={{cursor: `url('/fork.png'), auto`}}>
-      <NavBar/>
+    <div style={{ cursor: `url('/fork.png'), auto` }}>
+      <NavBar />
       <h1 className='text-6xl flex justify-center'>Let's Get Cookin'!</h1>
       <div className="flex justify-center mt-5 mb-5">
         <h3 className='text-2xl w-2/3 text-center'>Get ready to level up your culinary game with GrocRE's cutting-edge AI! Just toss in your wildest recipe idea or the ingredients you've got in your kitchen, and watch the magic happen - voilà!</h3>
@@ -120,66 +123,68 @@ export default function Ai() {
         ></Input>
         <Button onClick={handleSearch} className='text-xl h-fit w-fit'>Submit</Button>
       </div>
-      {loading ? <div className='flex justify-center' ref={meatballLoadRef}>
-        <img  src='../../../public/meatball.png' className='w-10 h-10'/>
-      </div>: null}
-      {meal ? (
-      <div className='flex flex-row ml-5'>
-      <div className='flex flex-col w-1/3 relative'>
-          <div className='absolute top-0 right-0'>
-            <Rate count='1' className='flex '></Rate>
-          </div>
-          <img
-            // ref={ratRef}
-            src="https://bolt-gcdn.sc-cdn.net/3/iAgMd936GPdlxahIYCPlt?bo=EhgaABoAMgF9OgEEQgYI_bOh9AVIAlASYAE%3D&uc=18"
-            className='w-fit self-center'
-          />
-          <div className='border-2 mt-5'>
-            <h1 className='text-2xl font-medium'> Serving Size: </h1>
-              <h2 className='text-lg'>{meal.servingSize} </h2>
-            <h1 className='text-2xl font-medium'>Nutrition: </h1>
-            <ol className='text-lg'>
-              <li>Calories: {meal.nutritionFacts.calories} kCal</li>
-              <li>Total Fat: {meal.nutritionFacts.totalFat} g</li>
-              <li>Saturated Fat: {meal.nutritionFacts.saturatedFat} g</li>
-              <li>Cholesterol: {meal.nutritionFacts.cholesterol} mg</li>
-              <li>Sodium: {meal.nutritionFacts.sodium} mg</li>
-              <li>Carbohydrates: {meal.nutritionFacts.carbohydrates} g</li>
-              <li>Fiber: {meal.nutritionFacts.fiber} g</li>
-              <li>Sugars: {meal.nutritionFacts.sugars} g</li>
-              <li>Protein: {meal.nutritionFacts.protein} g</li>
-            </ol>
-          </div>
-        </div>
-        <div className='flex flex-col w-2/3 mr-5 ml-5'>
-          <div className='text-4xl flex justify-center font-medium mb-2'>{meal.recipeName}</div>
-          <div className='border-2'>
-            <h1 className='text-2xl font-medium'>Description: </h1>
-            <h2 className='text-lg'>{meal.recipeDescription}</h2>
-          </div>
-          <div className='border-2 mt-5'>
-            <h1 className='text-2xl font-medium'>Ingredients: </h1>
-            <ul className='text-lg'>
-              {meal.ingredients.map((item, index) => (
-                <li key={index}>{item[0]} {item[1]} {item[2]}</li>
-              ))}
-            </ul>
-          </div>
-          <div className='border-2 mt-5'>
-          <h1 className='text-2xl font-medium'>Directions: </h1>
-          <ul className='text-lg'>
-              {meal.recipeSteps.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
+      <div className='flex justify-center'>
+        {loading ? <div className='w-fit' ref={meatballLoadRef}>
+          <img src='../../../public/meatball.png' className='w-14 h-14 flex self-center' />
+        </div> : null}
       </div>
+      {meal ? (
+        <div className='flex flex-row ml-5'>
+          <div className='flex flex-col w-1/3 relative'>
+            <div className='absolute top-0 right-0'>
+              <Rate count='1' className='flex '></Rate>
+            </div>
+            <img
+              // ref={ratRef}
+              src="https://bolt-gcdn.sc-cdn.net/3/iAgMd936GPdlxahIYCPlt?bo=EhgaABoAMgF9OgEEQgYI_bOh9AVIAlASYAE%3D&uc=18"
+              className='w-fit self-center'
+            />
+            <div className='border-2 mt-5'>
+              <h1 className='text-2xl font-medium'> Serving Size: </h1>
+              <h2 className='text-lg'>{meal.servingSize} </h2>
+              <h1 className='text-2xl font-medium'>Nutrition: </h1>
+              <ol className='text-lg'>
+                <li>Calories: {meal.nutritionFacts.calories} kCal</li>
+                <li>Total Fat: {meal.nutritionFacts.totalFat} g</li>
+                <li>Saturated Fat: {meal.nutritionFacts.saturatedFat} g</li>
+                <li>Cholesterol: {meal.nutritionFacts.cholesterol} mg</li>
+                <li>Sodium: {meal.nutritionFacts.sodium} mg</li>
+                <li>Carbohydrates: {meal.nutritionFacts.carbohydrates} g</li>
+                <li>Fiber: {meal.nutritionFacts.fiber} g</li>
+                <li>Sugars: {meal.nutritionFacts.sugars} g</li>
+                <li>Protein: {meal.nutritionFacts.protein} g</li>
+              </ol>
+            </div>
+          </div>
+          <div className='flex flex-col w-2/3 mr-5 ml-5'>
+            <div className='text-4xl flex justify-center font-medium mb-2'>{meal.recipeName}</div>
+            <div className='border-2'>
+              <h1 className='text-2xl font-medium'>Description: </h1>
+              <h2 className='text-lg'>{meal.recipeDescription}</h2>
+            </div>
+            <div className='border-2 mt-5'>
+              <h1 className='text-2xl font-medium'>Ingredients: </h1>
+              <ul className='text-lg'>
+                {meal.ingredients.map((item, index) => (
+                  <li key={index}>{item[0]} {item[1]} {item[2]}</li>
+                ))}
+              </ul>
+            </div>
+            <div className='border-2 mt-5'>
+              <h1 className='text-2xl font-medium'>Directions: </h1>
+              <ul className='text-lg'>
+                {meal.recipeSteps.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       ) : (
         <div className='flex justify-center text-2xl'>
           <strong className='mr-5 w-1/4 text-end'>Try: </strong>
           <div className='w-3/4 text-start'>
-            <span key={promptIndex} style={{animation:'fadeInOut 8s infinite'}}> {promptIdeas}</span>
+            <span key={promptIndex} style={{ animation: 'fadeInOut 8s infinite' }}> {promptIdeas}</span>
           </div>
         </div>
       )}

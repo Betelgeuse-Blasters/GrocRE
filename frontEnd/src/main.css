@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-image {
+  margin: 0;
+  padding: 0;
+  background-image: url("/grocre-bg.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  background-attachment: fixed;
+}

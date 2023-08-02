@@ -3,24 +3,37 @@ import express from "express";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import path from "node:path";
+import { auth } from "express-oauth2-jwt-bearer";
 
 import { snsRouter } from "./routes/routes.sns.js";
 import { aiRouter } from "./routes/routes.ai.js";
 import { editorRouter } from "./routes/routes.editor.js";
 dotenv.config();
+
 process.env.PORT = 3000;
 if (!process.env.PORT) {
   process.exit(1);
 }
+
+const jwtCheck = auth({
+  audience: "grocreServer",
+  issuerBaseURL: "https://dev-f0xoepuyu2bnmb4k.us.auth0.com/",
+  tokenSigningAlg: "RS256",
+});
+
 const PORT = parseInt(process.env.PORT, 10);
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(jwtCheck);
 app.use(fileUpload());
 
 app.use("/sns", snsRouter);
 app.use("/ai", aiRouter);
+app.get("/authorized", function (req, res) {
+  res.send("Secured Resource");
+});
 
 app.post("/upload", function (req, res) {
   let sampleFile;

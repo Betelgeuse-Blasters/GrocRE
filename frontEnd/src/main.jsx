@@ -10,6 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Auth0Provider
       domain="dev-f0xoepuyu2bnmb4k.us.auth0.com"
       clientId="dtyhDePMgfwbcEHl7IsbF85gOJctfaqj"
+      useRefreshTokens={true}
       authorizationParams={{
         redirect_uri: window.location.origin,
         audience: "https://dev-f0xoepuyu2bnmb4k.us.auth0.com/api/v2/",

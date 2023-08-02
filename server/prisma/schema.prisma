@@ -91,6 +91,7 @@ model UserCreatedMeals {
 model Post {
   id         Int             @id @unique @default(autoincrement())
   title      String
+  summary    String
   createdBy  Int
   createdAt  DateTime        @default(now())
   mealId     Int?

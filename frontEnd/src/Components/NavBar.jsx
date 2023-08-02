@@ -1,18 +1,15 @@
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
-import {useContext} from 'react';
-import UserContext from './Context/User.js';
-
+import { useAuth0 } from "@auth0/auth0-react";
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
 export default function NavBar() {
-  const [user, setUser] = useContext(UserContext);
+  const { isAuthenticated } = useAuth0();
   const menuListItems = [
     {
       label: (
         <Link to="/">
-          <img
-            width={40}
-            src="https://cdn.discordapp.com/attachments/1134186275109355592/1134644009181126666/IMG_0094.png"
-          />
+          <img width={100} src="/logo.png" />
         </Link>
       ),
       key: "home",
@@ -22,7 +19,7 @@ export default function NavBar() {
       key: "ai",
     },
     {
-      label: user.loggedIn ? <Link to="/account">account</Link> : <Link to="/account">Registration</Link>,
+      label: <Link to="/account">account</Link>,
       key: "account",
     },
     {
@@ -33,11 +30,19 @@ export default function NavBar() {
       label: <Link to="/sns/home">SNS</Link>,
       key: "sns",
     },
+    {
+      label: isAuthenticated ? <LogoutButton /> : <LoginButton />,
+      key: "login",
+    },
   ];
 
   return (
     <nav>
-      <Menu mode="horizontal" items={menuListItems} />
+      <Menu
+        className="text-xl flex items-center"
+        mode="horizontal"
+        items={menuListItems}
+      />
     </nav>
   );
 }

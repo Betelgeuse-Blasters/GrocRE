@@ -4,6 +4,14 @@ import { Configuration, OpenAIApi } from "openai";
 import { config } from "dotenv";
 config();
 
+//this function just does the math and replaces any fractions
+//sanitizing data for slashes
+const sanitizeContent = (content) => {
+  const fraction = /\b(\d+)\/(\d+)\b/g;
+  return content.replace(fraction, (match, numerator, denominator) => {
+    return numerator / denominator;
+  });
+};
 export const getRecipe = async (req, res) => {
   try {
     const input = req.body.meal;
@@ -16,7 +24,7 @@ export const getRecipe = async (req, res) => {
     const prompt = `Provide a meal recipe that best fits this prompt: "${input}" give it this JSON format with all measures in decimal format:
   { "recipeName": "",
   "recipeDescription": "",
-  "recipeSteps": [["1. ..."]],
+  "recipeSteps": [["1. ..."] ...],
   "servingSize": number,
   "nutritionFacts": {
     "calories": number,
@@ -31,7 +39,7 @@ export const getRecipe = async (req, res) => {
   },
   "ingredients": [
 
-       [number, "measurement", "ingredient"]
+       ["number(0.0)", "measurement", "ingredient"]
 
   ]}`;
     const response = await openai.createChatCompletion({
@@ -56,16 +64,14 @@ export const getRecipe = async (req, res) => {
 
     const saveRecipe = await model.saveRecipe(recipeData);
     console.log(response.data);
-    res.json({ recipe: response.data.choices[0].message.content });
+    res.json({ recipe: recipeData });
   } catch (err) {
     console.log("all hail the meatball man", err);
     res.status(500).send(err);
   }
 };
 
-
-export const getRecipe2 = async (req, res) => {
-}
+export const getRecipe2 = async (req, res) => {};
 // }
 // let prompt = `Please provide a meal recipe that best fits this prompt: ${input}. Please give in this format:
 // { "recipeName": "",

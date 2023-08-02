@@ -45,8 +45,8 @@ export default function MealCard({isSavedMeal}) {
             <List>
               <VirtualList
                 style={{width:'300%', right: "220%", backgroundColor: 'white'}}
-                itemLayout='horizontal'
-                bordered
+                itemlayout='horizontal'
+                bordered='true'
                 data={comments}
                 height={containerHeight}
                 onScroll={(onScroll)}

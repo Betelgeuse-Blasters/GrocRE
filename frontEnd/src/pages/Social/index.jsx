@@ -1,5 +1,5 @@
 import { Space } from "antd";
-import NavBar from "../../NavBar";
+import NavBar from "../../Components/NavBar";
 import SideBar from "./components/Sidebar";
 import PageContent from "./components/PageContent";
 import Footer from "./components/Footer";

@@ -1,13 +1,21 @@
 import NavBar from "../../Components/NavBar";
 // import EditMeals from "./Meals/EditMeals";
 import Meals from './Meals';
+import NavMenu from './Menu';
 
 
 export default function MealPlan() {
   return (
     <>
       <div> <NavBar /> </div>
-      <Meals />
+      <div className="flex">
+        <div className="flex-none">
+          <NavMenu />
+        </div>
+        <div className="flex-1">
+          <Meals />
+        </div>
+      </div>
     </>
   );
 }

@@ -20,7 +20,7 @@ export default function App() {
     //
     axios
       .get("http://localhost:3000/editor/api/login", {
-        withCredentials: true,
+        // withCredentials: true,
       })
       .then((response) => {
         setUser({ ...response.data });
@@ -31,12 +31,14 @@ export default function App() {
   }, []);
 
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/ai" element={<Ai />} />
-      <Route path="/account" element={<Profile />} />
-      <Route path="/mealplan" element={<MealPlan />} />
-      <Route path="/sns/*" element={<Sns />} />
-    </Routes>
+    <UserContext.Provider value={[user, setUser]}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/ai" element={<Ai />} />
+        <Route path="/account" element={<Profile />} />
+        <Route path="/mealplan" element={<MealPlan />} />
+        <Route path="/sns/*" element={<Sns />} />
+      </Routes>
+    </UserContext.Provider>
   );
 }

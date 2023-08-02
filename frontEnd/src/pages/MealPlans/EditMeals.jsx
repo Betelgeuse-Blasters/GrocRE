@@ -86,13 +86,14 @@ function Recipe({ recipe, isEditing, mealEdits, setMealEdits }) {
         recipe.name
       )}
       <p>Serves: {recipe.serving}</p>
-      {recipe.ingredients.map((ingredient) => {
+      {recipe.ingredients.map((ingredient, i) => {
         return (
           <Ingredient
             ingredient={ingredient}
             isEditing={isEditing}
             mealEdits={mealEdits}
             setMealEdits={setMealEdits}
+            key={i}
           />
         );
       })}

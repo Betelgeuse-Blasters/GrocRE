@@ -1,67 +1,19 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "sessions" (
+    "id" SERIAL NOT NULL,
+    "sessionHash" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
 
-  - You are about to drop the `Comments` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `_mealPlansTothreeDmeal` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `mealPlans` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `posts` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `savedMeals` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `threeDmeal` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `users` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE "Comments" DROP CONSTRAINT "Comments_postsId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Comments" DROP CONSTRAINT "Comments_usersId_fkey";
-
--- DropForeignKey
-ALTER TABLE "_mealPlansTothreeDmeal" DROP CONSTRAINT "_mealPlansTothreeDmeal_A_fkey";
-
--- DropForeignKey
-ALTER TABLE "_mealPlansTothreeDmeal" DROP CONSTRAINT "_mealPlansTothreeDmeal_B_fkey";
-
--- DropForeignKey
-ALTER TABLE "posts" DROP CONSTRAINT "posts_threedmealId_fkey";
-
--- DropForeignKey
-ALTER TABLE "posts" DROP CONSTRAINT "posts_usersId_fkey";
-
--- DropForeignKey
-ALTER TABLE "threeDmeal" DROP CONSTRAINT "threeDmeal_savedMealsId_fkey";
-
--- DropForeignKey
-ALTER TABLE "threeDmeal" DROP CONSTRAINT "threeDmeal_usersId_fkey";
-
--- DropForeignKey
-ALTER TABLE "users" DROP CONSTRAINT "users_savedMealsId_fkey";
-
--- DropTable
-DROP TABLE "Comments";
-
--- DropTable
-DROP TABLE "_mealPlansTothreeDmeal";
-
--- DropTable
-DROP TABLE "mealPlans";
-
--- DropTable
-DROP TABLE "posts";
-
--- DropTable
-DROP TABLE "savedMeals";
-
--- DropTable
-DROP TABLE "threeDmeal";
-
--- DropTable
-DROP TABLE "users";
+    CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -168,6 +120,30 @@ CREATE TABLE "_MealPlanToRecipe" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "sessions_id_key" ON "sessions"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_id_key" ON "User"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Recipe_id_key" ON "Recipe"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "MealPlan_id_key" ON "MealPlan"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Post_id_key" ON "Post"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "LikesDislikes_id_key" ON "LikesDislikes"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Photo_id_key" ON "Photo"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Comment_id_key" ON "Comment"("id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_UserSavedMeals_AB_unique" ON "_UserSavedMeals"("A", "B");
 
 -- CreateIndex
@@ -178,6 +154,9 @@ CREATE UNIQUE INDEX "_MealPlanToRecipe_AB_unique" ON "_MealPlanToRecipe"("A", "B
 
 -- CreateIndex
 CREATE INDEX "_MealPlanToRecipe_B_index" ON "_MealPlanToRecipe"("B");
+
+-- AddForeignKey
+ALTER TABLE "sessions" ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Recipe" ADD CONSTRAINT "Recipe_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

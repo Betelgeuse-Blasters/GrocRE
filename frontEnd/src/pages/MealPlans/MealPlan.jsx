@@ -1,14 +1,13 @@
 import NavBar from "../../Components/NavBar";
-import EditMeals from "./EditMeals";
+// import EditMeals from "./Meals/EditMeals";
+import Meals from './Meals';
+
 
 export default function MealPlan() {
   return (
     <>
-      <div>
-        {" "}
-        <NavBar />{" "}
-      </div>
-      <EditMeals />
+      <div> <NavBar /> </div>
+      <Meals />
     </>
   );
 }

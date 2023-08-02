@@ -4,7 +4,7 @@ import UserContext from "./Context/User.js";
 import Home from "./pages/Home/Home";
 import MealPlan from "./pages/MealPlans/MealPlan";
 // import EditingUtility from "./pages/MealPlans/index.jsx";
-import Ai from "./pages/AI/Ai";
+// import Ai from "./pages/AI/Ai";
 import Sns from "./pages/Social";
 import axios from "axios";
 import Profile from "./pages/Profile/Profile";

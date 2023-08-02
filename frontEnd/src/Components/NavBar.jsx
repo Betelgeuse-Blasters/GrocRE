@@ -9,7 +9,7 @@ export default function NavBar() {
     {
       label: (
         <Link to="/">
-          <img width={40} src="../../public/logo.png" />
+          <img width={100} src="/logo.png" />
         </Link>
       ),
       key: "home",
@@ -38,7 +38,11 @@ export default function NavBar() {
 
   return (
     <nav>
-      <Menu mode="horizontal" items={menuListItems} />
+      <Menu
+        className="text-xl flex items-center"
+        mode="horizontal"
+        items={menuListItems}
+      />
     </nav>
   );
 }

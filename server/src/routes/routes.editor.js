@@ -10,5 +10,3 @@ editorRouter.get('/api/login', Controller.userInfo);
 editorRouter.get('/api/mealplans', Controller.mealPlans);
 
 editorRouter.post('/api/mealplans', Controller.postMealPlan);
-
-editorRouter.get('/api/savedummy', Controller.saveDummyData); 

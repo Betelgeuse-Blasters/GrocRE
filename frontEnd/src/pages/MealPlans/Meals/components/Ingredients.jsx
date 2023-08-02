@@ -1,8 +1,7 @@
 /* eslint-disable */
-import { RollbackOutlined, CheckOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import React, { useState, useEffect } from 'react';
-import { Collapse, Select, Input, InputNumber, Button,  } from 'antd';
-const { Option } = Select;
+import { RollbackOutlined, CheckOutlined, EditOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Collapse, Input, InputNumber, Button } from 'antd';
 
 const Ingredient = ({ingredient}) => {
   const [amount, setAmount] = useState(ingredient[0]);
@@ -13,9 +12,11 @@ const Ingredient = ({ingredient}) => {
 
   return (
     <div className='flex'>
-      <Input defaultValue={name}/>
-      {amount && <InputNumber className='w-[10rem] text-center' defaultValue={amount} />}
-      {unit && <Input className='w-[15rem]' defaultValue={unit} />}
+      <div>
+        <span>{ingredient[0]}</span>
+        <span>{ingredient[1]}</span>
+        <span>{ingredient[2] && ingredient[0]}</span>
+      </div>
     </div>
   );
 }
@@ -23,7 +24,7 @@ const Ingredient = ({ingredient}) => {
 const Ingredients = ({ingredients, setIngredients}) => {
   const [editing, setEditing] = useState(false);
   const [changes, setChanges] = useState(ingredients);
-
+  console.log('recipe ingredients', ingredients)
   const editActions = () => {
     return (
       <>
@@ -42,8 +43,7 @@ const Ingredients = ({ingredients, setIngredients}) => {
   const items = {
     key: 'ingredients',
     label: 'Ingredients',
-    children: ingredients.map(ingredient =>
-      <Ingredient editing={editing} ingredient={ingredient} setIngredient={changes}/>),
+    children: ingredients.map((ingredient) => <Ingredient editing={editing} ingredient={ingredient} setIngredient={changes}/>),
     extra: editActions()
   };
 

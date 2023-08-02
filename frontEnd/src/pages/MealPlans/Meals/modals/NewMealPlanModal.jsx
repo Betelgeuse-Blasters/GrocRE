@@ -1,7 +1,8 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { Modal, Form, Input } from 'antd';
 
-let MyFormModal = ({ visible, onCancel, onSubmit }) => {
+let NewMealPlan = ({ visible, onCancel, onSubmit }) => {
   const [form] = Form.useForm();
 
   // Function to handle form submission
@@ -47,4 +48,4 @@ let MyFormModal = ({ visible, onCancel, onSubmit }) => {
   );
 };
 
-export default MyFormModal;
+export default NewMealPlan;

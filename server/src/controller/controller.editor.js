@@ -5,18 +5,19 @@ const userInfo = (req, res) => {
   console.log('hit', req.cookies);
     if (!req.cookies || !req.cookies.session) {
       res.status(401).send('bummer')
-      // res.sendStatus(401);
+      return;
     }
     const session = req.cookies.session || '';
     Model.userInfo(session)
       .then((response) => {
         response.loggedIn ? res.status(200).json(response) : res.status(401).send('Go away');
+        return;
       })
 };
 
 const mealPlans = (req, res) => {
   const session = req.cookies.session;
-  console.log('meal plans', session)  
+  console.log('meal plans', session)
   if (!session) {
     res.status(400).send('meal plans - no session');
     return;
@@ -30,7 +31,7 @@ const mealPlans = (req, res) => {
       return Model.mealPlans(userId);
     })
     .then((response) => {
-      // console.log('db response', response); 
+      // console.log('db response', response);
       res.status(200).send(response);
       return;
     })
@@ -46,7 +47,7 @@ const postMealPlan = (req, res) => {
   let name = req.body.name;
   let description = req.body.description;
   let session = req.sesssion;
-  
+
   return Model.userInfo(session)
     .then((response) => {
       let userId = response.userId;
@@ -57,16 +58,10 @@ const postMealPlan = (req, res) => {
 
 };
 
-const saveDummyData = (req, res) => {
-  Model.saveDummyData(); 
-  res.status(200).send('why not'); 
-}
-
 const Controller = {
   userInfo,
   mealPlans,
   postMealPlan,
-  saveDummyData
 }
 
 export default Controller;

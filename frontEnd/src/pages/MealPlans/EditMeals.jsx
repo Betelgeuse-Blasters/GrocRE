@@ -40,8 +40,8 @@ function Recipe({recipe}) {
       <p>Name: {recipe.name}</p>
       <p>Serves: {recipe.serving}</p>
       {
-        recipe.ingredients.map((ingredient) => {
-          return <p>{ingredient.name}</p>
+        recipe.ingredients.map((ingredient, i) => {
+          return <p key={i}>{ingredient.name}</p>
         })
       }
     </div>

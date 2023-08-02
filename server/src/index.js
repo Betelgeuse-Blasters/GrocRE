@@ -1,10 +1,6 @@
 import * as dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import jwt from "express-jwt";
-import jwks from "jwks-rsa";
-import axios from "axios";
-import { auth } from "express-oauth2-jwt-bearer";
 import fileUpload from "express-fileupload";
 import path from "node:path";
 
@@ -29,6 +25,7 @@ const jwtCheck = auth({
 app.use(jwtCheck);
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload());
 app.use(fileUpload());
 
 app.use("/sns", (req, res) => {

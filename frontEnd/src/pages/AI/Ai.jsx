@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import NavBar from "../../NavBar";
+import NavBar from "../../Components/NavBar";
 import { Input, Button, Rate } from "antd";
 import anime from "animejs/lib/anime.es.js";
 import "../../styles/Ai.css";

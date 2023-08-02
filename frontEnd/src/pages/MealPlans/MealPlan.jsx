@@ -1,13 +1,28 @@
+import React from 'react';
 import NavBar from "../../Components/NavBar";
 // import EditMeals from "./Meals/EditMeals";
 import Meals from './Meals';
-
+import NavMenu from './Menu';
+import MealPlan2 from './MealPlan/MealPlan.jsx';
+// import MealCard from "../Social/components/MealCard";
 
 export default function MealPlan() {
+  const [focused, setFocused] = React.useState({});
+
   return (
     <>
       <div> <NavBar /> </div>
-      <Meals />
+      <div className="flex">
+        <div className="flex-none">
+          <NavMenu setFocused={setFocused}/>
+        </div>
+        <div className="flex-1">
+          {/*<Meals />*/}
+          <MealPlan2 meal={focused}/>
+  
+        
+        </div>
+      </div>
     </>
   );
 }

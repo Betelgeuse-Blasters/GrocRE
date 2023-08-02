@@ -20,7 +20,7 @@ export default function App() {
     //
     axios
       .get("http://localhost:3000/editor/api/login", {
-        // withCredentials: true,
+        withCredentials: true,
       })
       .then((response) => {
         setUser({ ...response.data });

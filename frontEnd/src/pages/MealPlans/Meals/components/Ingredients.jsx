@@ -8,15 +8,8 @@ const Ingredient = ({ingredient}) => {
   const [amount, setAmount] = useState(ingredient[0]);
   const [unit, setUnit] = useState(ingredient[1]);
   const [name, setName] = useState(ingredient[2]);
-  //quick fix for like [2, "eggs"]
-  if (ingredient.length === 2) {
-    // setUnit('');
-    // setName(ingredient[1]);
-  }
 
-  useEffect(() => {
-
-  }, [])
+  //@TODO - Fix items with only 2 array elements ex. [2, eggs]
 
   return (
     <div className='flex'>

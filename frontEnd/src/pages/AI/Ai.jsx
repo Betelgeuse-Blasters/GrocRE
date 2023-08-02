@@ -44,7 +44,7 @@ export default function Ai() {
     ]
   };
 
-  const [meal, setMeal] = useState(testData);
+  const [meal, setMeal] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
   const meatballLoadRef = useRef(null);
@@ -257,9 +257,7 @@ export default function Ai() {
               <span key={promptIndex} style={{ animation: 'fadeInOut 8s infinite' }}> {promptIdeas}</span>
             </div>
           </div>
-          <div>
-            <img ref={eggboyRef} src='eggboy.png' className='w-1/4 mt-16'/>
-          </div>
+            <img ref={eggboyRef} src='eggboy.png' className='w-1/4 mt-16 flex self-center'/>
         </div>
       )}
     </div>

@@ -8,6 +8,7 @@ import Ai from "./pages/AI/Ai";
 import Sns from "./pages/Social";
 import axios from "axios";
 import Profile from "./pages/Profile/Profile";
+import "./main.css";
 
 export default function App() {
   //on mount verify user information
@@ -32,6 +33,7 @@ export default function App() {
 
   return (
     <UserContext.Provider value={[user, setUser]}>
+      <div className='bg-image'>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/ai" element={<Ai />} />
@@ -39,6 +41,7 @@ export default function App() {
         <Route path="/mealplan" element={<MealPlan />} />
         <Route path="/sns/*" element={<Sns />} />
       </Routes>
+      </div>
     </UserContext.Provider>
   );
 }

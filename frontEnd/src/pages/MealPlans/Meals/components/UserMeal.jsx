@@ -6,12 +6,12 @@ import Recipes from './Recipes'
 
 
 const UserMeal = ({meal}) => {
-
+console.log(meal);
   return (
     <>
      <h2>{meal.name}</h2>
      <p>{meal.description}</p>
-     <Recipes recipe={meal.recipes} />
+     
     </>
   );
 }

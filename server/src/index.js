@@ -23,11 +23,15 @@ const jwtCheck = auth({
 
 const PORT = parseInt(process.env.PORT, 10);
 const app = express();
-
-app.use(cors());
+const corsOrigin ={
+    origin:'http://localhost:5173', //or whatever port your frontend is using
+    credentials:true,            
+    optionSuccessStatus:200
+}
+app.use(cors(corsOrigin));
 app.use(cookieParser());
 app.use(express.json());
-app.use(jwtCheck);
+//app.use(jwtCheck);
 app.use(fileUpload());
 app.use(express.static("../frontEnd/dist"));
 

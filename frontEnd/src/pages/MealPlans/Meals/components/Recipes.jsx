@@ -6,29 +6,11 @@ import { Collapse, Input, Button } from 'antd';
 import Ingredients from './Ingredients';
 import Steps from './Steps';
 
-const dummyRecipe = {
-  "recipeName": "Delicious Pancakes",
-  "recipeDescription": "A simple and tasty pancake recipe",
-  "recipeSteps": ["Step 1: Mix the dry ingredients", "Step 2: Add wet ingredients and mix well", "Step 3: Cook the pancakes on a hot griddle"],
-  "servingSize": 4,
-  "nutritionFacts": { "calories": 250, "carbs": 30, "protein": 5, "fat": 12 },
-  "ingredients": [
-    [1, "cup", "all-purpose flour"],
-    [2, "tablespoons", "sugar"],
-    [2, "teaspoons", "baking powder"],
-    [0.5, "teaspoon", "salt"],
-    [2, "eggs"],
-    [1, "cup", "milk"],
-    [3, "tablespoons", "unsalted butter, melted"]
-  ],
-  "creatorId": 1
-}
-
 const Recipe = ({recipe}) => {
-
+  // console.log('passed in recipe', recipe);
 
   return (
-    <>
+    <>    
       <Input defaultValue={recipe.recipeName} />
       <br />
       <p>Description:</p>
@@ -36,6 +18,10 @@ const Recipe = ({recipe}) => {
       <br />
       <Ingredients ingredients={recipe.ingredients} />
       <Steps steps={recipe.recipeSteps} />
+      <br/>
+      <br/>
+      <br/>
+      <br/>
     </>
   );
 }
@@ -43,7 +29,6 @@ const Recipe = ({recipe}) => {
 const Recipes = ({recipes, setRecipes}) => {
   const [editing, setEditing] = useState(false);
   const [changes, setChanges] = useState(recipes);
-  recipes = [dummyRecipe];
 
   return (
     <>

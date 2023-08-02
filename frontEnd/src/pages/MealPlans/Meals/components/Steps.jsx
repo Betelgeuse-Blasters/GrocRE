@@ -5,7 +5,7 @@ import { Collapse, Input, Button } from 'antd';
 
 const Steps = ({steps, setSteps}) => {
   const [editing, setEditing] = useState(false);
-  const [changes, setChanges] = useState(recipes);
+  const [changes, setChanges] = useState(steps);
 
   const editActions = () => {
     return (

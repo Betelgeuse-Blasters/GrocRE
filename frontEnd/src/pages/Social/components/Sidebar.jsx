@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function SideBar() {
   const navigate = useNavigate();
   return (
-    <div className="SideBar">
+    <div >
       <Menu
         mode="inline"
         onClick={(item) => {

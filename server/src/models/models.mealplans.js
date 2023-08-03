@@ -75,28 +75,26 @@ class Model {
     };
 
     let results = await db.MealPlan.update(config)
-    console.log('add recipe results', results);
-    // let recipeIds = await db.MealPlan.findMany(config);
-
-
-    // console.log('recipeIds', JSON.stringify(recipeIds[0]));
-    // return db.MealPlanToRecipe.create(config)
-    //   .then((response) => response)
-    //   .catch((err) => {
-    //     console.log('addRecipeError', err);
-    //     return [];
-    //   });
+    return results;
   }
 
-  async removeRecipe(mealPlanId, recipeId) {
-    //MealPlanToRecipe
+  async removeRecipe(userId, mealPlanId, recipeId) {
     const config = {
-      where:{ mealPlanId, recipeId }
+      data: { recipes: { disconnect: { id: recipeId } }},
+      where: { id: mealPlanId }
     };
-    return db.MealPlanToRecipe.delete(config).then((response) => response).catch((err) => {
-      console.log('removeRecipeError', err);
-      return [];
-    });
+
+    let results = await db.MealPlan.update(config)
+    return results;
+
+    //MealPlanToRecipe
+    // const config = {
+    //   where:{ mealPlanId, recipeId }
+    // };
+    // return db.MealPlanToRecipe.delete(config).then((response) => response).catch((err) => {
+    //   console.log('removeRecipeError', err);
+    //   return [];
+    // });
   }
 }
 

@@ -10,7 +10,7 @@ import { aiRouter } from "./routes/routes.ai.js";
 import { editorRouter } from "./routes/routes.editor.js";
 import { mealRouter } from "./routes/routes.meal.js";
 import {userInfo} from "./utils/user.middleware.js";
-import * as MealPlansRouter from './routes/routes.mealplans.js';
+import { MealPlansRouter } from './routes/routes.mealplans.js';
 dotenv.config();
 
 process.env.PORT = 3000;
@@ -51,7 +51,7 @@ app.use("/sns", snsRouter);
 app.use("/ai", aiRouter);
 app.use("/meal", mealRouter)
 app.use("/editor", editorRouter);
-app.use("/mealplans", MealPlansRouter.Router);
+app.use("/mealplans", MealPlansRouter);
 
 // The /profile route will show the user profile as JSON
 // app.get("/profile", openid.requiresAuth(), (req, res) => {

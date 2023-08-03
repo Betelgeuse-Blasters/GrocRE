@@ -53,8 +53,11 @@ class Controller {
     let results = await Model.addRecipe(userId, Number(req.params.id), Number(req.params.recipeId));
     res.status(200).send(results);
   }
-  async deleteMealPlanRecipe(req, res){
 
+  async deleteMealPlanRecipe(req, res){
+    let userId = 8;
+    let results = Model.removeRecipe(userId, Number(req.params.id), Number(req.params.recipeId));
+    res.status(200).send(results);
   }
 }
 

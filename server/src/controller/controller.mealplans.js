@@ -13,6 +13,7 @@ class Controller {
   constructor() {}
 
   async getMealPlans(req, res) {
+    console.log(req.userInfo)
     let userId = 1;
     let mealPlanId = Number(req.params.id) || null; //todo here
     let results = await Model.get(userId, mealPlanId);

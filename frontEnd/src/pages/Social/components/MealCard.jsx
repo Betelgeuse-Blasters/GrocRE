@@ -59,12 +59,12 @@ export default function MealCard({isSavedMeal, post}) {
     action = null
   } else {
     action = [
-      <div key='like'>
-        <LikeOutlined onClick={()=>{like(1)}}/>
+      <div key='like' onClick={()=>{like(1)}}>
+        <LikeOutlined />
         <p>{likes.length}</p>
       </div>,
-      <div key='dislike'>
-        <DislikeOutlined  onClick={()=>{like(0)}} />
+      <div key='dislike' onClick={()=>{like(0)}}>
+        <DislikeOutlined   />
         <p>{dislikes.length}</p>
       </div>,
       <Collapse

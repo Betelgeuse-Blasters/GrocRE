@@ -27,3 +27,16 @@ export async function updateLikes(req, res) {
     res.status(500).send(err)
   }
 }
+
+export async function getLikes(req, res) {
+  try {
+    const likes = await model.getLikes(req.query.postid, true)
+    const dislikes = await model.getLikes(req.query.postid, false)
+    const response = {likes: likes, dislikes: dislikes}
+    console.log(response)
+    res.send(response);
+  } catch (err) {
+    console.log('get likes error: ', err)
+    res.status(500).send(err)
+  }
+}

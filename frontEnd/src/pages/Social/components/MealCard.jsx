@@ -4,6 +4,7 @@ import { LikeOutlined, DislikeOutlined, CommentOutlined, HeartOutlined, HeartFil
 import {useState, useEffect} from 'react';
 import { faker } from '@faker-js/faker';
 import VirtualList from 'rc-virtual-list';
+import axios from 'axios';
 const {Meta} = Card;
 
 export default function MealCard({isSavedMeal, post}) {
@@ -15,6 +16,9 @@ export default function MealCard({isSavedMeal, post}) {
   const [nutrition, setNutrition] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [steps, setSteps] = useState([]);
+  const [userLiked, setUserLiked] = useState(null);
+  const [likes, setLikes] = useState([]);
+  const [dislikes, setDislikes] = useState([]);
 
   const heartProps = {
     onMouseEnter: () => {onHover(true, 'heart')},
@@ -32,19 +36,21 @@ export default function MealCard({isSavedMeal, post}) {
       setNutrition(nutrition => [...nutrition, `${item}: ${post.meal.nutritionFacts[item]}`]
       )
     }
-
     for (let item of post.meal.ingredients) {
       console.log('item ', item[0])
       setIngredients(ingredients =>
         [...ingredients, `${item[0]} ${item[1]} of ${item[2]}`]
       )
     }
-
     for (let step of post.meal.recipeSteps) {
       setSteps(steps =>
         [...steps, step]
       )
     }
+    axios.get(`http://localhost:3000/sns/likes?postid=${post.id}`).then((response) => {
+      setLikes(response.data.likes);
+      setDislikes(response.data.dislikes);
+    })
   }, []);
 
 
@@ -53,8 +59,14 @@ export default function MealCard({isSavedMeal, post}) {
     action = null
   } else {
     action = [
-      <LikeOutlined onClick={()=>{like(1)}} key='like'/>,
-      <DislikeOutlined  onClick={()=>{like(0)}} key='dislike'/>,
+      <div key='like'>
+        <LikeOutlined onClick={()=>{like(1)}}/>
+        <p>{likes.length}</p>
+      </div>,
+      <div key='dislike'>
+        <DislikeOutlined  onClick={()=>{like(0)}} />
+        <p>{dislikes.length}</p>
+      </div>,
       <Collapse
         key='collapse'
         bordered={false}
@@ -120,10 +132,21 @@ export default function MealCard({isSavedMeal, post}) {
   }
   function like(like) {
     if (like) {
-
-      message.info(`${post.title} liked!`, messageTime)
+      axios.put(`http://localhost:3000/sns/likes?postid=${post.id}&userid=${1}&like=true`).then(() => {
+        message.info(`${post.title} liked!`, messageTime)
+        axios.get(`http://localhost:3000/sns/likes?postid=${post.id}`).then((response) => {
+          setLikes(response.data.likes);
+          setDislikes(response.data.dislikes);
+        })
+      })
     } else {
-      message.info(`${post.title} disliked!`, messageTime)
+      axios.put(`http://localhost:3000/sns/likes?postid=${post.id}&userid=${1}&like=false`).then(() => {
+        message.info(`${post.title} disliked!`, messageTime)
+        axios.get(`http://localhost:3000/sns/likes?postid=${post.id}`).then((response) => {
+          setLikes(response.data.likes);
+          setDislikes(response.data.dislikes);
+        })
+      })
     }
   }
 

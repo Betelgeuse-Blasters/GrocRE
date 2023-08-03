@@ -51,3 +51,14 @@ export async function updateLikes(postid, userid, like) {
     })
   }
 }
+
+export async function getLikes(postid, boolean) {
+  postid = Number(postid);
+  const likes = await db.likesDislikes.findMany({
+    where: {
+      postId: postid,
+      isLike: boolean
+    }
+  })
+  return likes;
+}

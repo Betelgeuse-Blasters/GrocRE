@@ -21,7 +21,7 @@ const NavMenu = ({setFocused, setIngredients}) => {
     let store = {};
     store['menu'] = [];
 
-    axios.get('http://localhost:3000/editor/api/mealplans', {
+    axios.get('http://localhost:3000/mealplans', {
       withCredentials: true,
     })
 

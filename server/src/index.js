@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 
 import { snsRouter } from "./routes/routes.sns.js";
 import { aiRouter } from "./routes/routes.ai.js";
+import {authRouter} from "./routes/routes.auth.js"
 import { mealRouter } from "./routes/routes.meal.js";
 import {userInfo} from "./utils/user.middleware.js";
 import { MealPlansRouter } from './routes/routes.mealplans.js';
@@ -33,10 +34,7 @@ app.use(userInfo);
 app.use(fileUpload());
 app.use(express.static("../frontEnd/dist"));
 
-app.get("/callback", (req, res) => {
-  console.log(req.url);
-  res.send("hello");
-});
+app.use("/auth",authRouter)
 app.use("/sns", snsRouter);
 app.use("/ai", aiRouter);
 app.use("/meal", mealRouter)

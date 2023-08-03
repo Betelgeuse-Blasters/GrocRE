@@ -71,21 +71,20 @@ model MealPlanToRecipe {
 }
 
 model UserSavedMeals {
+  id         Int             @id @unique @default(autoincrement())
   userId   Int
   recipeId Int
   user     User   @relation(fields: [userId], references: [id])
   recipe   Recipe @relation(fields: [recipeId], references: [id])
 
-  @@id([userId, recipeId])
 }
 
 model UserCreatedMeals {
+  id         Int             @id @unique @default(autoincrement())
   userId   Int
   recipeId Int
   user     User   @relation(fields: [userId], references: [id])
   recipe   Recipe @relation(fields: [recipeId], references: [id])
-
-  @@id([userId, recipeId])
 }
 
 model Post {

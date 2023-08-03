@@ -8,6 +8,6 @@ export async function getAllPosts(req, res) {
     res.sendStatus(201)
   } catch (err) {
     console.log('get all posts error: ', err)
-    res.status(550).send(err)
+    res.status(501).send(err)
   }
 }

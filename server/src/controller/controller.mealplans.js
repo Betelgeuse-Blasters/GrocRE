@@ -48,13 +48,10 @@ class Controller {
   }
 
   async addMealPlanRecipe(req, res){
-    //validate ownership of mealplan
-    //create copy of recipe
-    //add copy to mealplan
-    let mealPlanId = req.params.id;
-    // get recipe info from body
-
-
+    // NOTE:: This connects the recipe to the meal plan, it doesn't create a new recipe
+    let userId = 8;
+    let results = await Model.addRecipe(userId, Number(req.params.id), Number(req.params.recipeId));
+    res.status(200).send(results);
   }
   async deleteMealPlanRecipe(req, res){
 

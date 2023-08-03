@@ -11,8 +11,8 @@ Router.post('/', Controller.createMealPlan);
 Router.put('/:id', Controller.putMealPlan);
 
 
-Router.put('/:id/recipe', Controller.addMealPlanRecipe);
-Router.delete('/:id/recipe/:recipeid', Controller.deleteMealPlanRecipe);
+Router.put('/:id/recipe/:recipeId', Controller.addMealPlanRecipe);
+Router.delete('/:id/recipe/:recipeId', Controller.deleteMealPlanRecipe);
 
 Router.delete('/:id', Controller.deleteMealPlan);
 

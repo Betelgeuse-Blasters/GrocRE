@@ -67,47 +67,37 @@ class Model {
       })
   }
 
-  async addRecipe(mealPlanId, recipeId) {
-    //MealPlanToRecipe
+  async addRecipe(userId, mealPlanId, recipeId) {
+    // get the current recipes for the user and mealPlanId
     const config = {
-      data:{
-        mealPlanId,
-        recipeId
-      }
+      data: { recipes: { connect: { id: recipeId } }},
+      where: { userId: userId, id: mealPlanId }
     };
-    return db.MealPlanToRecipe.create(config).then((response) => response).catch((err) => {
-      console.log('addRecipeError', err);
-      return [];
-    });
+
+    let results = await db.MealPlan.update(config)
+    console.log('add recipe results', results);
+    // let recipeIds = await db.MealPlan.findMany(config);
+
+
+    // console.log('recipeIds', JSON.stringify(recipeIds[0]));
+    // return db.MealPlanToRecipe.create(config)
+    //   .then((response) => response)
+    //   .catch((err) => {
+    //     console.log('addRecipeError', err);
+    //     return [];
+    //   });
   }
 
   async removeRecipe(mealPlanId, recipeId) {
-        //MealPlanToRecipe
-        const config = {
-
-          where:{
-            mealPlanId,
-            recipeId
-          }
-        };
-        return db.MealPlanToRecipe.delete(config).then((response) => response).catch((err) => {
-          console.log('removeRecipeError', err);
-          return [];
-        });
+    //MealPlanToRecipe
+    const config = {
+      where:{ mealPlanId, recipeId }
+    };
+    return db.MealPlanToRecipe.delete(config).then((response) => response).catch((err) => {
+      console.log('removeRecipeError', err);
+      return [];
+    });
   }
-
-  // async addMealPlanRecipe(mealPlanId, recipeId) {
-  //   const config = {
-  //     data: { mealPlanId, recipeId }
-  //   };
-  //   return db.MealPlanToRecipe.create(config)
-  //     .then((response) => response)
-  //     .catch((err) => {
-  //       console.log('addMealPlanRecipeError', err);
-  //       return [];
-  //     })
-  // }
-
 }
 
 

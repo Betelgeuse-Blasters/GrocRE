@@ -51,10 +51,34 @@ export default function Ai() {
   const eggboyRef = useRef(null);
   const [isHover, setIsHover] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
+  const [position, setPosition] = useState(0);
 
   const handleStarHover = () => {
     setIsHover(true);
   };
+
+  useEffect(() => {
+    const handleEggMove = (e) => {
+      if (e.key === 'ArrowLeft') {
+        setPosition((prevPosition) => prevPosition - 200);
+      } else if (e.key === 'ArrowRight') {
+        setPosition((prevPosition) => prevPosition + 200);
+      }
+    };
+
+    window.addEventListener('keydown', handleEggMove);
+    return () => {
+      window.removeEventListener('keydown', handleEggMove);
+    };
+  }, []);
+
+  useEffect(() => {
+    anime({
+      targets: eggboyRef.current,
+      duration: 800,
+      translateX: position,
+    })
+  }, [position]);
 
   const handleLeaveHover = () => {
     setIsHover(false);
@@ -100,17 +124,6 @@ export default function Ai() {
       rotateZ: 360,
       loop: true,
       easing: 'linear'
-    })
-  }, []);
-
-  useEffect(() => {
-    anime({
-      targets: eggboyRef.current,
-      translateX: 'calc(100vw - 100%)',
-      duration: 8000,
-      loop: true,
-      direction: 'alternate',
-      easing: 'linear',
     })
   }, []);
 
@@ -208,7 +221,7 @@ export default function Ai() {
                   className='w-fit self-center'
                 />
                 <div className='mt-5 flex flex-col'>
-                  <NutritionFacts meal={meal}/>
+                  <NutritionFacts meal={meal} />
                   {/* <h1 className='text-2xl font-medium text-center'> Serving Size: {meal.servingSize}</h1>
                   <h1 className='text-2xl font-medium ml-3'>Nutrition: </h1>
                   <ol className='text-lg ml-3'>
@@ -257,9 +270,10 @@ export default function Ai() {
               <span key={promptIndex} style={{ animation: 'fadeInOut 8s infinite' }}> {promptIdeas}</span>
             </div>
           </div>
-            <img ref={eggboyRef} src='eggboy.png' className='w-1/4 mt-16 flex self-center'/>
+          <img ref={eggboyRef} src='eggboy.png' className='w-1/4 mt-16 flex self-center' style={{position: 'relative'}} />
         </div>
       )}
     </div>
   );
 }
+// style={{marginLeft: position}}

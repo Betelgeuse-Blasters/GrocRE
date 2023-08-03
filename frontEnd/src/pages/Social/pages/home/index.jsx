@@ -1,4 +1,4 @@
-import MealCard from '../../components/MealCard.jsx';
+import Feed from '../../components/Feed.jsx';
 import {FloatButton, Modal} from "antd";
 import {PlusOutlined} from '@ant-design/icons';
 import {useState} from 'react';
@@ -34,7 +34,7 @@ export default function Home() {
   console.log('set form data: ', formData);
   return (
     <div>
-      <MealCard />
+      <Feed />
       <FloatButton icon={<PlusOutlined />}style={{position: 'relative', left: '110%'}} onClick={handleOpen}/>
       <Modal titel='New Post Form' open={open} footer={null} onCancel={handleCancel}>
         <NewPostModal setFormData={setFormData} onOk={handleOk} />

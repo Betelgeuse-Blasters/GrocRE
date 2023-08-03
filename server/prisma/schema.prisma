@@ -110,6 +110,7 @@ model LikesDislikes {
   postId Int
   isLike Boolean
   post   Post    @relation(fields: [postId], references: [id])
+
 }
 
 model Photo {

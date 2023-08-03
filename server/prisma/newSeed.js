@@ -61,7 +61,10 @@ async function createSampleData() {
       userId: users[Math.floor(Math.random() * users.length)].id,
     });
   }
-  const createdMealPlans = await prisma.mealPlan.createMany({ data: mealPlans });
+
+  const createdMealPlans = await prisma.$transaction(
+    mealPlans.map((item) => prisma.mealPlan.create({ data: item })),
+  )
 
   // Create user saved meals and user created meals
   const userSavedMeals = [];
@@ -80,9 +83,10 @@ async function createSampleData() {
   // Create posts with likes, photos, and comments
   const posts = [];
   for (let i = 0; i < 10; i++) {
-    const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
-    const randomUser = users[Math.floor(Math.random() * users.length)];
+    const randomRecipe = createdRecipes[Math.floor(Math.random() * recipes.length)];
+    const randomUser = createdUsers[Math.floor(Math.random() * users.length)];
     const randomMealPlan = createdMealPlans[Math.floor(Math.random() * createdMealPlans.length)];
+
 
     posts.push({
       title: faker.lorem.words(4),
@@ -90,35 +94,13 @@ async function createSampleData() {
       createdBy: randomUser.id,
       mealId: randomRecipe.id,
       mealPlanId: randomMealPlan.id,
-      type: faker.random.boolean(),
+      type: faker.datatype.boolean(),
       userId: randomUser.id,
-      likes: {
-        createMany: {
-          data: Array.from({ length: faker.number.int(10) }, () => ({
-            postId: randomRecipe.id,
-            isLike: faker.random.boolean(),
-          })),
-        },
-      },
-      photos: {
-        createMany: {
-          data: Array.from({ length: faker.number.int(5) }, () => ({
-            postId: randomRecipe.id,
-            url: faker.image.food(),
-          })),
-        },
-      },
-      comments: {
-        createMany: {
-          data: Array.from({ length: faker.number.int(5) }, () => ({
-            postId: randomRecipe.id,
-            content: faker.lorem.sentence(),
-          })),
-        },
-      },
     });
   }
-  await prisma.post.createMany({ data: posts });
+  await prisma.$transaction(
+    posts.map((item) => prisma.post.create({ data: item })),
+  )
 }
 
 createSampleData()

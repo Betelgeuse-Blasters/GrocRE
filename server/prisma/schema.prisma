@@ -22,6 +22,8 @@ model User {
   posts            Post[]
   UserSavedMeals   UserSavedMeals[]
   UserCreatedMeals UserCreatedMeals[]
+  LikesDislikes    LikesDislikes[]
+  Comments         Comment[]
 }
 
 model Recipe {
@@ -63,16 +65,15 @@ model MealPlanToRecipe {
 }
 
 model UserSavedMeals {
-  id         Int             @id @unique @default(autoincrement())
+  id       Int    @id @unique @default(autoincrement())
   userId   Int
   recipeId Int
   user     User   @relation(fields: [userId], references: [id])
   recipe   Recipe @relation(fields: [recipeId], references: [id])
-
 }
 
 model UserCreatedMeals {
-  id         Int             @id @unique @default(autoincrement())
+  id       Int    @id @unique @default(autoincrement())
   userId   Int
   recipeId Int
   user     User   @relation(fields: [userId], references: [id])
@@ -102,7 +103,8 @@ model LikesDislikes {
   postId Int
   isLike Boolean
   post   Post    @relation(fields: [postId], references: [id])
-
+  User   User?   @relation(fields: [userId], references: [id])
+  userId Int?
 }
 
 model Photo {
@@ -117,4 +119,6 @@ model Comment {
   postId  Int
   content String
   post    Post   @relation(fields: [postId], references: [id])
+  User    User?  @relation(fields: [userId], references: [id])
+  userId  Int?
 }

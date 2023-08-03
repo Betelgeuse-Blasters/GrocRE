@@ -21,7 +21,6 @@ class Controller {
   }
 
   async createMealPlan(req, res) {
-    console.log(req.body);
     let userId = 1;
     let name = req.body.name;
     let description = req.body.description;

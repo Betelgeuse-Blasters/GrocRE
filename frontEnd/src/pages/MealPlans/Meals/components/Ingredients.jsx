@@ -24,7 +24,7 @@ const Ingredient = ({ingredient}) => {
 const Ingredients = ({ingredients, setIngredients}) => {
   const [editing, setEditing] = useState(false);
   const [changes, setChanges] = useState(ingredients);
-  console.log('recipe ingredients', ingredients)
+
   const editActions = () => {
     return (
       <>

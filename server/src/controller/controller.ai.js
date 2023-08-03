@@ -22,10 +22,10 @@ export const getRecipe = async (req, res) => {
     );
 
   const prompt = `Provide a meal recipe that best fits this prompt: "${input}" give it this JSON format with all measure numbers in decimal format, do not use any '/', no fractions allowed:
- 
+
   { "recipeName": "",
   "recipeDescription": "",
-  "recipeSteps": [["1. ..."] ...],
+  "recipeSteps": ["1. ...", ...],
   "servingSize": number,
   "nutritionFacts": {
     "calories": number,

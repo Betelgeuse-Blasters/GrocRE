@@ -14,7 +14,6 @@ async function createSampleData() {
   await prisma.userCreatedMeals.deleteMany();
   await prisma.mealPlan.deleteMany();
   await prisma.recipe.deleteMany();
-  await prisma.sessions.deleteMany();
   await prisma.user.deleteMany();
 
   // Create users
@@ -23,7 +22,7 @@ async function createSampleData() {
     users.push({
       name: faker.person.fullName(),
       email: faker.internet.email(),
-      username: faker.internet.userName(),
+      nickname: faker.internet.userName(),
       password: faker.internet.password(),
     });
   }
@@ -36,15 +35,28 @@ async function createSampleData() {
     recipes.push({
       recipeName: faker.lorem.words(3),
       recipeDescription: faker.lorem.sentence(),
-      recipeSteps: [faker.lorem.sentence(), faker.lorem.sentence(), faker.lorem.sentence()],
-      servingSize: faker.number.int(6),
-      nutritionFacts: { calories: faker.number.int(500), protein: faker.number.int(20) },
-      ingredients: [
-        [faker.lorem.words(1), faker.number.int(5)] ,
-        [faker.lorem.words(1),  faker.number.int(5)] ,
-        [faker.lorem.words(1), faker.number.int(5)],
+      recipeSteps: [
+        `1. ${faker.lorem.sentence()}`,
+        `2. ${faker.lorem.sentence()}`,
+        `3. ${faker.lorem.sentence()}`,
       ],
-      creatorId: createdUsers[Math.floor(Math.random() * users.length)].id,
+      servingSize: faker.number.int({ min: 1, max: 6 }),
+      nutritionFacts: {
+        calories: faker.number.int({ min: 100, max: 500 }),
+        totalFat: faker.number.int({ min: 10, max: 30 }),
+        saturatedFat: faker.number.int({ min: 5, max: 15 }),
+        cholesterol: faker.number.int({ min: 30, max: 100 }),
+        sodium: faker.number.int({ min: 100, max: 500 }),
+        carbohydrates: faker.number.int({ min: 20, max: 100 }),
+        fiber: faker.number.int({ min: 2, max: 10 }),
+        sugars: faker.number.int({ min: 5, max: 20 }),
+        protein: faker.number.int({ min: 5, max: 40 }),
+      },
+      ingredients: [
+        [faker.number.int({ min: 0.1, max: 5 }).toFixed(1), 'cup', faker.commerce.product()],
+        [faker.number.int({ min: 0.1, max: 5 }).toFixed(1), 'tbsp', faker.commerce.product()],
+        [faker.number.int({ min: 0.1, max: 5 }).toFixed(1), 'tsp', faker.commerce.product()],
+      ],
     });
   }
 

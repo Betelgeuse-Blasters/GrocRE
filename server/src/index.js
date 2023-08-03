@@ -6,7 +6,8 @@ import path from "node:path";
 import cookieParser from "cookie-parser";
 import { snsRouter } from "./routes/routes.sns.js";
 import { aiRouter } from "./routes/routes.ai.js";
-import { editorRouter } from "./routes/routes.editor.js";
+// import { editorRouter } from "./routes/routes.editor.js";
+import { mealRouter } from "./routes/routes.meal.js";
 import openid from "express-openid-connect";
 import axios from "axios";
 dotenv.config();
@@ -45,6 +46,7 @@ app.get("/callback", (req, res) => {
 });
 app.use("/sns", snsRouter);
 app.use("/ai", aiRouter);
+app.use("/meal", mealRouter)
 app.get("/authorized", function (req, res) {
   res.send("Secured Resource");
 });
@@ -86,7 +88,7 @@ app.post("/upload", function (req, res) {
   //   res.send('File uploaded!');
   // });
 });
-app.use("/editor", editorRouter);
+// app.use("/editor", editorRouter);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

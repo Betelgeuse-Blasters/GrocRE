@@ -1,10 +1,27 @@
-import { Menu } from "antd";
+import { Menu, Modal } from "antd";
 import { Link } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
+import { useState } from "react";
+import LoginModal from "./LoginModal";
+
+
+
 export default function NavBar() {
-  const { isAuthenticated } = useAuth0();
+  const [login, setLogin] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+
+  const logout = () => {
+    setLogin(false);
+  };
+
+  const showModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
   const menuListItems = [
     {
       label: (
@@ -31,10 +48,15 @@ export default function NavBar() {
       key: "sns",
     },
     {
-      label: isAuthenticated ? <LogoutButton /> : <LoginButton />,
+      label: login ? <LogoutButton logout={logout}/> : <LoginButton onClick={showModal} />,
       key: "login",
     },
   ];
+  const handleLogin = () => {
+    setLogin(true);
+    setIsOpen(false);
+  };
+
 
   return (
     <nav>
@@ -43,6 +65,9 @@ export default function NavBar() {
         mode="horizontal"
         items={menuListItems}
       />
+      <Modal title="Login" open={isOpen} onCancel={handleCancel} >
+        <LoginModal handleLogin={handleLogin}></LoginModal>
+      </Modal>
     </nav>
   );
 }

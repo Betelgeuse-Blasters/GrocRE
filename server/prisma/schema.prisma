@@ -10,11 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model sessions {
+  id          Int    @id @unique @default(autoincrement())
+  user        User   @relation(fields: [userId], references: [id])
+  sessionHash String
+  userId      Int
+}
+
 model User {
   id               Int                @id @unique @default(autoincrement())
   name             String
-  email            String
-  nickname         String
+  email            String             @unique
+  nickname         String             @unique
   password         String
   createdMeals     Recipe[]           @relation("UserCreatedMeals")
   savedMeals       Recipe[]           @relation("UserSavedMeals")
@@ -24,6 +31,7 @@ model User {
   UserCreatedMeals UserCreatedMeals[]
   LikesDislikes    LikesDislikes[]
   Comments         Comment[]
+  sessions         sessions[]
 }
 
 model Recipe {

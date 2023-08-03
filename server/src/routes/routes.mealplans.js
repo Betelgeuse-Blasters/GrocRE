@@ -10,8 +10,6 @@ Router.post('/', Controller.createMealPlan);
 
 Router.put('/:id', Controller.putMealPlan);
 
-//mealplans/:id/remove
-//mealplans/:mealplanid/recipes/:recipeid
 
 Router.put('/:id/recipe', Controller.addMealPlanRecipe);
 Router.delete('/:id/recipe/:recipeid', Controller.deleteMealPlanRecipe);

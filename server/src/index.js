@@ -54,10 +54,10 @@ app.use("/editor", editorRouter);
 app.use("/mealplans", MealPlansRouter.Router);
 
 // The /profile route will show the user profile as JSON
-app.get("/profile", openid.requiresAuth(), (req, res) => {
-  console.log(req.oidc.user);
-  res.send(JSON.stringify(req.oidc.user, null, 2));
-});
+// app.get("/profile", openid.requiresAuth(), (req, res) => {
+//   console.log(req.oidc.user);
+//   res.send(JSON.stringify(req.oidc.user, null, 2));
+// });
 app.post("/upload", function (req, res) {
   let sampleFile;
   let uploadPath;

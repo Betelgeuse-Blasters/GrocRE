@@ -19,6 +19,7 @@ export async function getPost(req, res) {
     const response = {username: user.username, meal: meal}
     res.status(202).send(response);
   } catch (err) {
-    res.status(550).send(err)
+    console.log('get all posts error: ', err)
+    res.status(501).send(err)
   }
 }

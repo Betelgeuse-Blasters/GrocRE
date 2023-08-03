@@ -12,7 +12,7 @@ import { userInfo } from "./utils/user.middleware.js";
 import * as MealPlansRouter from "./routes/routes.mealplans.js";
 dotenv.config();
 
-process.env.PORT = 3000;
+// process.env.PORT = 3000;
 if (!process.env.PORT) {
   process.exit(1);
 }

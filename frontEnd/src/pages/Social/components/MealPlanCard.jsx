@@ -1,4 +1,5 @@
-import { Card, Carousel, Typography } from "antd";
+import { Card, Carousel, Image, Typography } from "antd";
+import { Cheesieburger } from "./MealCard";
 export default function MealPlanCard() {
   const example = {
     id: 1,
@@ -62,7 +63,7 @@ export default function MealPlanCard() {
     return photos.map((photo) => {
       return (
         <div key={photo.id}>
-          <img src={photo.url} alt={photo.altText} />
+          <Image src={photo.url} alt={photo.altText} fallback={Cheesieburger} />
         </div>
       );
     });
@@ -71,7 +72,9 @@ export default function MealPlanCard() {
   return (
     <Card
       style={{ width: 600, margin: "15px" }}
-      cover={<Carousel>{mapCoverPhotos(example.photos)}</Carousel>}
+      cover={
+        <Carousel>{mapCoverPhotos(example.photos) || Cheesieburger}</Carousel>
+      }
       key={example.id}
     >
       <Typography.Title level={3}>{example.title}</Typography.Title>

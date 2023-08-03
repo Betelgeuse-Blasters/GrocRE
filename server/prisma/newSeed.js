@@ -27,8 +27,8 @@ async function createSampleData() {
     });
   }
   const createdUsers = await prisma.$transaction(
-    users.map((item) => prisma.user.create({ data: item })),
-  )
+    users.map((item) => prisma.user.create({ data: item }))
+  );
   // Create recipes
   const recipes = [];
   for (let i = 0; i < 20; i++) {
@@ -53,21 +53,36 @@ async function createSampleData() {
         protein: faker.number.int({ min: 5, max: 40 }),
       },
       ingredients: [
-        [faker.number.int({ min: 0.1, max: 5 }).toFixed(1), 'cup', faker.commerce.product()],
-        [faker.number.int({ min: 0.1, max: 5 }).toFixed(1), 'tbsp', faker.commerce.product()],
-        [faker.number.int({ min: 0.1, max: 5 }).toFixed(1), 'tsp', faker.commerce.product()],
+        [
+          faker.number.int({ min: 0.1, max: 5 }).toFixed(1),
+          "cup",
+          faker.commerce.product(),
+        ],
+        [
+          faker.number.int({ min: 0.1, max: 5 }).toFixed(1),
+          "tbsp",
+          faker.commerce.product(),
+        ],
+        [
+          faker.number.int({ min: 0.1, max: 5 }).toFixed(1),
+          "tsp",
+          faker.commerce.product(),
+        ],
       ],
     });
   }
 
   const createdRecipes = await prisma.$transaction(
-    recipes.map((item) => prisma.recipe.create({ data: item })),
-  )
+    recipes.map((item) => prisma.recipe.create({ data: item }))
+  );
 
   // Create meal plans
   const mealPlans = [];
   for (let i = 0; i < 5; i++) {
-    console.log('RANDOM USER ID: ', createdUsers[Math.floor(Math.random() * users.length)].id)
+    console.log(
+      "RANDOM USER ID: ",
+      createdUsers[Math.floor(Math.random() * users.length)].id
+    );
     mealPlans.push({
       name: `Meal Plan ${i + 1}`,
       description: faker.lorem.sentence(),
@@ -75,15 +90,16 @@ async function createSampleData() {
     });
   }
   const createdMealPlans = await prisma.$transaction(
-    mealPlans.map((item) => prisma.mealPlan.create({ data: item })),
-  )
+    mealPlans.map((item) => prisma.mealPlan.create({ data: item }))
+  );
 
   // Create user saved meals and user created meals
   const userSavedMeals = [];
   const userCreatedMeals = [];
   for (const user of createdUsers) {
     for (let i = 0; i < 5; i++) {
-      const randomRecipe = createdRecipes[Math.floor(Math.random() * recipes.length)];
+      const randomRecipe =
+        createdRecipes[Math.floor(Math.random() * recipes.length)];
       userSavedMeals.push({ userId: user.id, recipeId: randomRecipe.id });
       userCreatedMeals.push({ userId: user.id, recipeId: randomRecipe.id });
     }
@@ -94,15 +110,15 @@ async function createSampleData() {
   // Create posts with likes, photos, and comments
   const posts = [];
   for (let i = 0; i < 10; i++) {
-    const randomRecipe = createdRecipes[Math.floor(Math.random() * recipes.length)];
+    const randomRecipe =
+      createdRecipes[Math.floor(Math.random() * recipes.length)];
     const randomUser = createdUsers[Math.floor(Math.random() * users.length)];
-    const randomMealPlan = createdMealPlans[Math.floor(Math.random() * createdMealPlans.length)];
-
+    const randomMealPlan =
+      createdMealPlans[Math.floor(Math.random() * createdMealPlans.length)];
 
     posts.push({
       title: faker.lorem.words(4),
       summary: faker.lorem.sentence(),
-      createdBy: randomUser.id,
       mealId: randomRecipe.id,
       mealPlanId: randomMealPlan.id,
       type: faker.datatype.boolean(),
@@ -110,16 +126,16 @@ async function createSampleData() {
     });
   }
   await prisma.$transaction(
-    posts.map((item) => prisma.post.create({ data: item })),
-  )
+    posts.map((item) => prisma.post.create({ data: item }))
+  );
 }
 
 createSampleData()
   .then(() => {
-    console.log('Sample data successfully generated and inserted.');
+    console.log("Sample data successfully generated and inserted.");
     prisma.$disconnect();
   })
   .catch((error) => {
-    console.error('Error generating and inserting sample data:', error);
+    console.error("Error generating and inserting sample data:", error);
     prisma.$disconnect();
   });

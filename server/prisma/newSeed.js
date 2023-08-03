@@ -36,15 +36,15 @@ async function createSampleData() {
     recipes.push({
       recipeName: faker.lorem.words(3),
       recipeDescription: faker.lorem.sentence(),
-      recipeSteps: JSON.stringify([faker.lorem.sentence(), faker.lorem.sentence(), faker.lorem.sentence()]),
+      recipeSteps: [faker.lorem.sentence(), faker.lorem.sentence(), faker.lorem.sentence()],
       servingSize: faker.number.int(6),
-      nutritionFacts: JSON.stringify({ calories: faker.number.int(500), protein: faker.number.int(20) }),
-      ingredients: JSON.stringify([
-        { name: faker.lorem.words(1), quantity: faker.number.int(5) },
-        { name: faker.lorem.words(1), quantity: faker.number.int(5) },
-        { name: faker.lorem.words(1), quantity: faker.number.int(5) },
-      ]),
-      creatorId: users[Math.floor(Math.random() * users.length)].id,
+      nutritionFacts: { calories: faker.number.int(500), protein: faker.number.int(20) },
+      ingredients: [
+        [faker.lorem.words(1), faker.number.int(5)] ,
+        [faker.lorem.words(1),  faker.number.int(5)] ,
+        [faker.lorem.words(1), faker.number.int(5)],
+      ],
+      creatorId: createdUsers[Math.floor(Math.random() * users.length)].id,
     });
   }
 
@@ -55,13 +55,13 @@ async function createSampleData() {
   // Create meal plans
   const mealPlans = [];
   for (let i = 0; i < 5; i++) {
+    console.log('RANDOM USER ID: ', createdUsers[Math.floor(Math.random() * users.length)].id)
     mealPlans.push({
       name: `Meal Plan ${i + 1}`,
       description: faker.lorem.sentence(),
-      userId: users[Math.floor(Math.random() * users.length)].id,
+      userId: createdUsers[Math.floor(Math.random() * users.length)].id,
     });
   }
-
   const createdMealPlans = await prisma.$transaction(
     mealPlans.map((item) => prisma.mealPlan.create({ data: item })),
   )
@@ -76,7 +76,6 @@ async function createSampleData() {
       userCreatedMeals.push({ userId: user.id, recipeId: randomRecipe.id });
     }
   }
-  console.log('saved meals ', userSavedMeals);
   await prisma.userSavedMeals.createMany({ data: userSavedMeals });
   await prisma.userCreatedMeals.createMany({ data: userCreatedMeals });
 

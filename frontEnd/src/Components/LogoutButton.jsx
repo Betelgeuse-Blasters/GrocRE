@@ -1,8 +1,16 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "antd";
 
-export default function LogoutButton() {
-  const { logout } = useAuth0();
-  const onClickFunc = () => logout();
-  return <Button onClick={onClickFunc}>Logout</Button>;
+export default function LogoutButton({logout}) {
+
+
+  return <Button onClick={logout}>Logout</Button>;
 }
+
+/* ```
+Login Process
+1. Press Login
+  -login modal opens
+2. Login modal sends user signin info
+  -if exists make a session - call to api to save session
+  -if not exists make a user and a session - call to api to create user and save session
+```*/

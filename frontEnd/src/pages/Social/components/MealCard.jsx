@@ -1,17 +1,25 @@
+
 import { Card, Avatar, Collapse, message, List, Image } from 'antd';
 import { LikeOutlined, DislikeOutlined, CommentOutlined, HeartOutlined, HeartFilled } from "@ant-design/icons";
 import {useState, useEffect} from 'react';
 import { faker } from '@faker-js/faker';
 import VirtualList from 'rc-virtual-list';
+import axios from 'axios';
 const {Meta} = Card;
 
 export default function MealCard({isSavedMeal, post}) {
-
   const postTitle = `${post.title} by ${post.username}`;
   const [heartColor, setHeartColor] = useState('white');
   const [color, setColor] = useState('grey');
   const [saved, setSaved] = useState(false);
   const [comments, setComments] = useState([]);
+  const [nutrition, setNutrition] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+  const [steps, setSteps] = useState([]);
+  const [userLiked, setUserLiked] = useState(null);
+  const [likes, setLikes] = useState([]);
+  const [dislikes, setDislikes] = useState([]);
+
   const heartProps = {
     onMouseEnter: () => {onHover(true, 'heart')},
     onMouseLeave: () => {onHover(false, 'heart')},
@@ -22,13 +30,43 @@ export default function MealCard({isSavedMeal, post}) {
   const Cheesieburger = 'https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'
 
   const containerHeight = 400;
+  useEffect(() => {
+    appendData();
+    for (let item in post.meal.nutritionFacts) {
+      setNutrition(nutrition => [...nutrition, `${item}: ${post.meal.nutritionFacts[item]}`]
+      )
+    }
+    for (let item of post.meal.ingredients) {
+      console.log('item ', item[0])
+      setIngredients(ingredients =>
+        [...ingredients, `${item[0]} ${item[1]} of ${item[2]}`]
+      )
+    }
+    for (let step of post.meal.recipeSteps) {
+      setSteps(steps =>
+        [...steps, step]
+      )
+    }
+    axios.get(`http://localhost:3000/sns/likes?postid=${post.id}`).then((response) => {
+      setLikes(response.data.likes);
+      setDislikes(response.data.dislikes);
+    })
+  }, []);
+
+
   let action;
   if (isSavedMeal) {
     action = null
   } else {
     action = [
-      <LikeOutlined onClick={()=>{like(1)}} key='like'/>,
-      <DislikeOutlined  onClick={()=>{like(0)}} key='dislike'/>,
+      <div key='like' onClick={()=>{like(1)}}>
+        <LikeOutlined />
+        <p>{likes.length}</p>
+      </div>,
+      <div key='dislike' onClick={()=>{like(0)}}>
+        <DislikeOutlined   />
+        <p>{dislikes.length}</p>
+      </div>,
       <Collapse
         key='collapse'
         bordered={false}
@@ -67,9 +105,6 @@ export default function MealCard({isSavedMeal, post}) {
     ]
   }
 
-  useEffect(() => {
-    appendData();
-  }, []);
 
   function appendData() {
     let newComments = [];
@@ -97,9 +132,21 @@ export default function MealCard({isSavedMeal, post}) {
   }
   function like(like) {
     if (like) {
-      message.info(`${post.title} liked!`, messageTime)
+      axios.put(`http://localhost:3000/sns/likes?postid=${post.id}&userid=${1}&like=true`).then(() => {
+        message.info(`${post.title} liked!`, messageTime)
+        axios.get(`http://localhost:3000/sns/likes?postid=${post.id}`).then((response) => {
+          setLikes(response.data.likes);
+          setDislikes(response.data.dislikes);
+        })
+      })
     } else {
-      message.info(`${post.title} disliked!`, messageTime)
+      axios.put(`http://localhost:3000/sns/likes?postid=${post.id}&userid=${1}&like=false`).then(() => {
+        message.info(`${post.title} disliked!`, messageTime)
+        axios.get(`http://localhost:3000/sns/likes?postid=${post.id}`).then((response) => {
+          setLikes(response.data.likes);
+          setDislikes(response.data.dislikes);
+        })
+      })
     }
   }
 
@@ -116,12 +163,6 @@ export default function MealCard({isSavedMeal, post}) {
   }
  }
   //format nutritional info
-  let nutrition = [];
-  if(post.meal) {
-    for (let item in post.meal.nutritionFacts) {
-      nutrition.push(`${item}: ${post.meal.nutritionFacts[item]}`)
-    }
-  }
 
   return (
     <div>
@@ -161,11 +202,11 @@ export default function MealCard({isSavedMeal, post}) {
             label: 'Ingredients',
             children:
               <List
-                dataSource={post.meal.ingredients}
+                dataSource={ingredients}
                 split={false}
                 renderItem={(item) => (
                   <List.Item>
-                    <p>{item[1]}: {item[0]}</p>
+                    <p>{item}</p>
                   </List.Item>
                 )}
               >
@@ -176,11 +217,11 @@ export default function MealCard({isSavedMeal, post}) {
             label: 'Recipe/Steps',
             children:
               <List
-                dataSource={post.meal.recipeSteps}
+                dataSource={steps}
                 split={false}
                 renderItem={(item) => (
                   <List.Item>
-                    <p>{post.meal.recipeSteps.indexOf(item) + 1}. {item}</p>
+                    <p>{item}</p>
                   </List.Item>
                 )}
               >

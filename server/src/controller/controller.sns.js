@@ -5,21 +5,25 @@ import { validationResult } from "express-validator";
 export async function getAllPosts(req, res) {
   try {
     const posts = await model.getAllPosts();
+    for (let i = 0; i < posts.length; i++) {
+      const user = await model.getUser(posts[i].userId)
+      posts[i].username = user.nickname;
+      const meal = await model.getRecipe(posts[i].mealId)
+      posts[i].meal = meal;
+    }
     res.status(200).send(posts)
   } catch (err) {
+    console.log('get posts error: ', err)
     res.status(550).send(err)
   }
 }
 
-export async function getPost(req, res) {
-  console.log(req.query);
+export async function updateLikes(req, res) {
   try {
-    const user = await model.getUser(req.query.userid);
-    const meal = await model.getRecipe(req.query.mealid);
-    const response = {username: user.username, meal: meal}
-    res.status(202).send(response);
+    await model.updateLikes(req.query.postid, req.query.userid, req.query.like)
+    res.sendStatus(201);
   } catch (err) {
-    console.log('get all posts error: ', err)
-    res.status(501).send(err)
+    console.log('update likes error: ', err)
+    res.status(500).send(err)
   }
 }

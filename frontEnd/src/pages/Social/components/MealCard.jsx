@@ -1,3 +1,4 @@
+
 import { Card, Avatar, Collapse, message, List, Image } from 'antd';
 import { LikeOutlined, DislikeOutlined, CommentOutlined, HeartOutlined, HeartFilled } from "@ant-design/icons";
 import {useState, useEffect} from 'react';
@@ -6,12 +7,15 @@ import VirtualList from 'rc-virtual-list';
 const {Meta} = Card;
 
 export default function MealCard({isSavedMeal, post}) {
-
   const postTitle = `${post.title} by ${post.username}`;
   const [heartColor, setHeartColor] = useState('white');
   const [color, setColor] = useState('grey');
   const [saved, setSaved] = useState(false);
   const [comments, setComments] = useState([]);
+  const [nutrition, setNutrition] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+  const [steps, setSteps] = useState([]);
+
   const heartProps = {
     onMouseEnter: () => {onHover(true, 'heart')},
     onMouseLeave: () => {onHover(false, 'heart')},
@@ -22,6 +26,28 @@ export default function MealCard({isSavedMeal, post}) {
   const Cheesieburger = 'https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'
 
   const containerHeight = 400;
+  useEffect(() => {
+    appendData();
+    for (let item in post.meal.nutritionFacts) {
+      setNutrition(nutrition => [...nutrition, `${item}: ${post.meal.nutritionFacts[item]}`]
+      )
+    }
+
+    for (let item of post.meal.ingredients) {
+      console.log('item ', item[0])
+      setIngredients(ingredients =>
+        [...ingredients, `${item[0]} ${item[1]} of ${item[2]}`]
+      )
+    }
+
+    for (let step of post.meal.recipeSteps) {
+      setSteps(steps =>
+        [...steps, step]
+      )
+    }
+  }, []);
+
+
   let action;
   if (isSavedMeal) {
     action = null
@@ -67,9 +93,6 @@ export default function MealCard({isSavedMeal, post}) {
     ]
   }
 
-  useEffect(() => {
-    appendData();
-  }, []);
 
   function appendData() {
     let newComments = [];
@@ -97,6 +120,7 @@ export default function MealCard({isSavedMeal, post}) {
   }
   function like(like) {
     if (like) {
+
       message.info(`${post.title} liked!`, messageTime)
     } else {
       message.info(`${post.title} disliked!`, messageTime)
@@ -116,12 +140,6 @@ export default function MealCard({isSavedMeal, post}) {
   }
  }
   //format nutritional info
-  let nutrition = [];
-  if(post.meal) {
-    for (let item in post.meal.nutritionFacts) {
-      nutrition.push(`${item}: ${post.meal.nutritionFacts[item]}`)
-    }
-  }
 
   return (
     <div>
@@ -161,11 +179,11 @@ export default function MealCard({isSavedMeal, post}) {
             label: 'Ingredients',
             children:
               <List
-                dataSource={post.meal.ingredients}
+                dataSource={ingredients}
                 split={false}
                 renderItem={(item) => (
                   <List.Item>
-                    <p>{item[1]}: {item[0]}</p>
+                    <p>{item}</p>
                   </List.Item>
                 )}
               >
@@ -176,11 +194,11 @@ export default function MealCard({isSavedMeal, post}) {
             label: 'Recipe/Steps',
             children:
               <List
-                dataSource={post.meal.recipeSteps}
+                dataSource={steps}
                 split={false}
                 renderItem={(item) => (
                   <List.Item>
-                    <p>{post.meal.recipeSteps.indexOf(item) + 1}. {item}</p>
+                    <p>{item}</p>
                   </List.Item>
                 )}
               >

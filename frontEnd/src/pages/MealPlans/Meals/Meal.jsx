@@ -3,19 +3,21 @@ import React from 'react';
 
 // Components
 import Recipes from './components/Recipes.jsx';
+import IngredientsModal from './modals/IngredientsModal.jsx';
 
-const Meal = ({meal}) => {
+const Meal = ({mealPlan}) => {
 
-    if(meal){
+    if(mealPlan){
 
     return (
         <>
-        <h1 className='font-bold'>{meal.name}</h1>
+        <h1 className='font-bold'>{mealPlan.name}</h1>
+        <IngredientsModal mealPlan={mealPlan}/>
         <hr/>
-        <h3 className='font-light mb-[1rem]'>{meal.description}</h3>
+        <h3 className='font-light mb-[1rem]'>{mealPlan.description}</h3>
         {
-            meal.recipes &&
-            <Recipes recipes={meal.recipes}/>
+            mealPlan.recipes &&
+            <Recipes recipes={mealPlan.recipes}/>
         }
         </>
     );

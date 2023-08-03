@@ -13,14 +13,14 @@ class Controller {
   constructor() {}
 
   async getMealPlans(req, res) {
-    let userId = null;
+    console.log(req.userInfo)
+    let userId = 1;
     let mealPlanId = Number(req.params.id) || null; //todo here
     let results = await Model.get(userId, mealPlanId);
     res.status(200).send(results);
   }
 
   async createMealPlan(req, res) {
-    console.log(req.body);
     let userId = 1;
     let name = req.body.name;
     let description = req.body.description;
@@ -48,16 +48,16 @@ class Controller {
   }
 
   async addMealPlanRecipe(req, res){
-    //validate ownership of mealplan
-    //create copy of recipe
-    //add copy to mealplan
-    let mealPlanId = req.params.id;
-    // get recipe info from body
-
-
+    // NOTE:: This connects the recipe to the meal plan, it doesn't create a new recipe
+    let userId = 8;
+    let results = await Model.addRecipe(userId, Number(req.params.id), Number(req.params.recipeId));
+    res.status(200).send(results);
   }
-  async deleteMealPlanRecipe(req, res){
 
+  async deleteMealPlanRecipe(req, res){
+    let userId = 8;
+    let results = Model.removeRecipe(userId, Number(req.params.id), Number(req.params.recipeId));
+    res.status(200).send(results);
   }
 }
 

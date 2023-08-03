@@ -1,84 +1,60 @@
 /* eslint-disable */
-import React from 'react';
+import { useState } from 'react';
 import { Menu } from "antd";
 import axios from 'axios';
 import { PlusOutlined } from '@ant-design/icons';
 
+// Helpers
+import { getMenuItems, getMealPlan } from './helpers.js';
+
 // Components
 import NewMealPlan from './Meals/modals/NewMealPlanModal';
 
-const NavMenu = ({setFocused, setIngredients}) => {
-  const [mealPlans, setMealPlans] = React.useState({});
-  const [visible, setVisible] = React.useState(false);
+const NavMenu = ({mealPlans, setMealPlans, setFocused, api}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  let menuItems = getMenuItems(mealPlans);
+  menuItems.push({key: 'adder', label: <PlusOutlined /> });
 
-  React.useEffect(() => {
-    loadMealPlans();
-  }, []);
+  const menuItemClickHandler = (e) => {
+    if (e.key !== 'adder') {
+      let activeMeal = getMealPlan(mealPlans, e.key);
+      setFocused(activeMeal);
+    } else {
+      setModalVisible(true);
+    }
+  };
 
-  //items would be a load of user's current meal plans + 1 addition which would be a + sign that would prompt a dialogue on the page and allow you to create a new meal plan
-  let loadMealPlans = () => {
-    let ingredientsStore = [];
-    let store = {};
-    store['menu'] = [];
+  const handleSubmission = (e) => {
+    let mealPlan = {
+      name: e.name,
+      description: e.description
+    }
 
-    axios.get('http://localhost:3000/editor/api/mealplans', {
-      withCredentials: true,
-    })
-
+    api.post('', mealPlan)
     .then((response) => {
-      for(let plan of response.data){
-        plan['label'] = plan.name;
-        plan['key'] = plan.id;
-
-        store['menu'].push({
-          label : plan.name,
-          key : plan.id
-        });
-        store[plan.id] = plan;
-
-        plan['recipes'].forEach((recipe) => ingredientsStore.push(recipe.ingredients))
-      }
+      console.log('meal plan post', response)
+      setMealPlans([...mealPlans, response]);
     })
-    .catch((error) => { console.log(error); })
-    .finally(() => {
-      // push add new icon
-      store['menu'].push({ key: 'adder', label: <PlusOutlined />});
-      console.log(ingredientsStore);
-      setMealPlans(store);
-      setIngredients(ingredientsStore);
-    })
-
+    .catch((err) => console.log('meal plan post err', err))
+    .finally(() => setModalVisible(false));
   };
 
-  let handleAddition = () => {
-    console.log('start dialogue prompt');
-    setVisible(true);
-  };
-
-  let handleSubmission = (formData) => {
-    //e.name
-    //e.description
-    axios.post('http://localhost:3000/editor/api/mealplans', formData, {
-      withCredentials: true,
-    }).then((response) => {
-      //get meal plans again
-      loadMealPlans();
-      setVisible(false);
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
   return (
     <>
-    <NewMealPlan visible={visible} onCancel={() => {setVisible(false)}} onSubmit={handleSubmission}/>
+     <NewMealPlan
+      visible={modalVisible}
+      onCancel={() => {setModalVisible(false)}}
+      onSubmit={handleSubmission}
+    />
+
     <Menu
       style={{ width: 256 }}
       defaultSelectedKeys={['1']}
       defaultOpenKeys={['sub1']}
       mode="inline"
       className='text-center'
-      items={mealPlans.menu}
-      onClick={(e) => e.key !== 'adder' ?  setFocused(mealPlans[e.key]) : handleAddition()}
+      items={menuItems}
+      onClick={menuItemClickHandler}
     />
   </>
   )

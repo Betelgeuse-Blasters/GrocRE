@@ -1,5 +1,10 @@
 import { db } from "../utils/db.server.js";
-import { saveRecipe } from "./models.ai.js";
+
+/**
+ * Schema:
+ * id, name, description, user, userId, recipes
+ * posts, MealPlanToRecipe
+ */
 class Model {
 
   constructor() {}
@@ -14,13 +19,12 @@ class Model {
                 user:true
             }
         });
-
-        let response = {
-            loggedIn : true,
-            name : check[0].user.name,
-            userId : check[0].user.id
-        }
-        return response;
+        return check.length > 0 ? {
+          ...check[0].user,
+          loggedIn : true
+      } : {
+        loggedIn : false
+      };
     }catch (error){
         console.log(error);
     }
@@ -28,43 +32,6 @@ class Model {
         loggedIn : false
     };
   }
-
-  async mealPlans(userId) {
-    try{
-
-        const getMeals = await db.MealPlan.findMany({
-            where:{
-               userId : userId
-            },
-            include:{
-                recipes : true
-            }
-        });
-        console.log(getMeals);
-        return getMeals;
-
-    }catch (error){
-        console.log('meal plans err', error);
-        return [];
-    }
-  }
-
-  async addMealPlan(userId, name, description) {
-    try{
-    const additionResponse = await db.MealPlan.create({
-        data: {
-            userId: userId,
-            name: name,
-            description: description
-        }
-    });
-    return 'ok';
-    }catch(error){
-        console.log('add err', error);
-        return error;
-    }
-  }
-
 }
 
 

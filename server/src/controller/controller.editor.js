@@ -64,4 +64,4 @@ const Controller = {
   postMealPlan,
 }
 
-export default Controller;
+export default new Controller();

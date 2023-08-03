@@ -3,26 +3,20 @@ import express from "express";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import path from "node:path";
-import { auth } from "express-oauth2-jwt-bearer";
 import cookieParser from "cookie-parser";
+
 import { snsRouter } from "./routes/routes.sns.js";
 import { aiRouter } from "./routes/routes.ai.js";
+import { editorRouter } from "./routes/routes.editor.js";
+import { mealRouter } from "./routes/routes.meal.js";
 import {userInfo} from "./utils/user.middleware.js";
-// import { editorRouter } from "./routes/routes.editor.js";
 import * as MealPlansRouter from './routes/routes.mealplans.js';
-
 dotenv.config();
 
 process.env.PORT = 3000;
 if (!process.env.PORT) {
   process.exit(1);
 }
-
-const jwtCheck = auth({
-  audience: "grocreServer",
-  issuerBaseURL: "https://dev-f0xoepuyu2bnmb4k.us.auth0.com/",
-  tokenSigningAlg: "RS256",
-});
 
 const PORT = parseInt(process.env.PORT, 10);
 const app = express();
@@ -31,6 +25,16 @@ const corsOrigin ={
     credentials:true,
     optionSuccessStatus:200
 }
+
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  baseURL: "http://localhost:3000",
+  clientID: "T8nU2M0ftoL2hxWZFCvHV7dZ6nsHE4pn",
+  issuerBaseURL: "https://dev-f0xoepuyu2bnmb4k.us.auth0.com",
+  secret: "qSg9uXriEL036HIda3fjYvA-TVv8YRsGUKqnz26yNk3Ri6A9CJqg8OTOWjQ79zaH",
+};
+
 app.use(cors(corsOrigin));
 app.use(cookieParser());
 app.use(express.json());
@@ -39,12 +43,21 @@ app.use(userInfo);
 app.use(fileUpload());
 app.use(express.static("../frontEnd/dist"));
 
+app.get("/callback", (req, res) => {
+  console.log(req.url);
+  res.send("hello");
+});
 app.use("/sns", snsRouter);
 app.use("/ai", aiRouter);
-app.get("/authorized", function (req, res) {
-  res.send("Secured Resource");
-});
+app.use("/meal", mealRouter)
+app.use("/editor", editorRouter);
+app.use("/mealplans", MealPlansRouter.Router);
 
+// The /profile route will show the user profile as JSON
+app.get("/profile", openid.requiresAuth(), (req, res) => {
+  console.log(req.oidc.user);
+  res.send(JSON.stringify(req.oidc.user, null, 2));
+});
 app.post("/upload", function (req, res) {
   let sampleFile;
   let uploadPath;
@@ -77,9 +90,7 @@ app.post("/upload", function (req, res) {
   //   res.send('File uploaded!');
   // });
 });
-// app.use("/editor", editorRouter);
 
-app.use("/mealplans", MealPlansRouter.Router);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

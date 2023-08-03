@@ -7,7 +7,7 @@ import { db } from "../utils/db.server.js";
  */
 class Model {
 
-  constructor() {}
+//   constructor() {}
 
   async userInfo(session) {
     try{
@@ -36,4 +36,4 @@ class Model {
 
 
 
-export default new Model();
+// export default new Model();

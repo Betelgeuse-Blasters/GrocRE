@@ -99,7 +99,7 @@ export default function NewPostModal({ onOk }) {
         </Upload>
       </Form.Item>
       <Form.Item>
-        <Button type='primary' htmlType='submit' style={{position: 'relative', left: '95%'}}>
+        <Button type='primary' htmlType='submit' style={{position: 'relative', left: '95%', backgroundColor: '#1677ff'}}>
           Submit
         </Button>
       </Form.Item>

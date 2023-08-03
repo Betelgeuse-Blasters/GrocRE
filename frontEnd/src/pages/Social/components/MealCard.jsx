@@ -1,14 +1,13 @@
-import { Card, Avatar, Collapse, message, List } from 'antd';
+import { Card, Avatar, Collapse, message, List, Image } from 'antd';
 import { LikeOutlined, DislikeOutlined, CommentOutlined, HeartOutlined, HeartFilled } from "@ant-design/icons";
 import {useState, useEffect} from 'react';
 import { faker } from '@faker-js/faker';
 import VirtualList from 'rc-virtual-list';
 const {Meta} = Card;
 
-export default function MealCard({isSavedMeal}) {
-  const mealTitle = 'Cheesieburger';
-  const username = 'username';
-  const postTitle = `${mealTitle} by ${username}`;
+export default function MealCard({isSavedMeal, post}) {
+
+  const postTitle = `${post.title} by ${post.username}`;
   const [heartColor, setHeartColor] = useState('white');
   const [color, setColor] = useState('grey');
   const [saved, setSaved] = useState(false);
@@ -90,17 +89,17 @@ export default function MealCard({isSavedMeal}) {
 
   function savePost() {
     if (!saved) {
-      message.success(`${mealTitle} added to Saved Meals`, messageTime);
+      message.success(`${post.title} added to Saved Meals`, messageTime);
     } else {
-      message.success(`${mealTitle} removed from Saved Meals`, messageTime);
+      message.success(`${post.title} removed from Saved Meals`, messageTime);
     }
     setSaved(!saved);
   }
   function like(like) {
     if (like) {
-      message.info(`${mealTitle} liked!`, messageTime)
+      message.info(`${post.title} liked!`, messageTime)
     } else {
-      message.info(`${mealTitle} disliked!`, messageTime)
+      message.info(`${post.title} disliked!`, messageTime)
     }
   }
 
@@ -116,13 +115,20 @@ export default function MealCard({isSavedMeal}) {
     setHeartColor('white');
   }
  }
+  //format nutritional info
+  let nutrition = [];
+  if(post.meal) {
+    for (let item in post.meal.nutritionFacts) {
+      nutrition.push(`${item}: ${post.meal.nutritionFacts[item]}`)
+    }
+  }
 
   return (
     <div>
       <Card
         style={{width:600, margin: '15px'}}
         cover={
-          <img alt = 'example' src={Cheesieburger}/>
+          <Image fallback={Cheesieburger}/>
         }
         actions={action}
         hoverable
@@ -130,7 +136,7 @@ export default function MealCard({isSavedMeal}) {
         <Meta
           avatar={<Avatar src={Cheesieburger} />}
           title={postTitle}
-          description='A Royale with Cheese'
+          description={post.summary}
         />
         {!saved ? <HeartOutlined {...heartProps}/> : <HeartFilled {...heartProps} /> }
 
@@ -138,17 +144,48 @@ export default function MealCard({isSavedMeal}) {
           {
             key: '1',
             label: 'Nutritional Info',
-            children: <p>Some info that is very nutritious</p>
+            children:
+              <List
+                dataSource={nutrition}
+                split={false}
+                renderItem={(item) => (
+                  <List.Item>
+                    <p>{item}</p>
+                  </List.Item>
+                )}
+              >
+              </List>
           },
           {
             key: '2',
             label: 'Ingredients',
-            children: <p>Definitely not random pieces of food from the trash</p>
+            children:
+              <List
+                dataSource={post.meal.ingredients}
+                split={false}
+                renderItem={(item) => (
+                  <List.Item>
+                    <p>{item[1]}: {item[0]}</p>
+                  </List.Item>
+                )}
+              >
+              </List>
           },
           {
             key: '3',
             label: 'Recipe/Steps',
-            children: <p>Get food, add fire, ?, profit</p>
+            children:
+              <List
+                dataSource={post.meal.recipeSteps}
+                split={false}
+                renderItem={(item) => (
+                  <List.Item>
+                    <p>{post.meal.recipeSteps.indexOf(item) + 1}. {item}</p>
+                  </List.Item>
+                )}
+              >
+
+              </List>
           }
         ]}
         bordered={false}

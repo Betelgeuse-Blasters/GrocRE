@@ -10,18 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model sessions {
-  id          Int    @id @unique @default(autoincrement())
-  user        User   @relation(fields: [userId], references: [id])
-  sessionHash String
-  userId      Int
-}
-
 model User {
   id               Int                @id @unique @default(autoincrement())
   name             String
   email            String
-  username         String
+  nickname         String
   password         String
   createdMeals     Recipe[]           @relation("UserCreatedMeals")
   savedMeals       Recipe[]           @relation("UserSavedMeals")
@@ -29,7 +22,6 @@ model User {
   posts            Post[]
   UserSavedMeals   UserSavedMeals[]
   UserCreatedMeals UserCreatedMeals[]
-  sessions         sessions[]
 }
 
 model Recipe {
@@ -71,21 +63,20 @@ model MealPlanToRecipe {
 }
 
 model UserSavedMeals {
+  id         Int             @id @unique @default(autoincrement())
   userId   Int
   recipeId Int
   user     User   @relation(fields: [userId], references: [id])
   recipe   Recipe @relation(fields: [recipeId], references: [id])
 
-  @@id([userId, recipeId])
 }
 
 model UserCreatedMeals {
+  id         Int             @id @unique @default(autoincrement())
   userId   Int
   recipeId Int
   user     User   @relation(fields: [userId], references: [id])
   recipe   Recipe @relation(fields: [recipeId], references: [id])
-
-  @@id([userId, recipeId])
 }
 
 model Post {
@@ -111,6 +102,7 @@ model LikesDislikes {
   postId Int
   isLike Boolean
   post   Post    @relation(fields: [postId], references: [id])
+
 }
 
 model Photo {

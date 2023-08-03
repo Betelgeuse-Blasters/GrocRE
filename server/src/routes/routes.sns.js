@@ -4,6 +4,7 @@ import * as controller from "../controller/controller.sns.js";
 const snsRouter = express.Router();
 
 snsRouter.get('/posts', controller.getAllPosts)
-snsRouter.get('/post', controller.getPost)
+snsRouter.put('/likes', controller.updateLikes)
+snsRouter.get('/likes', controller.getLikes)
 
 export {snsRouter};

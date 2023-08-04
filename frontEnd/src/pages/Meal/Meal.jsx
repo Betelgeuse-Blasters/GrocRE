@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Input, Button } from 'antd';
+import { Input, Button, Select, message } from 'antd';
 import '../../styles/Ai.css';
-import { StarOutlined, StarFilled } from '@ant-design/icons';
+import { StarOutlined, StarFilled, PlusOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import NutritionFacts from '../AI/NutritionFacts.jsx';
 import { useParams } from "react-router-dom";
 
@@ -59,25 +59,79 @@ export default function Meal() {
 
   const [promptIdeas, setPromptIdeas] = useState(prompts[0]);
   const [promptIndex, setPromptIndex] = useState(1);
+  const [addToMealPlan, setAddToMealPlan] = useState(false);
+  const [selectedMeal, setSelectedMeal] = React.useState({});
+  const [myMealPlans, setMyMealPlans] = useState([]);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setPromptIdeas(prompts[promptIndex]);
-
-      if (promptIndex === prompts.length - 1) {
-        setPromptIndex(0);
-      } else {
-        var num = promptIndex;
-        setPromptIndex(num + 1);
-      }
-    }, 8000);
-
-    return () => clearInterval(timer);
-  }, [promptIndex]);
 
   const handleInput = (e) => {
     setInputValue(e.target.value)
   };
+
+  const getUserMeals = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/mealplans/', { withCredentials: true });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching meal plans:', error);
+      return [];
+    }
+  };
+
+  const addMealToMealPlan = () => {
+    axios.put(`http://localhost:3000/mealplans/${selectedMeal.id}/recipe/${meal.id}`, { withCredentials: true }).then((response) => {
+      setAddToMealPlan(false);
+      message.success(`This meal has been added to your '${selectedMeal.name}' Meal Plan`, 2);
+    }).catch((error) => {
+      setAddToMealPlan(false);
+    });
+  };
+  useEffect(() => {
+    //set user meal plans
+    const pullMeals = getUserMeals();
+    pullMeals.then((response) => {
+        console.log(response);
+        let me = {};
+        me['plans'] = {};
+        me['menu'] = [];
+        let defaulted = false;
+        response.map((e) => {
+          me['plans'][e.id] = e;
+          me['menu'].push({label:e.name, value:e.id});
+          if(!defaulted){
+            console.log(e);
+            setSelectedMeal(e);
+            defaulted = true;
+          }
+        });
+        setMyMealPlans(me);
+
+    }).catch((error) => {
+      console.log(error);     
+
+    });    
+  }, []);
+
+  const mealPlans = () => {
+    if(Object.keys(myMealPlans).length > 0){
+    return(
+      <> 
+        <Select        
+        style={{ width: 120 }}
+        defaultValue={myMealPlans.menu[0]}
+        onChange={(e) => setSelectedMeal(myMealPlans.plans[e])}
+        options={myMealPlans.menu}
+        />
+        
+        <CheckOutlined className="self-center pl-5 text-3xl" onClick={() => addMealToMealPlan()}/>     
+        <CloseOutlined className="self-center pl-5 text-3xl" onClick={() => setAddToMealPlan(false)}/>
+      </>);
+    }else{
+      setAddToMealPlan(false);
+      alert('No meal plans currently. Please make a meal plan.');
+    }
+  }
+
 
   const fractionFactory = (decimal) => {
     if (decimal % 1 === 0 || Math.floor(decimal) === isNaN) {
@@ -128,6 +182,9 @@ export default function Meal() {
               ) : (
                 <StarOutlined className="self-center pl-5 text-3xl text-[#fcd34d]" />
               )}
+              {
+                addToMealPlan ? mealPlans() : <PlusOutlined className="self-center pl-5 text-3xl" onClick={() => setAddToMealPlan(true)}/>
+              }
             </div>
           </div>
           <hr className='mt-4 mb-5 mx-auto w-2/3'></hr>

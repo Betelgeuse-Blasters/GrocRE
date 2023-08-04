@@ -14,6 +14,7 @@ const NavMenu = ({mealPlans, setMealPlans, setFocused, api}) => {
   const [modalVisible, setModalVisible] = useState(false);
   let menuItems = getNavMenuItems(mealPlans);
   menuItems.push({key: 'adder', label: <PlusOutlined /> });
+  let activeKey = menuItems[0]?.key.toString() || '0';
 
   const menuItemClickHandler = (e) => {
     if (e.key !== 'adder') {
@@ -38,7 +39,8 @@ const NavMenu = ({mealPlans, setMealPlans, setFocused, api}) => {
     .catch((err) => console.log('meal plan post err', err))
     .finally(() => setModalVisible(false));
   };
-
+// console.log(menuItems, 'load');
+// console.log('activeKey', activeKey);
   return (
     <>
      <NewMealPlan
@@ -46,11 +48,10 @@ const NavMenu = ({mealPlans, setMealPlans, setFocused, api}) => {
       onCancel={() => {setModalVisible(false)}}
       onSubmit={handleSubmission}
     />
-
+  
     <Menu
       style={{ width: 256 }}
-      defaultSelectedKeys={['1']}
-      defaultOpenKeys={['sub1']}
+      defaultSelectedKeys={[activeKey]}
       mode="inline"
       className='text-center'
       items={menuItems}

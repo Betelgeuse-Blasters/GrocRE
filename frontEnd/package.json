@@ -16,6 +16,7 @@
     "animejs": "^3.2.1",
     "antd": "^5.7.3",
     "axios": "^1.4.0",
+    "canvas-confetti": "^1.6.0",
     "dotenv": "^16.3.1",
     "openai": "^3.3.0",
     "rc-virtual-list": "^3.5.3",

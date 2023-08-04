@@ -1,0 +1,10 @@
+.falling-food {
+  background-image: url('../../../public/meatball.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  transform: rotate(72deg);
+  position: absolute;
+}

@@ -1,5 +1,5 @@
 .falling-food {
-  background-image: url('../../../public/meatball.png');
+  background-image: url('/meatball.png');
   background-size: contain;
   background-repeat: no-repeat;
   display: inline-block;

@@ -11,9 +11,10 @@ import {authRouter} from "./routes/routes.auth.js"
 import { mealRouter } from "./routes/routes.meal.js";
 import { MealsRouter } from './routes/routes.meals.js';
 import { MealPlansRouter } from './routes/routes.mealplans.js';
+import {editorRouter} from "./routes/routes.editor.js"
 dotenv.config();
 
-// process.env.PORT = 3000;
+process.env.PORT = 3000;
 if (!process.env.PORT) {
   console.log('Please set the PORT environment variable');
   process.exit(1);
@@ -40,6 +41,7 @@ app.use("/ai", aiRouter);
 app.use("/meal", mealRouter)
 app.use("/meals", MealsRouter);
 app.use("/mealplans", MealPlansRouter);
+app.use("/editor",editorRouter)
 
 app.post("/upload", function (req, res) {
   let sampleFile;

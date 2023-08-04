@@ -12,7 +12,7 @@ let userInfo = (req, res, next) => {
     next();
   } else {
     const session = req.cookies.session || "";
-    Model.userInfo(session).then((response) => {
+    Model(session).then((response) => {
       req.userInfo = response;
       next();
     });

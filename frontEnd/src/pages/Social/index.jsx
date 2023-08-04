@@ -1,7 +1,6 @@
 import { Space } from "antd";
 import SideBar from "./components/Sidebar";
 import PageContent from "./components/PageContent";
-import Footer from "./components/Footer";
 export default function Sns() {
   return (
     <div className="app">
@@ -9,7 +8,6 @@ export default function Sns() {
           <SideBar />
         <PageContent />
       </Space>
-      <Footer />
     </div>
   );
 }

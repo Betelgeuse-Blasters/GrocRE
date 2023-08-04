@@ -1,12 +1,13 @@
 import { Form, Input, Button, Radio } from "antd";
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
-
+import UserContext from '../Context/User.js'
 const API_URL = import.meta.env.VITE_API_URL
 
-export default function LoginModal({ handleLogin }) {
+export default function LoginModal({handleLogin}) {
   const [isSignup, setIsSignup] = useState(false);
   const [form] = Form.useForm();
+  const [user, setUser] = useContext(UserContext)
 
   const toggleSignup = (e) => {
     setIsSignup(e.target.value === "true");
@@ -26,12 +27,13 @@ export default function LoginModal({ handleLogin }) {
       payload.email = values.email;
     }
     try {
-      const response = await axios.post(endpoint, payload);
+      const response = await axios.post(endpoint, payload, {withCredentials:true});
 
       if (response.status === 200) {
         console.log("Successfully logged in or signed up", response.data);
         form.resetFields();
-        handleLogin();
+        handleLogin()
+        setUser({...response.data.user,loggedIn:true})
       } else {
         console.error("Failed to log in or sign up");
       }

@@ -2,17 +2,17 @@ import { Menu, Modal } from "antd";
 import { Link } from "react-router-dom";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import LoginModal from "./LoginModal";
-
+import UserContext from "../Context/User.js"
 
 
 export default function NavBar() {
-  const [login, setLogin] = useState(false)
   const [isOpen, setIsOpen] = useState(false);
-
+  const [user, setUser] = useContext(UserContext)
   const logout = () => {
-    setLogin(false);
+    setUser({loggedIn: false});
+    document.cookie = "session= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
   };
 
   const showModal = () => {
@@ -31,29 +31,29 @@ export default function NavBar() {
       ),
       key: "home",
     },
+    // {
+    //   label: <Link to="/ai">Ai</Link>,
+    //   key: "ai",
+    // },
     {
-      label: <Link to="/ai">Ai</Link>,
-      key: "ai",
-    },
-    {
-      label: <Link to="/account">account</Link>,
+      label: <Link to="/account">Account</Link>,
       key: "account",
     },
     {
-      label: <Link to="/mealplan">mealplan</Link>,
+      label: <Link to="/mealplan">Mealplans</Link>,
       key: "mealplan",
     },
     {
-      label: <Link to="/sns/home">SNS</Link>,
+      label: <Link to="/sns/home">Feed</Link>,
       key: "sns",
     },
     {
-      label: login ? <LogoutButton logout={logout}/> : <LoginButton onClick={showModal} />,
+      label: user.loggedIn ? <LogoutButton logout={logout}/> : <LoginButton onClick={showModal} />,
       key: "login",
     },
   ];
   const handleLogin = () => {
-    setLogin(true);
+
     setIsOpen(false);
   };
 

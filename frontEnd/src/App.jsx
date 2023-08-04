@@ -9,6 +9,7 @@ import Meal from "./pages/Meal/Meal.jsx"
 import axios from "axios";
 import Profile from "./pages/Profile/Profile";
 import NavBar from "./Components/NavBar.jsx"
+import Footer from "./Components/Footer";
 
 import "./main.css";
 var testData = {
@@ -48,6 +49,7 @@ var testData = {
 };
 export default function App() {
   //on mount verify user information
+
   const [user, setUser] = useState({ loggedIn: false });
   const [mealID, setMealID] = useState(testData)
   useEffect(() => {
@@ -70,16 +72,17 @@ export default function App() {
 
   return (
     <UserContext.Provider value={[user, setUser]}>
-      <NavBar></NavBar>
-      <div className='bg-image'>
+      <div className='bg-image min-h-screen'>
+      <NavBar/>
       <Routes>
-        <Route path="/" element={<Home setMeal={setMealID}/>} />
-        <Route path="/ai" element={<Ai setMeal={setMealID}/>} />
-        <Route path="/account" element={<Profile setMeal={setMealID}/>} />
-        <Route path="/mealplan" element={<MealPlan setMeal={setMealID}/>} />
-        <Route path="/sns/*" element={<Sns setMeal={setMealID}/>} />
+        <Route path="/" element={<Ai setMeal={setMealID}/>} />
+        <Route path="/create_recipe" element={<Ai setMeal={setMealID}/>} />
+        {/* <Route path="/account" element={<Profile setMeal={setMealID}/>} /> */}
+        <Route path="/3DMeal" element={<MealPlan setMeal={setMealID}/>} />
+        <Route path="/Feed/*" element={<Sns setMeal={setMealID}/>} />
         <Route path="/meal/:mealID" element={<Meal />} />
       </Routes>
+      <Footer className=''/>
       </div>
     </UserContext.Provider>
   );

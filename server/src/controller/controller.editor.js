@@ -8,11 +8,16 @@ export const userInfo = (req, res) => {
       return;
     }
     const session = req.cookies.session || '';
-    Model.userInfo(session)
-      .then((response) => {
-        response.loggedIn ? res.status(200).json(response) : res.status(401).send('Go away');
-        return;
-      })
+    Model(session)
+    .then((response) => {
+      console.log('editor response', response)
+      if(response.loggedIn){
+        let {password, ...cleaned} = response;
+        res.send(cleaned)
+      }else{
+        res.send(response)
+      }
+    })
 };
 
 

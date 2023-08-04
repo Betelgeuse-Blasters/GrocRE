@@ -1,13 +1,14 @@
 import { Form, Input, Button, Radio } from "antd";
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
-
+import UserContext from '../Context/User.js'
 const API_URL = import.meta.env.VITE_API_URL
 const PORT = import.meta.env.VITE_PORT
 
-export default function LoginModal({ handleLogin }) {
+export default function LoginModal({handleLogin}) {
   const [isSignup, setIsSignup] = useState(false);
   const [form] = Form.useForm();
+  const [user, setUser] = useContext(UserContext)
 
   const toggleSignup = (e) => {
     setIsSignup(e.target.value === "true");
@@ -27,12 +28,13 @@ export default function LoginModal({ handleLogin }) {
       payload.email = values.email;
     }
     try {
-      const response = await axios.post(endpoint, payload);
+      const response = await axios.post(endpoint, payload, {withCredentials:true});
 
       if (response.status === 200) {
         console.log("Successfully logged in or signed up", response.data);
         form.resetFields();
-        handleLogin();
+        handleLogin()
+        setUser({...response.data.user,loggedIn:true})
       } else {
         console.error("Failed to log in or sign up");
       }
@@ -76,14 +78,14 @@ export default function LoginModal({ handleLogin }) {
       >
         <Input.Password />
       </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          {isSignup ? "Sign Up" : "Login"}
-        </Button>
+      <Form.Item className='flex justify-center'>
         <Radio.Group onChange={toggleSignup} value={isSignup.toString()}>
           <Radio value="false">Login</Radio>
-          <Radio value="true">Sign Up</Radio>
+          <Radio value="true">Sign-up</Radio>
         </Radio.Group>
+        <Button type="primary" htmlType="submit" className='bg-gradient-to-r from-blue-600 via-sky-500 to-blue-600 ml-24 hover:contrast-125 text-base tracking-wide font-medium'>
+          {isSignup ? "Sign-up" : "Login"}
+        </Button>
       </Form.Item>
     </Form>
   );

@@ -22,7 +22,6 @@ export default function Sns() {
           <SideBar meals={meals} mealplans={mealplans}/>
         <PageContent />
       </Space>
-      <Footer />
     </div>
   );
 }

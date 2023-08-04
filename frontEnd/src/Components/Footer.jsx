@@ -1,8 +1,8 @@
 import { Typography } from "antd";
-import "../styles/sns.css";
+
 export default function Footer() {
   return (
-    <div className="Footer">
+    <div className="Footer flex justify-evenly items-center border-t border-slate-400/80 py-2 absolute inset-x-0 bottom-0 bg-[#FFFFFF]/40">
       <Typography.Link href={"https://www.google.com"} target={"_blank"}>
         Privacy Policy
       </Typography.Link>

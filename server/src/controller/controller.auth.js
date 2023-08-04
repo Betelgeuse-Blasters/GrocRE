@@ -32,15 +32,17 @@ export const loginOrSignup = async (req, res) => {
       }
     }
     const session = await model.createSession(user.id);
-    res.cookie('sessionId', session.id, {
-      httpOnly: true, // prevent client-side JavaScript from accessing the cookie
-      secure: process.env.NODE_ENV === 'production', // only send the cookie over HTTPS if in production
-      maxAge: 86400000, // cookie expiration time, e.g., 1 day
-      // add other cookie options if needed
+    delete user.password;
+    res.cookie('session', session.sessionHash, {
+      // httpOnly: false, // prevent client-side JavaScript from accessing the cookie
+      // secure: process.env.NODE_ENV === 'production', // only send the cookie over HTTPS if in production
+      // maxAge: 86400000, // cookie expiration time, e.g., 1 day
+      // // add other cookie options if needed
     });
     res.status(200).json({
       message: 'Successfully logged in or signed up',
-      session
+      session,
+      user
     });
   } catch (err) {
     console.log("all hail the meatball man", err);

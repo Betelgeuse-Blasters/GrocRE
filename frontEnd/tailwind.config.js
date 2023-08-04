@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      theme: {
+        fontFamily: {
+          sans: ['Cairo Play', 'sans-serif'],
+          cursive: ['Playball', 'cursive'],
+        },
+      },
+    },
   },
   plugins: [],
 }

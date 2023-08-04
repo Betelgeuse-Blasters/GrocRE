@@ -8,7 +8,7 @@ import { db } from "../utils/db.server.js";
 // class Model {
 //   constructor() {}
 
-export default async function userInfo(session) {
+export default async function Model(session) {
   try {
     const check = await db.sessions.findMany({
       where: {

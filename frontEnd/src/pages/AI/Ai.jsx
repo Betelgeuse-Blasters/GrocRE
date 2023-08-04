@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import axios from 'axios';
 import { Input, Button } from 'antd';
 import anime from 'animejs/lib/anime.es.js';
@@ -6,12 +6,14 @@ import '../../styles/Ai.css';
 import { StarOutlined, StarFilled } from '@ant-design/icons';
 import NutritionFacts from './NutritionFacts';
 import Game from './Game';
-
+import UserContext from '../../Context/User.js'
 export default function Ai() {
-
+const API_URL = import.meta.env.VITE_API_URL;
+  const [user] = useContext(UserContext)
   const audioRef = useRef(new Audio('/meatTheme.mp3'))
   audioRef.current.loop = true;
   const [meal, setMeal] = useState('');
+  const [mealID, setMealID] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
   const meatballLoadRef = useRef(null);
@@ -22,7 +24,24 @@ export default function Ai() {
   const meatballSizeRef = useRef(meatballSize);
   const audioTimeRef = useRef(0);
 
+  const handleSaveRecipe = async () => {
+    try {
+      await axios.post(`${API_URL}/ai/likeRecipe`, { recipeId: mealID, userId: user.id});
+      // Handle success - e.g., show a success message or update state
+    } catch (err) {
+      console.log('ERROR HANDLING SAVE RECIPE')
+    }
+  };
 
+  const handleUnsaveRecipe = async () => {
+    try {
+      await axios.post(`${API_URL}/ai/unlikeRecipe`, { recipeId: mealID, userId: user.id});
+      console.log('UNSAVED FROM RECIPE')
+
+    } catch (err) {
+      console.log('ERROR HANDLING SAVE RECIPE')
+    }
+  };
 
   const handleStarHover = () => {
     setIsHover(true);
@@ -34,15 +53,28 @@ export default function Ai() {
 
   const handleStarClick = () => {
     setIsFilled(!isFilled);
+    if(!isFilled) {
+      handleSaveRecipe();
+    } else {
+      handleUnsaveRecipe();
+    }
+
   }
 
-  useEffect(() => {
-    if (isFilled) {
-      // add to database favorites
-    } else {
-      // delete from favorites database
-    }
-  }, [isFilled]);
+  // useEffect(() => {
+
+
+  //   if (isFilled) {
+
+  //     handleSaveRecipe();
+
+
+  //   } else {
+  //     // delete from favorites database
+  //     handleUnsaveRecipe();
+
+  //   }
+  // }, [isFilled]);
 
   const prompts = [
     'Mountain Dew Based Meal', 'A Kiel meal', 'Potato salad from Spongebob', 'The meatball man is coming', 'Have you looked at your bank account lately?', 'vegan kosher hotdog'
@@ -113,19 +145,21 @@ useEffect(() => {
       }
       setLoading(true);
       setStarted(true);
-      setTimeout(() => {
-        setLoading(false);
-      }, 10000);
-      // const response = await axios.post('http://localhost:3000/ai/getRecipe', {
-      //   meal: inputValue
-      // });
-      // console.log('can i get uhhhhhhhh', response.data.recipe);
-      // setMeal(response.data.recipe);
+      // setTimeout(() => {
+      //   setLoading(false);
+      // }, 10000);
+      const response = await axios.post('http://localhost:3000/ai/getRecipe', {
+        meal: inputValue,
+        creatorId: user.id,
+      });
+      console.log('can i get uhhhhhhhh', response.data.recipe);
+      setMeal(response.data.recipe);
+      setMealID(response.data.mealID)
     } catch (error) {
       console.error("An error occurred while fetching the recipe:", error);
-    } //finally {
-    //   setLoading(false);
-    // }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleInput = (e) => {
@@ -138,6 +172,12 @@ useEffect(() => {
     }
 
     const gcd = (a, b) => {
+      a = parseFloat(a);
+      b = parseFloat(b);
+      if (isNaN(a) || isNaN(b)) {
+        console.warn('Both a and b must be numeric values.');
+        return null;
+      }
       if (a === 0) {
         return b;
       } else if (b === 0) {
@@ -167,14 +207,14 @@ useEffect(() => {
 
   return (
     <div className='pb-5'>
-      <h1 className='text-6xl font-[sans] flex justify-center'>Let's Get Cookin'!</h1>
+      <h1 className='text-6xl font-cairo flex justify-center'>Let's Get Cookin'!</h1>
       <div className="flex justify-center mt-5 mb-5">
         <h3 className='text-2xl w-2/3 text-center'>Get ready to level up your culinary game with GrocRE's cutting-edge AI! Just toss in your wildest recipe idea or the ingredients you've got in your kitchen, and watch the magic happen - voilà!</h3>
       </div>
       <div className='flex flex-row justify-center mb-5 space-x-4'>
         <Input
           placeholder="Can I get uhhhhhhhh..." value={inputValue} onChange={handleInput}
-          className='w-2/4 text-2xl'
+          className='w-1/2 text-2xl'
         ></Input>
         <Button onClick={handleSearch} className='text-xl h-fit w-fit'>Submit</Button>
       </div>

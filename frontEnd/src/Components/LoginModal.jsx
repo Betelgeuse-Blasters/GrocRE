@@ -77,14 +77,14 @@ export default function LoginModal({handleLogin}) {
       >
         <Input.Password />
       </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          {isSignup ? "Sign Up" : "Login"}
-        </Button>
+      <Form.Item className='flex justify-center'>
         <Radio.Group onChange={toggleSignup} value={isSignup.toString()}>
           <Radio value="false">Login</Radio>
-          <Radio value="true">Sign Up</Radio>
+          <Radio value="true">Sign-up</Radio>
         </Radio.Group>
+        <Button type="primary" htmlType="submit" className='bg-gradient-to-r from-blue-600 via-sky-500 to-blue-600 ml-24 hover:contrast-125 text-base tracking-wide font-medium'>
+          {isSignup ? "Sign-up" : "Login"}
+        </Button>
       </Form.Item>
     </Form>
   );

@@ -7,7 +7,7 @@ export default function SideBar() {
   return (
     <div >
       <Menu
-        mode="inline"
+        mode="inline text-lg"
         onClick={(item) => {
           navigate(item.key);
         }}

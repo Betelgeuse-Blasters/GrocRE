@@ -31,20 +31,20 @@ export default function NavBar() {
       ),
       key: "home",
     },
+    {
+      label: <Link to="/create_recipe">Create Recipe</Link>,
+      key: "ai",
+    },
     // {
-    //   label: <Link to="/ai">Ai</Link>,
-    //   key: "ai",
+    //   label: <Link to="/account">Account</Link>,
+    //   key: "account",
     // },
     {
-      label: <Link to="/account">Account</Link>,
-      key: "account",
-    },
-    {
-      label: <Link to="/mealplan">Mealplans</Link>,
+      label: <Link to="/3DMeal">3DMeals</Link>,
       key: "mealplan",
     },
     {
-      label: <Link to="/sns/home">Feed</Link>,
+      label: <Link to="/Feed/home">Feed</Link>,
       key: "sns",
     },
     {
@@ -65,7 +65,7 @@ export default function NavBar() {
         mode="horizontal"
         items={menuListItems}
       />
-      <Modal title="Login" open={isOpen} onCancel={handleCancel} >
+      <Modal title="Login" open={isOpen} onCancel={handleCancel} footer={null} >
         <LoginModal handleLogin={handleLogin}></LoginModal>
       </Modal>
     </nav>

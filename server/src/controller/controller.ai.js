@@ -15,6 +15,7 @@ config();
 export const getRecipe = async (req, res) => {
   try {
     const input = req.body.meal;
+    const creatorId = req.body.creatorId
     const openai = new OpenAIApi(
       new Configuration({
         apiKey: process.env.API_KEY,
@@ -71,11 +72,38 @@ export const getRecipe = async (req, res) => {
 
     /* USER NEEDS TO BE CHANGED TO GUY WHO ACTUALLY REACTED IT LATER!!!!!!!!!!____!_!_!__!_!_!_!__!_!_!__!__!_!_!__!_!_!_!__!*/
 
-  const saveRecipe = await model.saveRecipe(recipeData);
+  const saveRecipe = await model.saveRecipe(recipeData, creatorId);
+  const mealId = saveRecipe.id
   console.log(response.data);
-  res.json({recipe:recipeData});
+  res.json({recipe:recipeData, mealID:mealId});
   } catch (err) {
     console.log("all hail the meatball man", err);
+    res.status(500).send(err);
+  }
+};
+
+export const likeRecipe = async (req, res) => {
+  try {
+    console.log('TRYING TO LIKE RECIPE', req.body)
+    const recipeId = req.body.recipeId;
+    const userId = req.body.userId; // This should come from the authenticated user session
+    await model.saveRecipetoUser(recipeId, userId);
+    res.status(200).send({ message: "Recipe liked" });
+  } catch (err) {
+    // console.error(err);
+    res.status(500).send(err.body);
+  }
+};
+
+export const unlikeRecipe = async (req, res) => {
+  try {
+    console.log('TRYING TO UNLIKE RECIPE', req.body)
+    const recipeId = req.body.recipeId;
+    const userId = req.body.userId;
+    await model.unsaveRecipetoUser(recipeId, userId);
+    res.status(200).send({ message: "Recipe unliked" });
+  } catch (err) {
+    // console.error(err);
     res.status(500).send(err);
   }
 };

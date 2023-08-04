@@ -6,11 +6,8 @@ export default {
   ],
   theme: {
     extend: {
-      theme: {
-        fontFamily: {
-          sans: ['Cairo Play', 'sans-serif'],
-          cursive: ['Playball', 'cursive'],
-        },
+      fontFamily: {
+        cairo: ['Cairo Play', 'sans-serif'],
       },
     },
   },

@@ -72,13 +72,14 @@ export default function App() {
 
   return (
     <UserContext.Provider value={[user, setUser]}>
-      <div className='bg-image'>
+      <div className='bg-image min-h-screen'>
       <NavBar/>
       <Routes>
         <Route path="/" element={<Ai setMeal={setMealID}/>} />
-        <Route path="/account" element={<Profile setMeal={setMealID}/>} />
-        <Route path="/mealplan" element={<MealPlan setMeal={setMealID}/>} />
-        <Route path="/sns/*" element={<Sns setMeal={setMealID}/>} />
+        <Route path="/create_recipe" element={<Ai setMeal={setMealID}/>} />
+        {/* <Route path="/account" element={<Profile setMeal={setMealID}/>} /> */}
+        <Route path="/3DMeal" element={<MealPlan setMeal={setMealID}/>} />
+        <Route path="/Feed/*" element={<Sns setMeal={setMealID}/>} />
         <Route path="/meal/:mealID" element={<Meal />} />
       </Routes>
       <Footer className=''/>

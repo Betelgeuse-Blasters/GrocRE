@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import NavBar from "../../Components/NavBar";
 import { Input, Button } from 'antd';
 import anime from 'animejs/lib/anime.es.js';
 import '../../styles/Ai.css';
@@ -9,48 +8,21 @@ import NutritionFacts from './NutritionFacts';
 import Game from './Game';
 
 export default function Ai() {
-  var testData = {
-    "recipeName": "Cheesy Mashed Potatoes",
-    "recipeDescription": "Creamy mashed potatoes with melted cheese on top.",
-    "recipeSteps": [
-      ["1. Wash and peel the potatoes."],
-      ["2. Cut the potatoes into small chunks."],
-      ["3. Boil the potatoes in a pot of salted water until tender, about 15-20 minutes."],
-      ["4. Drain the potatoes and return them to the pot."],
-      ["5. Mash the potatoes using a potato masher or a fork until smooth."],
-      ["6. Add butter, milk, and shredded cheese to the mashed potatoes."],
-      ["7. Stir the mixture until the cheese is melted and well combined."],
-      ["8. Season the cheesy mashed potatoes with salt and pepper to taste."],
-      ["9. Serve hot and enjoy!"]
-    ],
-    "servingSize": 4,
-    "nutritionFacts": {
-      "calories": 300,
-      "totalFat": 12,
-      "saturatedFat": 6,
-      "cholesterol": 25,
-      "sodium": 400,
-      "carbohydrates": 40,
-      "fiber": 4,
-      "sugars": 2,
-      "protein": 8
-    },
-    "ingredients": [
-      ["2.5", "pounds", "potatoes"],
-      ["4", "tablespoons", "butter"],
-      ["1", "cup", "milk"],
-      ["2", "cups", "shredded cheese"],
-      ["1.5", "teaspoons", "salt"],
-      ["0.5", "teaspoon", "pepper"]
-    ]
-  };
 
+  const audioRef = useRef(new Audio('/meatTheme.mp3'))
+  audioRef.current.loop = true;
   const [meal, setMeal] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
   const meatballLoadRef = useRef(null);
   const [isHover, setIsHover] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
+  const [started, setStarted] = useState(false)
+  const [meatballSize, setMeatballSize] = useState(1)
+  const meatballSizeRef = useRef(meatballSize);
+  const audioTimeRef = useRef(0);
+
+
 
   const handleStarHover = () => {
     setIsHover(true);
@@ -95,27 +67,65 @@ export default function Ai() {
   }, [promptIndex]);
 
   useEffect(() => {
-    anime({
+    meatballSizeRef.current = meatballSize;
+    let animation;
+    if (loading) {
+    const startingSize = meatballSizeRef.current;
+    const remainingDuration = 80000
+
+    animation = anime({
       targets: meatballLoadRef.current,
-      rotateZ: 360,
-      loop: true,
-      easing: 'linear'
+      scale: [startingSize, 50],
+      easing: 'linear',
+      duration: remainingDuration,
+      update: (anim) => {
+        const newSize = startingSize + (49 - startingSize) * anim.progress / 100;
+        meatballSizeRef.current = newSize;
+        setMeatballSize(newSize);
+        console.log('MEATBALL SIZE', meatballSizeRef.current)
+      },
     })
-  }, []);
+  }
+  return () => {
+    if(animation) {
+    animation.pause();
+    }
+  };
+  }, [loading]);
+//meatball man theme useEffect which pauses when loading stops
+useEffect(() => {
+  if (!loading) {
+    audioTimeRef.current = audioRef.current.currentTime; // store the current time position
+    audioRef.current.pause(); // pause the audio when loading is complete
+  }else {
+    audioRef.current.currentTime = audioTimeRef.current; // resume from the last position
+    audioRef.current.play();
+  }
+
+}, [loading]);
 
   const handleSearch = async () => {
-    setLoading(true);
+
     try {
-      const response = await axios.post('http://localhost:3000/ai/getRecipe', {
-        meal: inputValue
-      });
-      console.log('can i get uhhhhhhhh', response.data.recipe);
-      setMeal(response.data.recipe);
+      if  (inputValue === '') {
+        alert('put a meal in why dontcha')
+        return
+      }
+      setLoading(true);
+      setStarted(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 10000);
+      // const response = await axios.post('http://localhost:3000/ai/getRecipe', {
+      //   meal: inputValue
+      // });
+      // console.log('can i get uhhhhhhhh', response.data.recipe);
+      // setMeal(response.data.recipe);
     } catch (error) {
       console.error("An error occurred while fetching the recipe:", error);
-    } finally {
-      setLoading(false);
-    }
+    } //finally {
+    //   setLoading(false);
+    // }
   };
 
   const handleInput = (e) => {
@@ -157,7 +167,7 @@ export default function Ai() {
 
   return (
     <div className='pb-5'>
-      <NavBar />
+
       <h1 className='text-6xl flex justify-center'>Let's Get Cookin'!</h1>
       <div className="flex justify-center mt-5 mb-5">
         <h3 className='text-2xl w-2/3 text-center'>Get ready to level up your culinary game with GrocRE's cutting-edge AI! Just toss in your wildest recipe idea or the ingredients you've got in your kitchen, and watch the magic happen - voilà!</h3>
@@ -170,7 +180,7 @@ export default function Ai() {
         <Button onClick={handleSearch} className='text-xl h-fit w-fit'>Submit</Button>
       </div>
       {loading ? <div className='flex justify-center' ref={meatballLoadRef}>
-        <img src='../../../public/meatball.png' className='w-10 h-10' />
+        <img src='/meatball.png' className='w-10 h-10' />
       </div> : null}
       {meal ? (
         <div className=''>
@@ -233,7 +243,7 @@ export default function Ai() {
               <span key={promptIndex} style={{ animation: 'fadeInOut 8s infinite' }}> {promptIdeas}</span>
             </div>
           </div>
-          <Game />
+          <Game started={started} setStarted={setStarted}/>
         </div>
       )}
     </div>

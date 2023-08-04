@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import NavBar from "../../Components/NavBar";
 import { Input, Button } from 'antd';
 import '../../styles/Ai.css';
 import { StarOutlined, StarFilled } from '@ant-design/icons';
@@ -115,7 +114,6 @@ export default function Meal() {
 
   return (
     <div className='pb-5'>
-      <NavBar />
       {meal ? (
         <div className=''>
           <div className='flex flex-row justify-center relative mb-5'>

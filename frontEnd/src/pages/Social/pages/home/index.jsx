@@ -8,7 +8,6 @@ import axios from 'axios';
 
 export default function Home() {
   const [open, setOpen] = useState(false)
-  const [formData, setFormData] = useState({});
 
   function handleOpen() {
     setOpen(true);
@@ -16,14 +15,8 @@ export default function Home() {
 
   function handleOk(values) {
     console.log('passed values: ', values)
-    setFormData(values);
-
     //@todo - move this one day
-    axios.post('http://localhost:3000/upload', values.photos.fileList, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    axios.post('http://localhost:3000/sns/posts', values, {withCredentials: true} )
 
     setOpen(false);
   }
@@ -31,13 +24,13 @@ export default function Home() {
     setOpen(false);
   }
 
-  console.log('set form data: ', formData);
+  // console.log('set form data: ', formData);
   return (
     <div style={{position: 'relative', left: '40%' }}>
       <Feed />
       <FloatButton icon={<PlusOutlined />}onClick={handleOpen}/>
       <Modal titel='New Post Form' open={open} footer={null} onCancel={handleCancel}>
-        <NewPostModal setFormData={setFormData} onOk={handleOk} />
+        <NewPostModal onOk={handleOk} />
       </Modal>
     </div>
   );

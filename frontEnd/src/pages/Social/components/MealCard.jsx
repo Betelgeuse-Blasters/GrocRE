@@ -32,7 +32,6 @@ export default function MealCard({ isSavedMeal, post }) {
   const [dislikes, setDislikes] = useState([]);
   const [user, setUser] = useContext(UserContext);
 
-
   const heartProps = {
     onMouseEnter: () => {
       onHover(true, "heart");
@@ -224,13 +223,15 @@ export default function MealCard({ isSavedMeal, post }) {
     if (!saved) {
       axios.put(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_PORT}/sns/save?userid=${1}&recipeid=${post.mealId}`).then(() => {
         message.success(`${post.title} added to Saved Meals`, messageTime);
+        setSaved(!saved);
       })
     } else {
       axios.delete(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_PORT}/sns/save?userid=${1}&recipeid=${post.mealId}`).then(() => {
         message.success(`${post.title} removed from Saved Meals`, messageTime);
+        setSaved(!saved);
       })
     }
-    setSaved(!saved);
+
   }
   function like(like) {
     if (like) {
@@ -293,8 +294,8 @@ export default function MealCard({ isSavedMeal, post }) {
   return (
     <div>
       <Card
-        style={{ width: 600, margin: "15px" }}
-        cover={<Image fallback={Cheesieburger} />}
+        style={{ width: 400,  margin: "15px" }}
+        cover={<Image style={{height: 250}} fallback={Cheesieburger} />}
         actions={action}
         hoverable
       >

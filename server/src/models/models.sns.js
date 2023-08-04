@@ -1,8 +1,22 @@
 import { db } from "../utils/db.server.js";
 
 
-export async function getAllPosts() {
-  return await db.post.findMany();
+export async function getAllPosts(count) {
+  count = Number(count);
+  return await db.post.findMany({
+    orderBy: [
+      {
+        likes: {
+          _count: 'asc'
+        }
+      },
+      {
+        createdAt: 'desc',
+      }
+    ],
+    skip: count,
+    take: 5
+  });
 }
 
 export async function getUser(id) {
@@ -13,6 +27,7 @@ export async function getUser(id) {
     }
   });
 }
+
 export async function getRecipe(id) {
   id = Number(id);
   return await db.recipe.findUnique({
@@ -100,4 +115,52 @@ export async function getSavedRecipe(userid, recipeid) {
       recipeId: recipeid
     }
   })
+}
+
+export async function getMeals(userid) {
+  userid = Number(userid);
+
+  const mealids= await db.userSavedMeals.findMany({
+    where: {
+      userId: userid
+    }
+  })
+  const meals = [];
+  for (let i = 0; i < mealids.length; i++) {
+    const meal = await db.recipe.findFirst({
+      where: {
+        id: mealids[i].recipeId
+      }
+    })
+    meals.push(meal)
+  }
+  return meals;
+}
+
+export async function getMealPlans(userid) {
+  userid = Number(userid);
+
+  const mealids= await db.mealPlan.findMany({
+    where: {
+      userId: userid
+    }
+  })
+ return mealids;
+}
+export async function postMeal(userid, meal) {
+  const{}= meal
+  const post = await db.post.create({
+    data:{
+      title,
+      summary:description,
+    }
+  })
+  console.log(post)
+//   const photoCall = await db.photo.createMany({
+//     data:[
+//       {
+//         url:url
+//       }
+//   ]
+//   })
 }

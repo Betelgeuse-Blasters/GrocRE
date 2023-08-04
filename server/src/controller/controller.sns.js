@@ -4,7 +4,7 @@ import { validationResult } from "express-validator";
 
 export async function getAllPosts(req, res) {
   try {
-    const posts = await model.getAllPosts();
+    const posts = await model.getAllPosts(req.query.count);
     for (let i = 0; i < posts.length; i++) {
       const user = await model.getUser(posts[i].userId)
       posts[i].username = user.nickname;
@@ -65,6 +65,39 @@ export async function getSavedRecipe(req, res) {
     res.send(saved)
   } catch (err) {
     console.log('error getting recipe: ', err)
+    res.sendStatus(501);
+  }
+}
+
+export async function getMeals(req, res) {
+  try {
+    const meals = await model.getMeals(req.query.userid);
+    res.send(meals)
+  } catch (err) {
+    console.log('error getting saved meals: ', err);
+    res.sendStatus(501);
+  }
+}
+
+export async function getMealPlans(req, res) {
+  try {
+    const mealplans = await model.getMealPlans(req.query.userid);
+    res.send(mealplans)
+  } catch (err) {
+    console.log('error getting saved meals: ', err);
+    res.sendStatus(501);
+  }
+}
+
+
+
+export async function postMeal(req,res) {
+  try {
+    const post = req.body
+    // const post = await model.postMeal(req.body)
+    console.log(post)
+  } catch (err) {
+    console.log('error posting meal: ', err);
     res.sendStatus(501);
   }
 }

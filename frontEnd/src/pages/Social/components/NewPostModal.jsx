@@ -35,7 +35,13 @@ export default function NewPostModal({ onOk }) {
     console.log(`selected ${value}`);
   }
   function onFinish(values) {
-    onOk(values);
+    let{title,description, mealSelect, photos:{fileList}}=values;
+
+    const photosArr =[]
+     fileList.map(()=> {photosArr.push(URL.createObjectURL(new Blob(fileList)).replace("blob:",""))})
+    fileList = photosArr
+    const final = {title,description,mealSelect,fileList};
+    onOk(final);
   }
 
   return (
@@ -99,7 +105,16 @@ export default function NewPostModal({ onOk }) {
         </Upload>
       </Form.Item>
       <Form.Item>
-        <Button type='primary' htmlType='submit' style={{position: 'relative', left: '95%', backgroundColor: '#1677ff'}}>
+        <Button
+        type='primary'
+        htmlType='submit'
+        style={
+          {
+            position: 'relative',
+            left: '95%',
+            backgroundColor: '#1677ff'
+          }
+        }>
           Submit
         </Button>
       </Form.Item>

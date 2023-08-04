@@ -8,7 +8,7 @@ export default function Sns() {
     <div className="app">
       <NavBar />
       <Space className="SideMenuAndMainContent">
-        <SideBar />
+          <SideBar />
         <PageContent />
       </Space>
       <Footer />

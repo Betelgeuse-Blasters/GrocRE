@@ -6,10 +6,11 @@ import {
   HeartOutlined,
   HeartFilled,
 } from "@ant-design/icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { faker } from "@faker-js/faker";
 import VirtualList from "rc-virtual-list";
 import axios from "axios";
+import UserContext from '../../../Context/User.js';
 const { Meta } = Card;
 export const Cheesieburger =
   "https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg";
@@ -17,15 +18,20 @@ export const Cheesieburger =
 export default function MealCard({ isSavedMeal, post }) {
   const postTitle = `${post.title} by ${post.username}`;
   const [heartColor, setHeartColor] = useState("white");
-  const [color, setColor] = useState("grey");
   const [saved, setSaved] = useState(false);
+  const [color, setColor] = useState("grey");
+  const [likeColor, setLikeColor] = useState("grey");
+  const [dislikeColor, setDislikeColor] = useState("grey");
   const [comments, setComments] = useState([]);
   const [nutrition, setNutrition] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [steps, setSteps] = useState([]);
-  const [userLiked, setUserLiked] = useState(null);
+  const [userLiked, setUserLiked] = useState(false);
+  const [userDisliked, setUserDisliked] = useState(false);
   const [likes, setLikes] = useState([]);
   const [dislikes, setDislikes] = useState([]);
+  const [user, setUser] = useContext(UserContext);
+
 
   const heartProps = {
     onMouseEnter: () => {
@@ -55,7 +61,6 @@ export default function MealCard({ isSavedMeal, post }) {
       ]);
     }
     for (let item of post.meal.ingredients) {
-      console.log("item ", item[0]);
       setIngredients((ingredients) => [
         ...ingredients,
         `${item[0]} ${item[1]} of ${item[2]}`,
@@ -65,12 +70,46 @@ export default function MealCard({ isSavedMeal, post }) {
       setSteps((steps) => [...steps, step]);
     }
     axios
-      .get(`http://localhost:3000/sns/likes?postid=${post.id}`)
+      .get(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_PORT}/sns/likes?postid=${post.id}`)
       .then((response) => {
         setLikes(response.data.likes);
         setDislikes(response.data.dislikes);
       });
+      axios.get(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_PORT}/sns/save?userid=${1}&recipeid=${post.mealId}`).then((response) => {
+        if (response.data) {
+          setSaved(true);
+        }
+      })
   }, []);
+
+  useEffect(() => {
+    if (likes.length === 0) {
+      setUserLiked(false)
+      setLikeColor('grey')
+    } else if (dislikes.length === 0) {
+      setUserDisliked(false)
+      setDislikeColor("grey")
+    }
+    for (let i = 0; i < likes.length; i++) {
+      if (likes[i].userId === 1) {
+        setUserLiked(true)
+        setLikeColor('#1677ff')
+        break;
+      }
+      setUserLiked(false)
+      setLikeColor("grey")
+    }
+    for (let i = 0; i < dislikes.length; i++) {
+      if (dislikes[i].userId === 1) {
+        setUserDisliked(true)
+        setDislikeColor("#1677ff")
+        break;
+      }
+      setUserDisliked(false)
+      setDislikeColor("grey")
+    }
+
+  },[likes, dislikes])
 
   let action;
   if (isSavedMeal) {
@@ -82,8 +121,9 @@ export default function MealCard({ isSavedMeal, post }) {
         onClick={() => {
           like(1);
         }}
+        style={{color: likeColor}}
       >
-        <LikeOutlined />
+        <LikeOutlined  />
         <p>{likes.length}</p>
       </div>,
       <div
@@ -91,8 +131,9 @@ export default function MealCard({ isSavedMeal, post }) {
         onClick={() => {
           like(0);
         }}
+        style={{color: dislikeColor}}
       >
-        <DislikeOutlined />
+        <DislikeOutlined  />
         <p>{dislikes.length}</p>
       </div>,
       <Collapse
@@ -181,9 +222,13 @@ export default function MealCard({ isSavedMeal, post }) {
 
   function savePost() {
     if (!saved) {
-      message.success(`${post.title} added to Saved Meals`, messageTime);
+      axios.put(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_PORT}/sns/save?userid=${1}&recipeid=${post.mealId}`).then(() => {
+        message.success(`${post.title} added to Saved Meals`, messageTime);
+      })
     } else {
-      message.success(`${post.title} removed from Saved Meals`, messageTime);
+      axios.delete(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_PORT}/sns/save?userid=${1}&recipeid=${post.mealId}`).then(() => {
+        message.success(`${post.title} removed from Saved Meals`, messageTime);
+      })
     }
     setSaved(!saved);
   }
@@ -191,33 +236,39 @@ export default function MealCard({ isSavedMeal, post }) {
     if (like) {
       axios
         .put(
-          `http://localhost:3000/sns/likes?postid=${
+          `${import.meta.env.VITE_API_URL}${import.meta.env.VITE_PORT}/sns/likes?postid=${
             post.id
           }&userid=${1}&like=true`
         )
         .then(() => {
-          message.info(`${post.title} liked!`, messageTime);
+
           axios
-            .get(`http://localhost:3000/sns/likes?postid=${post.id}`)
+            .get(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_PORT}/sns/likes?postid=${post.id}`)
             .then((response) => {
               setLikes(response.data.likes);
               setDislikes(response.data.dislikes);
+              if (!userLiked) {
+                message.info(`${post.title} liked!`, messageTime);
+              }
             });
         });
     } else {
       axios
         .put(
-          `http://localhost:3000/sns/likes?postid=${
+          `${import.meta.env.VITE_API_URL}${import.meta.env.VITE_PORT}/sns/likes?postid=${
             post.id
           }&userid=${1}&like=false`
         )
         .then(() => {
-          message.info(`${post.title} disliked!`, messageTime);
+
           axios
-            .get(`http://localhost:3000/sns/likes?postid=${post.id}`)
+            .get(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_PORT}/sns/likes?postid=${post.id}`)
             .then((response) => {
               setLikes(response.data.likes);
               setDislikes(response.data.dislikes);
+              if (!userDisliked) {
+                message.info(`${post.title} disliked!`, messageTime);
+              }
             });
         });
     }
@@ -235,6 +286,8 @@ export default function MealCard({ isSavedMeal, post }) {
       setHeartColor("white");
     }
   }
+
+
   //format nutritional info
 
   return (

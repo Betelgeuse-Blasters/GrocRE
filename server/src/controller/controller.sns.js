@@ -20,7 +20,7 @@ export async function getAllPosts(req, res) {
 
 export async function updateLikes(req, res) {
   try {
-    await model.updateLikes(req.query.postid, req.query.userid, req.query.like)
+    let test = await model.updateLikes(req.query.postid, req.query.userid, req.query.like)
     res.sendStatus(201);
   } catch (err) {
     console.log('update likes error: ', err)
@@ -33,10 +33,38 @@ export async function getLikes(req, res) {
     const likes = await model.getLikes(req.query.postid, true)
     const dislikes = await model.getLikes(req.query.postid, false)
     const response = {likes: likes, dislikes: dislikes}
-    console.log(response)
     res.send(response);
   } catch (err) {
     console.log('get likes error: ', err)
     res.status(500).send(err)
+  }
+}
+
+export async function saveRecipe(req, res) {
+  try {
+    await model.saveRecipe(req.query.userid, req.query.recipeid);
+    res.sendStatus(201)
+  } catch (err) {
+    console.log('saving recipe error: ', err)
+  }
+}
+
+export async function unsaveRecipe(req, res) {
+  try {
+    await model.unsaveRecipe(req.query.userid, req.query.recipeid)
+    res.sendStatus(201)
+  } catch (err) {
+    console.log('Unsaving recipe error: ', err)
+    res.sendStatus(501)
+  }
+}
+
+export async function getSavedRecipe(req, res) {
+  try {
+    const saved = await model.getSavedRecipe(req.query.userid, req.query.recipeid)
+    res.send(saved)
+  } catch (err) {
+    console.log('error getting recipe: ', err)
+    res.sendStatus(501);
   }
 }

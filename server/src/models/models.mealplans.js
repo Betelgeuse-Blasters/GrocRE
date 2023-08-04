@@ -59,7 +59,6 @@ class Model {
     const config = {
       where: { userId: userId, id: mealPlanId }
     };
-    console.log('delete condig', config)
     return db.MealPlan.delete(config)
       .then((response) => response)
       .catch((err) => {
@@ -72,7 +71,7 @@ class Model {
     // get the current recipes for the user and mealPlanId
     const config = {
       data: { recipes: { connect: { id: recipeId } }},
-      where: { userId: userId, id: mealPlanId }
+      where: { id: mealPlanId }
     };
 
     let results = await db.MealPlan.update(config)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Input, Button, Select } from 'antd';
+import { Input, Button, Select, message } from 'antd';
 import '../../styles/Ai.css';
 import { StarOutlined, StarFilled, PlusOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import NutritionFacts from '../AI/NutritionFacts.jsx';
@@ -78,41 +78,53 @@ export default function Meal() {
     }
   };
 
+  const addMealToMealPlan = () => {
+    axios.put(`http://localhost:3000/mealplans/${selectedMeal.id}/recipe/${meal.id}`, { withCredentials: true }).then((response) => {
+      setAddToMealPlan(false);
+      message.success(`This meal has been added to your '${selectedMeal.name}' Meal Plan`, 2);
+    }).catch((error) => {
+      setAddToMealPlan(false);
+    });
+  };
   useEffect(() => {
     //set user meal plans
     const pullMeals = getUserMeals();
     pullMeals.then((response) => {
         console.log(response);
+        let me = {};
+        me['plans'] = {};
+        me['menu'] = [];
+        let defaulted = false;
+        response.map((e) => {
+          me['plans'][e.id] = e;
+          me['menu'].push({label:e.name, value:e.id});
+          if(!defaulted){
+            console.log(e);
+            setSelectedMeal(e);
+            defaulted = true;
+          }
+        });
+        setMyMealPlans(me);
+
     }).catch((error) => {
-      console.log(error);
-    });
-    setMyMealPlans({mealplans:{
-      'MealPlan1' : {
-        id:1,
-        name:'MealPlan1'
-      },
-      'MealPlan2' : {
-        id:1,
-        name:'MealPlan1'
-      }
-    },
-    menu:[{ value: 'MealPlan1', label: 'MealPlan1' },
-    { value: 'MealPlan2', label: 'MealPlan2'} ]
-  });
+      console.log(error);     
+
+    });    
   }, []);
 
   const mealPlans = () => {
     if(Object.keys(myMealPlans).length > 0){
     return(
-      <>
-      <CheckOutlined className="self-center pl-5 text-3xl" onClick={() => alert()}/>
-      <CloseOutlined className="self-center pl-5 text-3xl" onClick={() => setAddToMealPlan(false)}/>
-          <Select
-          defaultValue="MealPlan1"
-          style={{ width: 120 }}
-          onChange={(e) => setSelectedMeal(myMealPlans.mealplans[e])}
-          options={myMealPlans.menu}
-          />
+      <> 
+        <Select        
+        style={{ width: 120 }}
+        defaultValue={myMealPlans.menu[0]}
+        onChange={(e) => setSelectedMeal(myMealPlans.plans[e])}
+        options={myMealPlans.menu}
+        />
+        
+        <CheckOutlined className="self-center pl-5 text-3xl" onClick={() => addMealToMealPlan()}/>     
+        <CloseOutlined className="self-center pl-5 text-3xl" onClick={() => setAddToMealPlan(false)}/>
       </>);
     }else{
       setAddToMealPlan(false);

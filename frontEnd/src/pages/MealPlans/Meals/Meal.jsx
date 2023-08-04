@@ -44,9 +44,9 @@ const Meal = ({focusedMealPlan, setChanged}) => {
       if (item.key === targetKey) {
         lastIndex = i - 1;
       }
-  });
+    });
 
-  const newPanes = items.filter((item) => item.key !== targetKey);
+    const newPanes = items.filter((item) => item.key !== targetKey);
     if (newPanes.length && newActiveKey === targetKey) {
       if (lastIndex >= 0) {
         newActiveKey = newPanes[lastIndex].key;
@@ -56,6 +56,8 @@ const Meal = ({focusedMealPlan, setChanged}) => {
     }
     setItems(newPanes);
     setActiveKey(newActiveKey);
+  
+  
   };
 
   const onEdit = (targetKey, action) => {
@@ -69,7 +71,7 @@ const Meal = ({focusedMealPlan, setChanged}) => {
       activeKey={activeKey}
       onEdit={onEdit}
       items={tabItems()}
-      tabBarExtraContent={{ left: <button onClick={(e) => { let api = new Api(); api.delete('/' + focusedMealPlan.id); }}className="px-[2rem] text-center">Delete Meal Plan</button>, right: <IngredientsModal mealPlan={focusedMealPlan} />}}
+      tabBarExtraContent={{ left: <button onClick={(e) => { let api = new Api(); api.delete('/' + focusedMealPlan.id); setChanged(true)}}className="px-[2rem] text-center">Delete Meal Plan</button>, right: <IngredientsModal mealPlan={focusedMealPlan} />}}
       hideAdd={true}
     />
   );

@@ -6,7 +6,7 @@ const seedDataConstructor = () => {
   return {
     name: faker.person.fullName(),
     email: faker.internet.email(),
-    username: faker.internet.userName(),
+    nickname: faker.internet.userName(),
     password: faker.internet.password(),
   };
 };

@@ -22,10 +22,11 @@ export const IngredientsModal = ({mealPlan}) => {
 
   return (
     <>
+      {ingredients.length > 0 && <>
       <button className="pr-[2rem] text-center" onClick={(e) => setVisible(true)}>View Ingredients</button>
       <Modal
         visible={visible}
-        title="Add a Meal Plan"
+        title="Ingredients"
         onCancel={onCancel}
         cancelText="Close"
         cancelButtonProps={{
@@ -48,6 +49,7 @@ export const IngredientsModal = ({mealPlan}) => {
           })
         }
       </Modal>
+      </>}
     </>
 
   );

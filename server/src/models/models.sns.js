@@ -1,8 +1,22 @@
 import { db } from "../utils/db.server.js";
 
 
-export async function getAllPosts() {
-  return await db.post.findMany();
+export async function getAllPosts(count) {
+  count = Number(count);
+  return await db.post.findMany({
+    orderBy: [
+      {
+        likes: {
+          _count: 'desc'
+        }
+      },
+      {
+        createdAt: 'desc',
+      }
+    ],
+    skip: count,
+    take: 5
+  });
 }
 
 export async function getUser(id) {
@@ -13,6 +27,7 @@ export async function getUser(id) {
     }
   });
 }
+
 export async function getRecipe(id) {
   id = Number(id);
   return await db.recipe.findUnique({
@@ -100,4 +115,70 @@ export async function getSavedRecipe(userid, recipeid) {
       recipeId: recipeid
     }
   })
+}
+
+export async function getMeals(userid) {
+  userid = Number(userid);
+
+  const mealids= await db.userSavedMeals.findMany({
+    where: {
+      userId: userid
+    }
+  })
+  const meals = [];
+  for (let i = 0; i < mealids.length; i++) {
+    const meal = await db.recipe.findFirst({
+      where: {
+        id: mealids[i].recipeId
+      }
+    })
+    meals.push(meal)
+  }
+  return meals;
+}
+
+export async function getMealPlans(userid) {
+  userid = Number(userid);
+
+  const mealids= await db.mealPlan.findMany({
+    where: {
+      userId: userid
+    }
+  })
+ return mealids;
+}
+export async function postMeal(userId, meal) {
+  console.log(meal)
+  const{title, mealSelect, photos, description}= meal
+  if(photos.length > 0) {
+    return await db.post.create({
+      data:{
+        type:true,
+        userId,
+        title,
+        mealId:mealSelect,
+        summary:description,
+        photos:{
+          createMany:photos
+        }
+      },
+      select: {
+        id: true
+      }
+    });
+
+  } else {
+    return await db.post.create({
+      data:{
+        type:true,
+        userId,
+        title,
+        mealId:mealSelect,
+        summary:description,
+      },
+      select: {
+        id: true
+      }
+    });
+  }
 }

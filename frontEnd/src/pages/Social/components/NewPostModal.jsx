@@ -1,26 +1,17 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {Form, Input, Button, Upload, Select} from 'antd';
 import {PlusOutlined} from "@ant-design/icons";
 
 const {TextArea} = Input;
 
-export default function NewPostModal({ onOk }) {
+export default function NewPostModal({ meals, onOk }) {
   const [fileList, setFileList] = useState([]);
-  const fakeMeals =
-  [
-    {
-      value: 'Cheesieburger',
-      label: 'CheesieBurger'
-    },
-    {
-      value: 'Noods',
-      label: 'Noods'
-    },
-    {
-      value: 'Burite',
-      label: 'Burite'
-    },
-  ];
+  const [mealNames, setMealNames] = useState([])
+  useEffect(() => {
+    meals.map((meal, j) => {
+      setMealNames((mealNames) => [...mealNames, {label: meal.recipeName, value: meal.id}])
+    })
+  },[])
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -35,15 +26,28 @@ export default function NewPostModal({ onOk }) {
     console.log(`selected ${value}`);
   }
   function onFinish(values) {
-    onOk(values);
-  }
 
+    console.log('VALUE', values)
+    if(values.photos.length>0){
+      let{title,description, mealSelect, photos:{fileList}}=values;
+      const photosArr =[]
+      fileList.map(()=> {photosArr.push(URL.createObjectURL(new Blob(fileList)).replace("blob:",""))})
+      fileList = photosArr
+      const final = {title,description,mealSelect,fileList};
+      onOk(final);
+    } else {
+      onOk(values)
+    }
+
+  }
+  console.log(mealNames)
   return (
     <Form
       name='new post form'
       onFinish={onFinish}
       initialValues={{
-        mealSelect: fakeMeals[0].value
+        mealSelect: meals[0].id,
+        photos: []
       }}
       style={{position: 'relative', top: '25px', width: '90%'}}
       labelWrap
@@ -69,7 +73,7 @@ export default function NewPostModal({ onOk }) {
       >
         <Select
           onChange={handleSelect}
-          options={fakeMeals}
+          options={mealNames}
         >
         </Select>
       </Form.Item>
@@ -99,7 +103,16 @@ export default function NewPostModal({ onOk }) {
         </Upload>
       </Form.Item>
       <Form.Item>
-        <Button type='primary' htmlType='submit' style={{position: 'relative', left: '95%', backgroundColor: '#1677ff'}}>
+        <Button
+        type='primary'
+        htmlType='submit'
+        style={
+          {
+            position: 'relative',
+            left: '95%',
+            backgroundColor: '#1677ff'
+          }
+        }>
           Submit
         </Button>
       </Form.Item>

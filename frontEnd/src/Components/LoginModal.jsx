@@ -3,6 +3,7 @@ import { useState, useContext } from 'react';
 import axios from 'axios';
 import UserContext from '../Context/User.js'
 const API_URL = import.meta.env.VITE_API_URL
+const PORT = import.meta.env.VITE_PORT
 
 export default function LoginModal({handleLogin}) {
   const [isSignup, setIsSignup] = useState(false);
@@ -16,7 +17,7 @@ export default function LoginModal({handleLogin}) {
   const onFinish = async (values) => {
     console.log('Received values of form: ', values);
 
-    const endpoint = `${API_URL}/auth/login`;
+    const endpoint = `${API_URL}:${PORT}/auth/login`;
 
     const payload = {
       nickname: values.nickname,

@@ -23,7 +23,7 @@ if (!process.env.PORT) {
 const PORT = parseInt(process.env.PORT, 10);
 const app = express();
 const corsOrigin = {
-  origin: "http://localhost:5173", //or whatever port your frontend is using
+  origin: ["http://localhost:5173","http://127.0.0.1:5173"], //or whatever port your frontend is using
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -31,8 +31,9 @@ const corsOrigin = {
 app.use(cors(corsOrigin));
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({extended: true}))
 app.use(userInfo);
-app.use(fileUpload());
+// app.use(fileUpload());
 app.use(express.static("../frontEnd/dist"));
 
 app.use("/auth",authRouter)
@@ -43,38 +44,6 @@ app.use("/meals", MealsRouter);
 app.use("/mealplans", MealPlansRouter);
 app.use("/editor",editorRouter)
 
-app.post("/upload", function (req, res) {
-  let sampleFile;
-  let uploadPath;
-
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send("No files were uploaded.");
-  }
-
-  Object.keys(req.files).forEach((file) => {
-    uploadPath = path.resolve("./src/cdn", req.files[file].name);
-    console.log(uploadPath);
-    //__dirname + '/cdn/' + req.files[file].name;
-    let myfile = req.files[file];
-    myfile.mv(uploadPath, function (err) {
-      console.log("no shot big boi", err);
-    });
-  });
-
-  res.status(201).send("good i think?");
-  // // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  // sampleFile = req.files.sampleFile;
-  // uploadPath = __dirname + '/cdn/' + sampleFile.name;
-  // console.log('sampleFile', sampleFile);
-
-  // // Use the mv() method to place the file somewhere on your server
-  // sampleFile.mv(uploadPath, function(err) {
-  //   if (err)
-  //     return res.status(500).send(err);
-
-  //   res.send('File uploaded!');
-  // });
-});
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

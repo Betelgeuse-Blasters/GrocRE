@@ -11,8 +11,7 @@
     "prisma-migrate": "npx prisma migrate dev --name init",
     "seed": "node ./prisma/seed.js",
     "studio": "npx prisma studio",
-    "test": "test",
-    "start": "nodemon src/index.js"
+    "test": "test"
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",

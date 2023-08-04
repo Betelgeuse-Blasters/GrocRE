@@ -4,20 +4,19 @@ import { Tabs } from 'antd';
 
 // Helpers
 import { getTabMenuItems } from '../helpers';
-
+import Api from '../api';
 // Components
 import { MealPage } from '../MealPage/MealPage.jsx';
 import { IngredientsModal } from './modals/IngredientsModal.jsx';
 
 const Meal = ({focusedMealPlan, setChanged}) => {
   const [activeKey, setActiveKey] = useState(0);
-  const [items, setItems] = useState();
+  const [items, setItems] = useState([]);
 
-  const newTabIndex = useRef(0);
+  // const newTabIndex = useRef(0);
 
   const tabItems = () => {
     let mp = focusedMealPlan?.recipes?.map((recipe) => {
-      console.log(recipe.id);
       return {
         key: recipe.id,
         label: recipe.recipeName,
@@ -29,23 +28,16 @@ const Meal = ({focusedMealPlan, setChanged}) => {
   };
 
   const onChange = (newActiveKey) => {
-    console.log('newActiveKey', newActiveKey);
-    setActiveKey(newActiveKey);
-  };
-
-  const add = () => {
-    const newActiveKey = `newTab${newTabIndex.current++}`;
-    const newPanes = [...items];
-    newPanes.push({
-      label: 'New Tab',
-      children: 'Content of new Tab',
-      key: newActiveKey,
-    });
-    setItems(newPanes);
     setActiveKey(newActiveKey);
   };
 
   const remove = (targetKey) => {
+    let api = new Api('');
+    api.delete(`/mealplans/${focusedMealPlan.id}/recipe/${targetKey}`)
+    .then((res) => window.alert('Recipe removed from meal plan.'))
+    .catch((err) => window.alert('Error removing recipe from meal plan.'))
+    .finally(() => setChanged(true));
+
     let newActiveKey = activeKey;
     let lastIndex = -1;
     items.forEach((item, i) => {
@@ -67,11 +59,7 @@ const Meal = ({focusedMealPlan, setChanged}) => {
   };
 
   const onEdit = (targetKey, action) => {
-    if (action === 'add') {
-      add();
-    } else {
-      remove(targetKey);
-    }
+    remove(targetKey);
   };
 
   return (
@@ -81,7 +69,8 @@ const Meal = ({focusedMealPlan, setChanged}) => {
       activeKey={activeKey}
       onEdit={onEdit}
       items={tabItems()}
-      tabBarExtraContent={{ right: <IngredientsModal mealPlan={focusedMealPlan} />}}
+      tabBarExtraContent={{ left: <button onClick={(e) => { let api = new Api(); api.delete('/' + focusedMealPlan.id); }}className="px-[2rem] text-center">Delete Meal Plan</button>, right: <IngredientsModal mealPlan={focusedMealPlan} />}}
+      hideAdd={true}
     />
   );
 

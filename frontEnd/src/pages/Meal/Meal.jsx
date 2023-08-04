@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Input, Button } from 'antd';
+import { Input, Button, Select } from 'antd';
 import '../../styles/Ai.css';
-import { StarOutlined, StarFilled } from '@ant-design/icons';
+import { StarOutlined, StarFilled, PlusOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import NutritionFacts from '../AI/NutritionFacts.jsx';
 import { useParams } from "react-router-dom";
 
@@ -59,25 +59,67 @@ export default function Meal() {
 
   const [promptIdeas, setPromptIdeas] = useState(prompts[0]);
   const [promptIndex, setPromptIndex] = useState(1);
+  const [addToMealPlan, setAddToMealPlan] = useState(false);
+  const [selectedMeal, setSelectedMeal] = React.useState({});
+  const [myMealPlans, setMyMealPlans] = useState([]);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setPromptIdeas(prompts[promptIndex]);
-
-      if (promptIndex === prompts.length - 1) {
-        setPromptIndex(0);
-      } else {
-        var num = promptIndex;
-        setPromptIndex(num + 1);
-      }
-    }, 8000);
-
-    return () => clearInterval(timer);
-  }, [promptIndex]);
 
   const handleInput = (e) => {
     setInputValue(e.target.value)
   };
+
+  const getUserMeals = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/mealplans/', { withCredentials: true });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching meal plans:', error);
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    //set user meal plans
+    const pullMeals = getUserMeals();
+    pullMeals.then((response) => {
+        console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+    setMyMealPlans({mealplans:{
+      'MealPlan1' : {
+        id:1,
+        name:'MealPlan1'
+      },
+      'MealPlan2' : {
+        id:1,
+        name:'MealPlan1'
+      }
+    },
+    menu:[{ value: 'MealPlan1', label: 'MealPlan1' },
+    { value: 'MealPlan2', label: 'MealPlan2'} ]
+  });
+  }, []);
+
+  const mealPlans = () => {
+    if(Object.keys(myMealPlans).length > 0){
+    return(
+      <>
+      <CheckOutlined className="self-center pl-5 text-3xl" onClick={() => alert()}/>
+      <CloseOutlined className="self-center pl-5 text-3xl" onClick={() => setAddToMealPlan(false)}/>
+          <Select
+          defaultValue="MealPlan1"
+          style={{ width: 120 }}
+          onChange={(e) => setSelectedMeal(myMealPlans.mealplans[e])}
+          options={myMealPlans.menu}
+          />
+      </>);
+    }else{
+      setAddToMealPlan(false);
+      alert('No meal plans currently. Please make a meal plan.');
+    }
+  }
+
 
   const fractionFactory = (decimal) => {
     if (decimal % 1 === 0 || Math.floor(decimal) === isNaN) {
@@ -128,6 +170,9 @@ export default function Meal() {
               ) : (
                 <StarOutlined className="self-center pl-5 text-3xl text-[#fcd34d]" />
               )}
+              {
+                addToMealPlan ? mealPlans() : <PlusOutlined className="self-center pl-5 text-3xl" onClick={() => setAddToMealPlan(true)}/>
+              }
             </div>
           </div>
           <hr className='mt-4 mb-5 mx-auto w-2/3'></hr>

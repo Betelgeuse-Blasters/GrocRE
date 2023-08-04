@@ -9,7 +9,6 @@ export const IngredientsModal = ({mealPlan}) => {
   const [visible, setVisible] = useState(false);
   const [copiedText, setCopiedText] = useState('Copy');
   let ingredients = getMealPlanIngredients(mealPlan);
-  console.log(ingredients);
 
   const onOk = () => {};
   const onCancel = () => {setVisible(false)};

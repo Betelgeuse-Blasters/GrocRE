@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import Api from './api.js';
 import { getMealPlansIngredients } from './helpers.js';
 // Components
-import NavBar from "../../Components/NavBar";
 import NavMenu from './Menu';
 import Meal from './Meals/Meal';
 
@@ -26,7 +25,6 @@ const MealPlan = () => {
 
   return (
     <>
-      <div> <NavBar /> </div>
       <div className="flex">
         <div className="flex-none">
           <NavMenu mealPlans={mealPlans} setMealPlans={setMealPlans} setFocused={setFocused} api={api} />

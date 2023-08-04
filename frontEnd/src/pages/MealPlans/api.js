@@ -8,22 +8,22 @@ export default class Api {
   }
 
   async get(path = '') {
-    const response = await axios.get(this.endpoint + path);
+    const response = await axios.get(this.endpoint + path, {withCredentials:true});
     return response.data;
   }
 
   async post(path = '', data) {
-    const response = await axios.post(this.endpoint + path, data);
+    const response = await axios.post(this.endpoint + path, data, {withCredentials:true});
     return response.data;
   }
 
   async put(path = '', data) {
-    const response = await axios.put(this.endpoint + path, data);
+    const response = await axios.put(this.endpoint + path, data, {withCredentials:true});
     return response.data;
   }
 
   async delete(path = '') {
-    const response = await axios.delete(this.endpoint + path);
+    const response = await axios.delete(this.endpoint + path, {withCredentials:true});
     return response.data;
   }
 }

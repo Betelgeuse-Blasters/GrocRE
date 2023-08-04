@@ -23,12 +23,24 @@ export const getMealPlan = (mealPlans, id) => {
   return mealPlans.find((mealPlan) => mealPlan.id == id);
 };
 
-export const getMenuItems = (mealPlans) => {
+export const getNavMenuItems = (mealPlans) => {
   let results = [];
   if (!mealPlans || !Array.isArray(mealPlans)) return results;
 
   mealPlans.forEach((mealPlan) => {
     results.push({ key: mealPlan.id, label: mealPlan.name});
+  });
+
+  return results;
+}
+
+export const getTabMenuItems = (mealPlan) => {
+  let results = [];
+  if (!mealPlan) return results;
+  if (!mealPlan.recipes || !Array.isArray(mealPlan.recipes)) return results;
+
+  mealPlan.recipes.forEach((recipe) => {
+    results.push({ key: recipe.id, label: recipe.recipeName, children: 'hellomuddah hellofaddah' + recipe.id});
   });
 
   return results;

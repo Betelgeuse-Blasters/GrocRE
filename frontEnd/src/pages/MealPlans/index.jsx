@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Helpers
 import Api from './api.js';
-import { getMealPlansIngredients } from './helpers.js';
+
 // Components
 import NavBar from "../../Components/NavBar";
 import NavMenu from './Menu';
@@ -11,6 +11,7 @@ import Meal from './Meals/Meal';
 const MealPlan = () => {
   const [mealPlans, setMealPlans] = useState([]);
   const [focused, setFocused] = useState({});
+  const [changed, setChanged] = useState(false);
   const api = new Api('/mealplans');
 
   useEffect(() => {
@@ -22,7 +23,18 @@ const MealPlan = () => {
       .catch(err => console.log('mealplans get err', err));
   }, [])
 
-  // useEffect(() => {}, [focused])
+  useEffect(() => {
+    if (changed) {
+      const api = new Api('/mealplans');
+      api.get()
+      .then((response) => {
+        setMealPlans(response)
+        setFocused(response[0])
+      })
+      .catch(err => console.log('mealplans get err', err));
+      console.log('mealplans changed', changed)
+    }
+  }, [changed])
 
   return (
     <>
@@ -32,7 +44,7 @@ const MealPlan = () => {
           <NavMenu mealPlans={mealPlans} setMealPlans={setMealPlans} setFocused={setFocused} api={api} />
         </div>
         <div className="flex-1 mr-[5%]">
-          <Meal mealPlan={focused} />
+          <Meal focusedMealPlan={focused} changed={changed} setChanged={setChanged}/>
         </div>
       </div>
     </>

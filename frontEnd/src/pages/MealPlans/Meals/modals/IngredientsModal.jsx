@@ -5,7 +5,7 @@ import { Modal } from 'antd';
 // Helpers
 import { getMealPlanIngredients } from '../../helpers.js';
 
-const IngredientsModal = ({mealPlan}) => {
+export const IngredientsModal = ({mealPlan}) => {
   const [visible, setVisible] = useState(false);
   const [copiedText, setCopiedText] = useState('Copy');
   let ingredients = getMealPlanIngredients(mealPlan);
@@ -23,7 +23,7 @@ const IngredientsModal = ({mealPlan}) => {
 
   return (
     <>
-      <button onClick={(e) => setVisible(true)}>View Ingredients</button>
+      <button className="pr-[2rem] text-center" onClick={(e) => setVisible(true)}>View Ingredients</button>
       <Modal
         visible={visible}
         title="Add a Meal Plan"
@@ -54,4 +54,4 @@ const IngredientsModal = ({mealPlan}) => {
   );
 }
 
-export default IngredientsModal;
+export default { IngredientsModal };

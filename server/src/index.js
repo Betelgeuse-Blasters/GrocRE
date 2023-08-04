@@ -4,12 +4,12 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import path from "node:path";
 import cookieParser from "cookie-parser";
-
+import {userInfo} from "./utils/user.middleware.js";
 import { snsRouter } from "./routes/routes.sns.js";
 import { aiRouter } from "./routes/routes.ai.js";
 import {authRouter} from "./routes/routes.auth.js"
 import { mealRouter } from "./routes/routes.meal.js";
-import {userInfo} from "./utils/user.middleware.js";
+import { MealsRouter } from './routes/routes.meals.js';
 import { MealPlansRouter } from './routes/routes.mealplans.js';
 dotenv.config();
 
@@ -38,6 +38,7 @@ app.use("/auth",authRouter)
 app.use("/sns", snsRouter);
 app.use("/ai", aiRouter);
 app.use("/meal", mealRouter)
+app.use("/meals", MealsRouter);
 app.use("/mealplans", MealPlansRouter);
 
 app.post("/upload", function (req, res) {

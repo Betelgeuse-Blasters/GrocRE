@@ -5,14 +5,14 @@ import axios from 'axios';
 import { PlusOutlined } from '@ant-design/icons';
 
 // Helpers
-import { getMenuItems, getMealPlan } from './helpers.js';
+import { getNavMenuItems, getMealPlan } from './helpers.js';
 
 // Components
 import NewMealPlan from './Meals/modals/NewMealPlanModal';
 
 const NavMenu = ({mealPlans, setMealPlans, setFocused, api}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  let menuItems = getMenuItems(mealPlans);
+  let menuItems = getNavMenuItems(mealPlans);
   menuItems.push({key: 'adder', label: <PlusOutlined /> });
 
   const menuItemClickHandler = (e) => {

@@ -176,7 +176,7 @@ useEffect(() => {
       b = parseFloat(b);
       if (isNaN(a) || isNaN(b)) {
         console.warn('Both a and b must be numeric values.');
-        return null;
+        return decimal;
       }
       if (a === 0) {
         return b;

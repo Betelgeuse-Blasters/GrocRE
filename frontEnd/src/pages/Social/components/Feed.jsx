@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function Feed() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:3000/sns/posts').then((response) => {
+    axios.get('http://localhost:3000/sns/posts', {withCredentials: true}).then((response) => {
       setPosts(response.data)
     })
   },[])

@@ -33,7 +33,7 @@ export async function updateLikes(postid, userid, like) {
     }
   })
   if (exists) {
-    await db.likesDislikes.update({
+    return await db.likesDislikes.update({
       where: {
         id: exists.id
       },
@@ -42,7 +42,7 @@ export async function updateLikes(postid, userid, like) {
       }
     })
   } else {
-    await db.likesDislikes.create({
+    return await db.likesDislikes.create({
       data: {
         postId: postid,
         userId: userid,
@@ -61,4 +61,43 @@ export async function getLikes(postid, boolean) {
     }
   })
   return likes;
+}
+
+export async function saveRecipe(userid, recipeid) {
+  userid = Number(userid)
+  recipeid = Number(recipeid)
+  const exists = await getSavedRecipe(userid, recipeid)
+  if (!exists) {
+    await db.userSavedMeals.create({
+      data: {
+        userId: userid,
+        recipeId: recipeid
+      }
+    })
+
+  }
+}
+
+export async function unsaveRecipe(userid, recipeid) {
+  console.log('im running')
+  userid = Number(userid)
+  recipeid = Number(recipeid)
+ const result = await getSavedRecipe(userid, recipeid)
+  await db.userSavedMeals.delete({
+    where: {
+      id: result.id
+    }
+  })
+}
+
+export async function getSavedRecipe(userid, recipeid) {
+  userid = Number(userid)
+  recipeid = Number(recipeid)
+
+  return await db.userSavedMeals.findFirst({
+    where: {
+      userId: userid,
+      recipeId: recipeid
+    }
+  })
 }

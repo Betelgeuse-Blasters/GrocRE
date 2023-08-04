@@ -33,9 +33,9 @@ export default function Home() {
 
   console.log('set form data: ', formData);
   return (
-    <div>
+    <div style={{position: 'relative', left: '40%' }}>
       <Feed />
-      <FloatButton icon={<PlusOutlined />}style={{position: 'relative', left: '110%'}} onClick={handleOpen}/>
+      <FloatButton icon={<PlusOutlined />}onClick={handleOpen}/>
       <Modal titel='New Post Form' open={open} footer={null} onCancel={handleCancel}>
         <NewPostModal setFormData={setFormData} onOk={handleOk} />
       </Modal>

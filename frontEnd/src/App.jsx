@@ -8,6 +8,7 @@ import Sns from "./pages/Social";
 import Meal from "./pages/Meal/Meal.jsx"
 import axios from "axios";
 import Profile from "./pages/Profile/Profile";
+import NavBar from "./Components/NavBar.jsx"
 
 import "./main.css";
 var testData = {
@@ -69,6 +70,7 @@ export default function App() {
 
   return (
     <UserContext.Provider value={[user, setUser]}>
+      <NavBar></NavBar>
       <div className='bg-image'>
       <Routes>
         <Route path="/" element={<Home setMeal={setMealID}/>} />

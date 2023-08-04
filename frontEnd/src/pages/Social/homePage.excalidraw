@@ -111,8 +111,8 @@
     },
     {
       "type": "text",
-      "version": 69,
-      "versionNonce": 995371318,
+      "version": 70,
+      "versionNonce": 231130408,
       "isDeleted": false,
       "id": "YM_GZdPkq-lkC1gTT6hC_",
       "fillStyle": "hachure",
@@ -131,7 +131,7 @@
       "groupIds": [],
       "roundness": null,
       "boundElements": [],
-      "updated": 1690724961116,
+      "updated": 1691117997310,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -142,7 +142,7 @@
       "containerId": null,
       "originalText": "Home",
       "lineHeight": 1.25,
-      "baseline": 17
+      "baseline": 18
     },
     {
       "type": "rectangle",
@@ -230,8 +230,8 @@
     },
     {
       "type": "text",
-      "version": 107,
-      "versionNonce": 1917234474,
+      "version": 108,
+      "versionNonce": 718373208,
       "isDeleted": false,
       "id": "EkYx4Bd7T2qip9VXIDyuF",
       "fillStyle": "hachure",
@@ -250,7 +250,7 @@
       "groupIds": [],
       "roundness": null,
       "boundElements": [],
-      "updated": 1690724961117,
+      "updated": 1691117997311,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -261,12 +261,12 @@
       "containerId": null,
       "originalText": "Explore",
       "lineHeight": 1.25,
-      "baseline": 17
+      "baseline": 18
     },
     {
       "type": "text",
-      "version": 90,
-      "versionNonce": 1017483894,
+      "version": 91,
+      "versionNonce": 1174659112,
       "isDeleted": false,
       "id": "uleiYOaCx9U1kIWH-iVlT",
       "fillStyle": "hachure",
@@ -285,7 +285,7 @@
       "groupIds": [],
       "roundness": null,
       "boundElements": [],
-      "updated": 1690724961118,
+      "updated": 1691117997312,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -296,12 +296,12 @@
       "containerId": null,
       "originalText": "Following",
       "lineHeight": 1.25,
-      "baseline": 17
+      "baseline": 18
     },
     {
       "type": "text",
-      "version": 10,
-      "versionNonce": 2014017514,
+      "version": 11,
+      "versionNonce": 1959237208,
       "isDeleted": false,
       "id": "0ZYz-durqvzxXrRQgQt7R",
       "fillStyle": "hachure",
@@ -320,7 +320,7 @@
       "groupIds": [],
       "roundness": null,
       "boundElements": [],
-      "updated": 1690724961118,
+      "updated": 1691117997312,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -331,7 +331,7 @@
       "containerId": null,
       "originalText": "Profile",
       "lineHeight": 1.25,
-      "baseline": 17
+      "baseline": 18
     },
     {
       "type": "text",
@@ -457,7 +457,7 @@
       "containerId": null,
       "originalText": "Username",
       "lineHeight": 1.15,
-      "baseline": 15
+      "baseline": 14
     },
     {
       "type": "text",
@@ -562,7 +562,7 @@
       "containerId": null,
       "originalText": "❤️#of likes🗨️#of comments Share #of shares",
       "lineHeight": 1.15,
-      "baseline": 15
+      "baseline": 14
     },
     {
       "type": "rectangle",
@@ -668,7 +668,7 @@
       "containerId": null,
       "originalText": "Image of\nfood",
       "lineHeight": 1.15,
-      "baseline": 33
+      "baseline": 32
     },
     {
       "type": "text",
@@ -703,7 +703,7 @@
       "containerId": null,
       "originalText": "recipe title / meal plan title / article title / whatever\n",
       "lineHeight": 1.15,
-      "baseline": 33
+      "baseline": 32
     },
     {
       "type": "text",
@@ -738,7 +738,7 @@
       "containerId": null,
       "originalText": "This should link to the meal plan",
       "lineHeight": 1.15,
-      "baseline": 15
+      "baseline": 14
     },
     {
       "type": "text",
@@ -773,7 +773,7 @@
       "containerId": null,
       "originalText": "Report",
       "lineHeight": 1.15,
-      "baseline": 15
+      "baseline": 14
     },
     {
       "type": "text",
@@ -808,7 +808,7 @@
       "containerId": null,
       "originalText": "Follow button",
       "lineHeight": 1.15,
-      "baseline": 15
+      "baseline": 14
     },
     {
       "type": "rectangle",
@@ -840,8 +840,8 @@
     },
     {
       "type": "text",
-      "version": 17,
-      "versionNonce": 2054673334,
+      "version": 18,
+      "versionNonce": 1306893096,
       "isDeleted": false,
       "id": "qZ-gCT_hsLHlvicx_uRGK",
       "fillStyle": "hachure",
@@ -860,7 +860,7 @@
       "groupIds": [],
       "roundness": null,
       "boundElements": [],
-      "updated": 1690724961122,
+      "updated": 1691117997316,
       "link": null,
       "locked": false,
       "fontSize": 16,
@@ -871,12 +871,12 @@
       "containerId": null,
       "originalText": "Settings",
       "lineHeight": 1.25,
-      "baseline": 13
+      "baseline": 14
     },
     {
       "type": "text",
-      "version": 235,
-      "versionNonce": 1751706282,
+      "version": 236,
+      "versionNonce": 556993368,
       "isDeleted": false,
       "id": "E61rTjERukXm--skC552C",
       "fillStyle": "hachure",
@@ -895,7 +895,7 @@
       "groupIds": [],
       "roundness": null,
       "boundElements": [],
-      "updated": 1690724961124,
+      "updated": 1691117997317,
       "link": null,
       "locked": false,
       "fontSize": 45.43908568110047,
@@ -906,12 +906,12 @@
       "containerId": null,
       "originalText": "Scrollable",
       "lineHeight": 1.25,
-      "baseline": 40
+      "baseline": 39
     },
     {
       "type": "text",
-      "version": 39,
-      "versionNonce": 1592782070,
+      "version": 40,
+      "versionNonce": 131593768,
       "isDeleted": false,
       "id": "bvpRL5eGhbRneukRvFOLp",
       "fillStyle": "hachure",
@@ -930,7 +930,7 @@
       "groupIds": [],
       "roundness": null,
       "boundElements": [],
-      "updated": 1690724961126,
+      "updated": 1691117997318,
       "link": null,
       "locked": false,
       "fontSize": 36,
@@ -941,12 +941,12 @@
       "containerId": null,
       "originalText": "General Feed proposal",
       "lineHeight": 1.25,
-      "baseline": 31
+      "baseline": 32
     },
     {
       "type": "text",
-      "version": 27,
-      "versionNonce": 973735274,
+      "version": 28,
+      "versionNonce": 2053627992,
       "isDeleted": false,
       "id": "erTOC3ju3PuHwXimdpIjc",
       "fillStyle": "hachure",
@@ -965,7 +965,7 @@
       "groupIds": [],
       "roundness": null,
       "boundElements": [],
-      "updated": 1690724961127,
+      "updated": 1691117997318,
       "link": null,
       "locked": false,
       "fontSize": 36,
@@ -976,7 +976,7 @@
       "containerId": null,
       "originalText": "Specific Post proposal",
       "lineHeight": 1.25,
-      "baseline": 31
+      "baseline": 32
     },
     {
       "type": "rectangle",
@@ -1117,7 +1117,7 @@
       "containerId": null,
       "originalText": "Username",
       "lineHeight": 1.15,
-      "baseline": 22
+      "baseline": 21
     },
     {
       "type": "text",
@@ -1293,7 +1293,7 @@
       "containerId": null,
       "originalText": "Image of\nfood",
       "lineHeight": 1.15,
-      "baseline": 33
+      "baseline": 32
     },
     {
       "type": "text",
@@ -1328,7 +1328,7 @@
       "containerId": null,
       "originalText": "recipe title / meal plan title / article title / whatever\n",
       "lineHeight": 1.15,
-      "baseline": 33
+      "baseline": 32
     },
     {
       "type": "text",
@@ -1363,7 +1363,7 @@
       "containerId": null,
       "originalText": "This should link to the meal plan",
       "lineHeight": 1.15,
-      "baseline": 15
+      "baseline": 14
     },
     {
       "type": "text",
@@ -1398,7 +1398,7 @@
       "containerId": null,
       "originalText": "Report",
       "lineHeight": 1.15,
-      "baseline": 15
+      "baseline": 14
     },
     {
       "type": "text",
@@ -1433,7 +1433,7 @@
       "containerId": null,
       "originalText": "Follow button",
       "lineHeight": 1.15,
-      "baseline": 15
+      "baseline": 14
     },
     {
       "type": "rectangle",
@@ -1535,7 +1535,7 @@
       "containerId": null,
       "originalText": "❤️#of likes🗨️#of comments Share #of shares",
       "lineHeight": 1.15,
-      "baseline": 15
+      "baseline": 14
     },
     {
       "type": "ellipse",
@@ -1598,7 +1598,7 @@
       "containerId": null,
       "originalText": "Username",
       "lineHeight": 1.15,
-      "baseline": 22
+      "baseline": 21
     },
     {
       "type": "text",
@@ -1633,7 +1633,7 @@
       "containerId": null,
       "originalText": "Follow button",
       "lineHeight": 1.15,
-      "baseline": 15
+      "baseline": 14
     },
     {
       "type": "rectangle",
@@ -1694,7 +1694,7 @@
       "containerId": null,
       "originalText": "Report",
       "lineHeight": 1.15,
-      "baseline": 15
+      "baseline": 14
     },
     {
       "type": "text",
@@ -1733,8 +1733,8 @@
     },
     {
       "type": "text",
-      "version": 67,
-      "versionNonce": 1200807478,
+      "version": 68,
+      "versionNonce": 684126504,
       "isDeleted": false,
       "id": "AvVOuaNSnmSJst25lBhgw",
       "fillStyle": "hachure",
@@ -1753,7 +1753,7 @@
       "groupIds": [],
       "roundness": null,
       "boundElements": [],
-      "updated": 1690724961131,
+      "updated": 1691117997322,
       "link": null,
       "locked": false,
       "fontSize": 36,
@@ -1764,12 +1764,12 @@
       "containerId": null,
       "originalText": "comment max length 200 characters",
       "lineHeight": 1.25,
-      "baseline": 31
+      "baseline": 32
     },
     {
       "type": "text",
-      "version": 18,
-      "versionNonce": 1446627370,
+      "version": 19,
+      "versionNonce": 1614419288,
       "isDeleted": false,
       "id": "9OOQXcoJE7DNjhVEF43lE",
       "fillStyle": "hachure",
@@ -1788,7 +1788,7 @@
       "groupIds": [],
       "roundness": null,
       "boundElements": [],
-      "updated": 1690724961132,
+      "updated": 1691117997323,
       "link": null,
       "locked": false,
       "fontSize": 16,
@@ -1799,7 +1799,7 @@
       "containerId": null,
       "originalText": "❤️ # of likes",
       "lineHeight": 1.25,
-      "baseline": 13
+      "baseline": 14
     },
     {
       "type": "rectangle",
@@ -1859,8 +1859,8 @@
     },
     {
       "type": "text",
-      "version": 22,
-      "versionNonce": 423995254,
+      "version": 23,
+      "versionNonce": 1746832424,
       "isDeleted": false,
       "id": "7tAvFjHzk5yuLEY41vi9t",
       "fillStyle": "hachure",
@@ -1879,7 +1879,7 @@
       "groupIds": [],
       "roundness": null,
       "boundElements": [],
-      "updated": 1690724961133,
+      "updated": 1691117997323,
       "link": null,
       "locked": false,
       "fontSize": 36,
@@ -1890,7 +1890,7 @@
       "containerId": null,
       "originalText": "And so on and so on",
       "lineHeight": 1.25,
-      "baseline": 31
+      "baseline": 32
     }
   ],
   "appState": {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import NavBar from "../../Components/NavBar";
 import { Input, Button } from 'antd';
 import anime from 'animejs/lib/anime.es.js';
 import '../../styles/Ai.css';
@@ -168,7 +167,7 @@ useEffect(() => {
 
   return (
     <div className='pb-5'>
-      <NavBar />
+
       <h1 className='text-6xl flex justify-center'>Let's Get Cookin'!</h1>
       <div className="flex justify-center mt-5 mb-5">
         <h3 className='text-2xl w-2/3 text-center'>Get ready to level up your culinary game with GrocRE's cutting-edge AI! Just toss in your wildest recipe idea or the ingredients you've got in your kitchen, and watch the magic happen - voilà!</h3>

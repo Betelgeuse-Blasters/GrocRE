@@ -61,7 +61,7 @@ export async function unsaveRecipe(req, res) {
 
 export async function getSavedRecipe(req, res) {
   try {
-    const saved = await model.getSavedRecipe(req.query.userid, req.query.recipeid)
+    const saved = await model.getSavedRecipe(req.userInfo.id, req.query.recipeid)
     res.send(saved)
   } catch (err) {
     console.log('error getting recipe: ', err)
@@ -92,9 +92,13 @@ export async function getMealPlans(req, res) {
 
 
 export async function postMeal(req,res) {
+  if(!req.userInfo.loggedIn) {
+    return res.sendStatus(300).json("Unable to complete request, Please log in")
+  }
   try {
-    const post = req.body
-    // const post = await model.postMeal(req.body)
+    // const post = req.body
+    const userid = req.userInfo.id
+    const post = await model.postMeal(userid,req.body)
     console.log(post)
   } catch (err) {
     console.log('error posting meal: ', err);

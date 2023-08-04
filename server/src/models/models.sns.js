@@ -7,7 +7,7 @@ export async function getAllPosts(count) {
     orderBy: [
       {
         likes: {
-          _count: 'asc'
+          _count: 'desc'
         }
       },
       {
@@ -147,20 +147,38 @@ export async function getMealPlans(userid) {
   })
  return mealids;
 }
-export async function postMeal(userid, meal) {
-  const{}= meal
-  const post = await db.post.create({
-    data:{
-      title,
-      summary:description,
-    }
-  })
-  console.log(post)
-//   const photoCall = await db.photo.createMany({
-//     data:[
-//       {
-//         url:url
-//       }
-//   ]
-//   })
+export async function postMeal(userId, meal) {
+  console.log(meal)
+  const{title, mealSelect, photos, description}= meal
+  if(photos.length > 0) {
+    return await db.post.create({
+      data:{
+        type:true,
+        userId,
+        title,
+        mealId:mealSelect,
+        summary:description,
+        photos:{
+          createMany:photos
+        }
+      },
+      select: {
+        id: true
+      }
+    });
+
+  } else {
+    return await db.post.create({
+      data:{
+        type:true,
+        userId,
+        title,
+        mealId:mealSelect,
+        summary:description,
+      },
+      select: {
+        id: true
+      }
+    });
+  }
 }

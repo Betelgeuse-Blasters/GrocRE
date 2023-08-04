@@ -2,8 +2,9 @@ import { Space } from "antd";
 import {useEffect, useState} from 'react';
 import SideBar from "./components/Sidebar";
 import PageContent from "./components/PageContent";
-import Footer from "./components/Footer";
+import"./styles/sns.css"
 import axios from "axios"
+
 export default function Sns() {
   const [meals, setMeals] = useState([]);
   const [mealplans, setMealPlans] = useState([]);
@@ -18,9 +19,14 @@ export default function Sns() {
 
   return (
     <div className="app">
-      <Space className="SideMenuAndMainContent">
-          <SideBar meals={meals} mealplans={mealplans}/>
-        <PageContent />
+      <Space style={{
+        display: "flex",
+        flex: "1",
+        justifyContent: "flex-start",
+        alignItems: "flex-start"
+      }}>
+        <SideBar meals={meals} mealplans={mealplans}/>
+        <PageContent meals={meals} style={{justifyContent: "center", display:"flex"}}/>
       </Space>
     </div>
   );

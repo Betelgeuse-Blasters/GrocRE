@@ -19,7 +19,7 @@ export default function SideBar({meals, mealplans}) {
   return (
     <div >
       <Menu
-        mode="inline text-lg"
+        mode="inline"
         onClick={(item) => {
           navigate(item.key);
         }}

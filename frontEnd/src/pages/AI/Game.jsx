@@ -5,9 +5,10 @@ import anime from 'animejs/lib/anime.es.js';
 import './game.css';
 import confetti from 'canvas-confetti';
 
-const Game = () => {
+const Game = ({setStarted, started}) => {
   const [isFalling, setIsFalling] = useState(false);
   const [score, setScore] = useState(0);
+  const [showWinningText, setShowWinningText] = useState(true);
 
   // --- Start Egg Boy ---
   const [position, setPosition] = useState(0);
@@ -34,7 +35,25 @@ const Game = () => {
       window.removeEventListener('keydown', handleEggMove);
     };
   }, [position]);
+  const handleMouseMove = (e) => {
+    const screenWidth = window.innerWidth;
+    const eggboyWidth = eggboyRef.current.clientWidth;
 
+    const newPosition = e.clientX - eggboyWidth / 2;
+
+    if (newPosition >= 0 - eggboyWidth / 2 && newPosition <= screenWidth - eggboyWidth) {
+      setPosition(newPosition);
+    }
+  };
+
+  useEffect(() => {
+    if (started) {
+      window.addEventListener('mousemove', handleMouseMove);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [started]);
   useEffect(() => {
     anime({
       targets: eggboyRef.current,
@@ -48,6 +67,11 @@ const Game = () => {
   const startFalling = () => {
     setIsFalling(true);
   };
+  useEffect(() => {
+    if (started) {
+      startFalling();
+    }
+  }, [started]);
 
   useEffect(() => {
     if (isFalling) {
@@ -141,7 +165,7 @@ const Game = () => {
   }
 
   if (score === 15) {
-    let duration = 15 * 1000;
+    let duration = 1 * 1000;
     let animationEnd = Date.now() + duration;
     let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
@@ -152,18 +176,26 @@ const Game = () => {
         return clearInterval(interval);
       }
 
-      let particleCount = 50 * (timeLeft / duration);
+      let particleCount = 20 * (timeLeft / duration);
       // since particles fall down, start a bit higher than random
       confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
       confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-    }, 250);
+    }, 500);
+
   }
 
   return (
     <div>
-      {score === 15 ? (
+      {score === 15 && showWinningText ? (
         <div>
-          <div className='text-center rounded-lg border border-4 border-rose-500/50 bg-[#FFFFFF]/50 text-[#000000] text-6xl w-1/4 absolute bottom-1/2 left-1/3 z-index-9999 fixed py-5 shadow-xl shadow-blue-500/50'> MAMA MIA, ITSA WINNER!🎉
+          <div className='text-center rounded-lg border border-4 border-rose-500/50 bg-[#FFFFFF]/50 text-[#000000] text-6xl w-1/4 absolute bottom-1/2 left-1/3 z-index-9999 fixed py-5 shadow-xl shadow-blue-500/50'
+          onClick={() => {
+            setShowWinningText(false);
+             setScore(0)
+            }
+          }
+          >
+          MAMA MIA, ITSA WINNER!🎉
           </div>
         </div>
       ) : (
@@ -171,14 +203,14 @@ const Game = () => {
       )
       }
       <div className='h-[60vh] flex items-end'>
-        <img id='eggboy' ref={eggboyRef} src='eggboy.png' className='h-1/2 mt-16' style={{ position: 'relative' }} />
+        <img id='eggboy' ref={eggboyRef} src='/eggboy.png' className='h-1/2 mt-16' style={{ position: 'relative' }} />
       </div>
       <div className='mt-10 flex flex-row'>
         <div id='foods' ref={foodsRef}></div>
         <Button
           icon={<PlayCircleOutlined />}
           className='bg-[#FFFFFF]/50 ml-24 text-3xl h-fit w-fit flex items-center font-medium border-slate-400'
-          onClick={startFalling}
+          onClick={()=> setStarted(true)}
         >
           Start
         </Button>

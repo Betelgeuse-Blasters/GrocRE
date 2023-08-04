@@ -19,6 +19,7 @@ class Model {
     if (userId) where.userId = userId;
     if (mealPlanId) where.id = mealPlanId;
     const config = { where: where, include: { recipes: true } };
+    console.log(config);
 
     return db.MealPlan.findMany(config)
       .then((response) => response)
@@ -54,11 +55,11 @@ class Model {
       })
   }
 
-  async delete({userId, mealPlanId}) {
+  async delete(userId, mealPlanId) {
     const config = {
       where: { userId: userId, id: mealPlanId }
     };
-
+    console.log('delete condig', config)
     return db.MealPlan.delete(config)
       .then((response) => response)
       .catch((err) => {

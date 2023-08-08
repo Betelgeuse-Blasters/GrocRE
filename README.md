@@ -16,17 +16,17 @@ In a one-week sprint, our team delivered an MVP for our client, Hugh Jappetite. 
 GrocRE provides a web based platform for users to prompt for a any sort of dish they want.  Our custom API call returns a recipe, nutrition facts, and all of the ingredients needed for that dish.  Then they can save their recipes in Meal Plans, share them to a social feed, and interact with those posts.
 
 # Tech Stack
-React.js
-Node.js
-PostgreSQL
-Prisma
-VITE
-Express.js
-Anime.js
-tailwindcss
-AntD
-OpenAI
-Axios
+React.js  
+Node.js  
+PostgreSQL  
+Prisma  
+VITE  
+Express.js  
+Anime.js  
+tailwindcss  
+AntD  
+OpenAI  
+Axios  
 
 # Technical Challenges and Research
 Our main challenge was integrating various technologies in our stack to deliver a coherent, user-friendly application.  One particular challenge was making efficient OpenAI API calls to retrieve recipe and nutritional data, and rendering this information effectively on the front-end.  Tieing together the backend and relating the data in a logical fashion took a lot of planning to allow everyone to work on their individual components.
@@ -57,18 +57,18 @@ To further ensure consistent meal data, we will look into fine-tuning a model wi
 
 # Roles
 
-Kayla Loizzo - Project Manager / AI Page
-Mike Gamba - Architecture / Meal Editing
-Kevin Glidden - UI/UX / Meal Editing
-Liam McEneaney - AI Page
-Kiel Fuller - Social Page
-Simon Kim - Social Page
+Kayla Loizzo - Project Manager / AI Page  
+Mike Gamba - Architecture / Meal Editing  
+Kevin Glidden - UI/UX / Meal Editing  
+Liam McEneaney - AI Page  
+Kiel Fuller - Social Page  
+Simon Kim - Social Page  
 
 
 ## Setup
 
-npm install  in the frontend
-npm install  in the server
+npm install  in the frontend  
+npm install  in the server  
 
 Clone to local machine
 ```sh

@@ -1,6 +1,8 @@
 {
   "name": "grocre",
   "private": true,
+  "description": "",
+  "author": "Mike Gamba, Kevin Glidden, Kayla Lizzo, Jung Hoan Kim, Liam McEneaney, Kiel Fuller",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

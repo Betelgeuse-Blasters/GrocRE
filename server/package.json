@@ -1,10 +1,10 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Something",
+  "description": "",
+  "author": "Mike Gamba, Kevin Glidden, Kayla Lizzo, Jung Hoan Kim, Liam McEneaney, Kiel Fuller",
   "main": "index.js",
   "type": "module",
-  "author": "",
   "license": "ISC",
   "scripts": {
     "nodemon": "nodemon ./src/index",

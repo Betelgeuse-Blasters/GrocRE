@@ -2,12 +2,12 @@
 Cool Graphic
 
 # Contributors
-Kayla Loizzo
-Kevin Glidden
-Kiel Fuller
-Liam McEneaney
-Mike Gamba
-Simon Kim
+Kayla Loizzo  
+Kevin Glidden  
+Kiel Fuller  
+Liam McEneaney  
+Mike Gamba  
+Simon Kim  
 
 In a one-week sprint, our team delivered an MVP for our client, Hugh Jappetite. This intense period of collaboration, learning, and problem-solving resulted in a product that we're proud to showcase.
 

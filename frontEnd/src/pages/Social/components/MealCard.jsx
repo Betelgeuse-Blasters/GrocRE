@@ -11,12 +11,13 @@ import { faker } from "@faker-js/faker";
 import VirtualList from "rc-virtual-list";
 import API from '../../../Helper/API.js';
 import axios from 'axios';
+import NutritionFacts from '../../AI/NutritionFacts.jsx';
 
 const { Meta } = Card;
 export const Cheesieburger =
   "https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg";
 
-export default function MealCard({ saved, setSaved, isSavedMeal, user, post }) {
+export default function MealCard({isSavedMeal, user, post, setMeals }) {
   const postTitle = `${post.title} by ${post.username}`;
   const [heartColor, setHeartColor] = useState("white");
   const [color, setColor] = useState("grey");
@@ -30,6 +31,7 @@ export default function MealCard({ saved, setSaved, isSavedMeal, user, post }) {
   const [userDisliked, setUserDisliked] = useState(false);
   const [likes, setLikes] = useState([]);
   const [dislikes, setDislikes] = useState([]);
+  const [saved, setSaved] = useState(false);
   const heartProps = {
     onMouseEnter: () => {
       onHover(true, "heart");
@@ -50,7 +52,9 @@ export default function MealCard({ saved, setSaved, isSavedMeal, user, post }) {
 
 
   const containerHeight = 400;
+  console.log(post.title, saved, post.mealId)
   useEffect(() => {
+    setSaved(false);
     appendData();
     for (let item in post.meal.nutritionFacts) {
       setNutrition((nutrition) => [
@@ -73,8 +77,9 @@ export default function MealCard({ saved, setSaved, isSavedMeal, user, post }) {
         setDislikes(response.data.dislikes);
       });
       API.GET_SNS_SAVE(post.mealId).then((response) => {
-        console.log('response data: ', response.data)
-        if (response.data) {
+        console.log(post.mealId + ' response data: ', response.data)
+        if (typeof response.data === 'object') {
+          console.log(post.mealId, post.title, ' setting to true')
           setSaved(true);
         }
       })
@@ -199,6 +204,8 @@ export default function MealCard({ saved, setSaved, isSavedMeal, user, post }) {
     ];
   }
 
+
+
   function appendData() {
     let newComments = [];
     for (let i = 0; i < 5; i++) {
@@ -223,11 +230,19 @@ export default function MealCard({ saved, setSaved, isSavedMeal, user, post }) {
       axios.put(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/save?&recipeid=${post.mealId}`, {withCredentials: true}).then(() => {
         message.success(`${post.title} added to Saved Meals`, messageTime);
         setSaved(!saved);
+      }).then(() => {
+        API.GET_SNS_MEALS().then((response) => {
+          setMeals(response.data);
+        })
       })
     } else {
       axios.delete(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/save?&recipeid=${post.mealId}`, {withCredentials: true}).then(() => {
         message.success(`${post.title} removed from Saved Meals`, messageTime);
         setSaved(!saved);
+      }).then(() => {
+        API.GET_SNS_MEALS().then((response) => {
+          setMeals(response.data);
+        })
       })
     }
 
@@ -315,15 +330,7 @@ export default function MealCard({ saved, setSaved, isSavedMeal, user, post }) {
               key: "1",
               label: "Nutritional Info",
               children: (
-                <List
-                  dataSource={nutrition}
-                  split={false}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <p>{item}</p>
-                    </List.Item>
-                  )}
-                ></List>
+                <NutritionFacts style={{height: '50%', width: '50%'}} meal={post.meal}/>
               ),
             },
             {

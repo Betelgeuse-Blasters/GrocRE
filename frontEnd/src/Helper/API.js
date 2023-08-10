@@ -54,6 +54,10 @@ let GET_SNS_SAVE = (mealId) => {
     return axios.get(`${baseUrl}/sns/save?recipeid=${mealId}`);
 };
 
+let GET_SNS_MEALS = () => {
+    return axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/meals`)
+}
+
 
 export default {
     GET_USER_INFO,
@@ -67,5 +71,6 @@ export default {
     GET_SNS,
     POST_SNS,
     GET_SNS_LIKES,
-    GET_SNS_SAVE
+    GET_SNS_SAVE,
+    GET_SNS_MEALS
 }

@@ -8,6 +8,7 @@ export default function SideBar({meals, mealplans}) {
   const [mealNames, setMealNames] = useState([])
   const [planNames, setPlanNames] = useState([]);
   useEffect(() => {
+    setMealNames([]);
     meals.map((meal, i) => {
       setMealNames((mealNames) => [...mealNames, {key: i, label: meal.recipeName}])
     })
@@ -15,6 +16,7 @@ export default function SideBar({meals, mealplans}) {
       setPlanNames((planNames) => [...planNames, {key: j, label: plan.name}])
     })
   },[meals, mealplans])
+  console.log('SAVED MEALS IN SIDEBAR: ', meals)
   return (
     <div >
       <Menu

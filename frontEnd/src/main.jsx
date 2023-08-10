@@ -6,7 +6,6 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import "./main.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
     <Auth0Provider
       domain="dev-f0xoepuyu2bnmb4k.us.auth0.com"
       clientId="dtyhDePMgfwbcEHl7IsbF85gOJctfaqj"
@@ -21,5 +20,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <App />
       </BrowserRouter>
     </Auth0Provider>
-  </React.StrictMode>
 );

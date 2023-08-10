@@ -5,7 +5,7 @@ import {useState} from 'react';
 import NewPostModal from './NewPostModal.jsx';
 import API from '../../../Helper/API.js';
 
-export default function PageContent({saved, setSaved, meals}) {
+export default function PageContent({meals, setMeals}) {
   const [open, setOpen] = useState(false)
 
   function handleOpen() {
@@ -29,7 +29,7 @@ export default function PageContent({saved, setSaved, meals}) {
 
   return (
     <div>
-      <Feed saved={saved} setSaved={setSaved}/>
+      <Feed setMeals={setMeals}/>
       <FloatButton icon={<PlusOutlined />}onClick={handleOpen}/>
       <Modal title='New Post Form' open={open} footer={null} onCancel={handleCancel}>
         <NewPostModal meals={meals} onOk={handleOk} />

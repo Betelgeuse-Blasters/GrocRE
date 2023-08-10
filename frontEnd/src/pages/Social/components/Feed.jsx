@@ -5,7 +5,7 @@ import {  Divider, List, Skeleton } from 'antd';
 import UserContext from '../../../Context/User.js';
 import API from '../../../Helper/API.js';
 
-export default function Feed({saved, setSaved}) {
+export default function Feed({setMeals}) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(true)
@@ -42,10 +42,15 @@ export default function Feed({saved, setSaved}) {
       scrollableTarget="scrollableDiv"
     >
       <List
+        style={{overflowX: 'hidden'}}
+        grid={{
+          gutter: 16,
+          column: 3,
+        }}
         dataSource={posts}
         renderItem={(item) => (
           <List.Item key={item.id}>
-            <MealCard saved={saved} setSaved={setSaved} isSavedMeal={false} user={user} post={item}/>
+            <MealCard isSavedMeal={false} user={user} post={item} setMeals={setMeals}/>
           </List.Item>
         )}
       >

@@ -8,7 +8,6 @@ import axios from "axios"
 export default function Sns() {
   const [meals, setMeals] = useState([]);
   const [mealplans, setMealPlans] = useState([]);
-  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/meals`).then((response) => {
@@ -27,8 +26,8 @@ export default function Sns() {
         justifyContent: "flex-start",
         alignItems: "flex-start"
       }}>
-        <SideBar meals={meals} mealplans={mealplans} saved={saved}/>
-        <PageContent saved={saved} setSaved={setSaved} meals={meals} style={{justifyContent: "center", display:"flex"}}/>
+        <SideBar meals={meals} mealplans={mealplans} />
+        <PageContent meals={meals} setMeals={setMeals}style={{justifyContent: "center", display:"flex"}}/>
       </Space>
     </div>
   );

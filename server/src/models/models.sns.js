@@ -15,7 +15,7 @@ export async function getAllPosts(count) {
       }
     ],
     skip: count,
-    take: 5
+    take: 6
   });
 }
 
@@ -98,6 +98,7 @@ export async function unsaveRecipe(userid, recipeid) {
   userid = Number(userid)
   recipeid = Number(recipeid)
  const result = await getSavedRecipe(userid, recipeid)
+ console.log('RESULT: ', result)
  await db.userSavedMeals.delete({
     where: {
       id: result.id

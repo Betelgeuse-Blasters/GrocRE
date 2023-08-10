@@ -42,6 +42,10 @@ export default function Feed({setMeals}) {
       scrollableTarget="scrollableDiv"
     >
       <List
+        grid={{
+          gutter: 16,
+          column: 3,
+        }}
         dataSource={posts}
         renderItem={(item) => (
           <List.Item key={item.id}>

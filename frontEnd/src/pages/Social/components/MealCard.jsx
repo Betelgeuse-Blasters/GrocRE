@@ -325,6 +325,7 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
         )}
 
         <Collapse
+          size='small'
           items={[
             {
               key: "1",
@@ -338,7 +339,8 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
               label: "Ingredients",
               children: (
                 <List
-                  dataSource={ingredients}
+                size='small'
+                dataSource={ingredients}
                   split={false}
                   renderItem={(item) => (
                     <List.Item>
@@ -353,6 +355,7 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
               label: "Recipe/Steps",
               children: (
                 <List
+                  size='small'
                   dataSource={steps}
                   split={false}
                   renderItem={(item) => (

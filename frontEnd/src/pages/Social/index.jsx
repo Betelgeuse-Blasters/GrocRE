@@ -8,11 +8,13 @@ import axios from "axios"
 export default function Sns() {
   const [meals, setMeals] = useState([]);
   const [mealplans, setMealPlans] = useState([]);
+  const [saved, setSaved] = useState(false);
+
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/meals?userid=${1}`).then((response) => {
+    axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/meals`).then((response) => {
       setMeals(response.data)
     })
-    axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/mealplans?userid=${1}`).then((response) => {
+    axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/mealplans`).then((response) => {
       setMealPlans(response.data)
     })
   },[])
@@ -25,8 +27,8 @@ export default function Sns() {
         justifyContent: "flex-start",
         alignItems: "flex-start"
       }}>
-        <SideBar meals={meals} mealplans={mealplans}/>
-        <PageContent meals={meals} style={{justifyContent: "center", display:"flex"}}/>
+        <SideBar meals={meals} mealplans={mealplans} saved={saved}/>
+        <PageContent saved={saved} setSaved={setSaved} meals={meals} style={{justifyContent: "center", display:"flex"}}/>
       </Space>
     </div>
   );

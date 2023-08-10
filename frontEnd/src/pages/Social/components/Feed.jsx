@@ -1,16 +1,15 @@
 import {useEffect, useState, useContext} from 'react';
 import MealCard from './MealCard.jsx';
-import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {  Divider, List, Skeleton } from 'antd';
 import UserContext from '../../../Context/User.js';
+import API from '../../../Helper/API.js';
 
-export default function Feed() {
+export default function Feed({saved, setSaved}) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(true)
   const [user, setUser] = useContext(UserContext);
-
   useEffect(() => {
     loadMorePosts();
   },[])
@@ -19,7 +18,8 @@ export default function Feed() {
     if (loading) {
       return
     }
-    axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/posts?count=${posts.length}`, {withCredentials: true}).then((response) => {
+
+    API.GET_SNS(posts.length).then((response) => {
       if (!response.data.length) {
         setDone(false)
       } else {
@@ -45,7 +45,7 @@ export default function Feed() {
         dataSource={posts}
         renderItem={(item) => (
           <List.Item key={item.id}>
-            <MealCard isSavedMeal={false} user={user} post={item}/>
+            <MealCard saved={saved} setSaved={setSaved} isSavedMeal={false} user={user} post={item}/>
           </List.Item>
         )}
       >

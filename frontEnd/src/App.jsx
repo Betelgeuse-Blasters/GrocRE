@@ -6,10 +6,10 @@ import MealPlan from "./pages/MealPlans";
 import Ai from "./pages/AI/Ai";
 import Sns from "./pages/Social";
 import Meal from "./pages/Meal/Meal.jsx"
-import axios from "axios";
 import Profile from "./pages/Profile/Profile";
 import NavBar from "./Components/NavBar.jsx"
 import Footer from "./Components/Footer";
+import API from './Helper/API.js';
 
 import "./main.css";
 var testData = {
@@ -58,10 +58,7 @@ export default function App() {
     //Hey does this session match any users?
     // if it does, give me that users id, user name, etc
     //
-    axios
-      .get("http://localhost:3000/editor/api/login", {
-        withCredentials: true,
-      })
+    API.GET_USER_INFO()
       .then((response) => {
         setUser({ ...response.data });
       })

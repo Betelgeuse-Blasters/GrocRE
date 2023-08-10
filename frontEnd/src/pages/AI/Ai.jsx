@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import axios from 'axios';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { Input, Button } from 'antd';
+import API from '../../Helper/API.js';
 import anime from 'animejs/lib/anime.es.js';
 import '../../styles/Ai.css';
 import { StarOutlined, StarFilled } from '@ant-design/icons';
@@ -8,7 +8,6 @@ import NutritionFacts from './NutritionFacts';
 import Game from './Game';
 import UserContext from '../../Context/User.js'
 export default function Ai() {
-const API_URL = import.meta.env.VITE_API_URL;
   const [user] = useContext(UserContext)
   const audioRef = useRef(new Audio('/meatTheme.mp3'))
   audioRef.current.loop = true;
@@ -26,7 +25,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
   const handleSaveRecipe = async () => {
     try {
-      await axios.post(`${API_URL}/ai/likeRecipe`, { recipeId: mealID, userId: user.id});
+      await API.RECIPE_SAVE({ recipeId: mealID, userId: user.id});
       // Handle success - e.g., show a success message or update state
     } catch (err) {
       console.log('ERROR HANDLING SAVE RECIPE')
@@ -35,9 +34,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
   const handleUnsaveRecipe = async () => {
     try {
-      await axios.post(`${API_URL}/ai/unlikeRecipe`, { recipeId: mealID, userId: user.id});
-      console.log('UNSAVED FROM RECIPE')
-
+      await API.RECIPE_UNSAVE({ recipeId: mealID, userId: user.id});
     } catch (err) {
       console.log('ERROR HANDLING SAVE RECIPE')
     }
@@ -148,11 +145,10 @@ useEffect(() => {
       // setTimeout(() => {
       //   setLoading(false);
       // }, 10000);
-      const response = await axios.post('http://localhost:3000/ai/getRecipe', {
+      const response = await API.RECIPE_GET({
         meal: inputValue,
         creatorId: user.id,
       });
-      console.log('can i get uhhhhhhhh', response.data.recipe);
       setMeal(response.data.recipe);
       setMealID(response.data.mealID)
     } catch (error) {

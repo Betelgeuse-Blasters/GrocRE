@@ -42,6 +42,7 @@ export default function Feed({setMeals}) {
       scrollableTarget="scrollableDiv"
     >
       <List
+        style={{overflowX: 'hidden'}}
         grid={{
           gutter: 16,
           column: 3,

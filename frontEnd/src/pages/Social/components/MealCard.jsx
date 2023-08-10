@@ -308,7 +308,7 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
   return (
     <div>
       <Card
-        style={{ width: 400,  margin: "15px" }}
+        style={{ minHeight: 575, width: 400,  margin: "15px" }}
         cover={<Image style={{height: 250}} fallback={Cheesieburger} />}
         actions={action}
         hoverable

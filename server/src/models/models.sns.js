@@ -15,7 +15,7 @@ export async function getAllPosts(count) {
       }
     ],
     skip: count,
-    take: 5
+    take: 6
   });
 }
 

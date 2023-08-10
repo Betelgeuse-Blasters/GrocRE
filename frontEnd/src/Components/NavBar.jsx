@@ -50,7 +50,8 @@ export default function NavBar() {
     {
       label: user.loggedIn ? <LogoutButton logout={logout}/> : <LoginButton onClick={showModal} />,
       key: "login",
-    },
+    }
+
   ];
   const handleLogin = () => {
 

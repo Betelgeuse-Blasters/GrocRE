@@ -7,6 +7,10 @@ import { StarOutlined, StarFilled } from '@ant-design/icons';
 import NutritionFacts from './NutritionFacts';
 import Game from './Game';
 import UserContext from '../../Context/User.js'
+import { Link } from "react-router-dom";
+import FractionFactory from '../../Helper/FractionFactory.js';
+import RecentMeals from './RecentMeals'
+
 export default function Ai() {
   const [user] = useContext(UserContext)
   const audioRef = useRef(new Audio('/meatTheme.mp3'))
@@ -18,14 +22,14 @@ export default function Ai() {
   const meatballLoadRef = useRef(null);
   const [isHover, setIsHover] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(false);
   const [meatballSize, setMeatballSize] = useState(1)
   const meatballSizeRef = useRef(meatballSize);
   const audioTimeRef = useRef(0);
 
   const handleSaveRecipe = async () => {
     try {
-      await API.RECIPE_SAVE({ recipeId: mealID, userId: user.id});
+      await API.RECIPE_SAVE({ recipeId: mealID, userId: user.id });
       // Handle success - e.g., show a success message or update state
     } catch (err) {
       console.log('ERROR HANDLING SAVE RECIPE')
@@ -34,7 +38,7 @@ export default function Ai() {
 
   const handleUnsaveRecipe = async () => {
     try {
-      await API.RECIPE_UNSAVE({ recipeId: mealID, userId: user.id});
+      await API.RECIPE_UNSAVE({ recipeId: mealID, userId: user.id });
     } catch (err) {
       console.log('ERROR HANDLING SAVE RECIPE')
     }
@@ -50,28 +54,12 @@ export default function Ai() {
 
   const handleStarClick = () => {
     setIsFilled(!isFilled);
-    if(!isFilled) {
+    if (!isFilled) {
       handleSaveRecipe();
     } else {
       handleUnsaveRecipe();
     }
-
   }
-
-  // useEffect(() => {
-
-
-  //   if (isFilled) {
-
-  //     handleSaveRecipe();
-
-
-  //   } else {
-  //     // delete from favorites database
-  //     handleUnsaveRecipe();
-
-  //   }
-  // }, [isFilled]);
 
   const prompts = [
     'Mountain Dew Based Meal', 'A Kiel meal', 'Potato salad from Spongebob', 'The meatball man is coming', 'Have you looked at your bank account lately?', 'vegan kosher hotdog'
@@ -99,44 +87,43 @@ export default function Ai() {
     meatballSizeRef.current = meatballSize;
     let animation;
     if (loading) {
-    const startingSize = meatballSizeRef.current;
-    const remainingDuration = 80000
+      const startingSize = meatballSizeRef.current;
+      const remainingDuration = 80000
 
-    animation = anime({
-      targets: meatballLoadRef.current,
-      scale: [startingSize, 50],
-      easing: 'linear',
-      duration: remainingDuration,
-      update: (anim) => {
-        const newSize = startingSize + (49 - startingSize) * anim.progress / 100;
-        meatballSizeRef.current = newSize;
-        setMeatballSize(newSize);
-        console.log('MEATBALL SIZE', meatballSizeRef.current)
-      },
-    })
-  }
-  return () => {
-    if(animation) {
-    animation.pause();
+      animation = anime({
+        targets: meatballLoadRef.current,
+        scale: [startingSize, 50],
+        easing: 'linear',
+        duration: remainingDuration,
+        update: (anim) => {
+          const newSize = startingSize + (49 - startingSize) * anim.progress / 100;
+          meatballSizeRef.current = newSize;
+          setMeatballSize(newSize);
+        },
+      })
     }
-  };
+    return () => {
+      if (animation) {
+        animation.pause();
+      }
+    };
   }, [loading]);
-//meatball man theme useEffect which pauses when loading stops
-useEffect(() => {
-  if (!loading) {
-    audioTimeRef.current = audioRef.current.currentTime; // store the current time position
-    audioRef.current.pause(); // pause the audio when loading is complete
-  }else {
-    audioRef.current.currentTime = audioTimeRef.current; // resume from the last position
-    audioRef.current.play();
-  }
+  //meatball man theme useEffect which pauses when loading stops
+  useEffect(() => {
+    if (!loading) {
+      audioTimeRef.current = audioRef.current.currentTime; // store the current time position
+      audioRef.current.pause(); // pause the audio when loading is complete
+    } else {
+      audioRef.current.currentTime = audioTimeRef.current; // resume from the last position
+      audioRef.current.play();
+    }
 
-}, [loading]);
+  }, [loading]);
 
   const handleSearch = async () => {
 
     try {
-      if  (inputValue === '') {
+      if (inputValue === '') {
         alert('put a meal in why dontcha')
         return
       }
@@ -162,45 +149,6 @@ useEffect(() => {
     setInputValue(e.target.value)
   };
 
-  const fractionFactory = (decimal) => {
-    if (decimal % 1 === 0 || Math.floor(decimal) === isNaN) {
-      return decimal;
-    }
-
-    const gcd = (a, b) => {
-      a = parseFloat(a);
-      b = parseFloat(b);
-      if (isNaN(a) || isNaN(b)) {
-        console.warn('Both a and b must be numeric values.');
-        return decimal;
-      }
-      if (a === 0) {
-        return b;
-      } else if (b === 0) {
-        return a;
-      } else if (a < b) {
-        return gcd(a, b % a);
-      } else {
-        return gcd(b, a % b);
-      }
-    };
-
-    let letVal = Math.floor(decimal);
-    let fVal = decimal - letVal;
-    let pVal = 1000000000;
-    let gcdVal = gcd(Math.round(fVal * pVal), pVal);
-    let num = Math.round(fVal * pVal) / gcdVal;
-    let deno = pVal / gcdVal;
-
-    if (num > deno) {
-      let mixedVal = Math.floor(num / deno);
-      num = num % deno;
-      return `${letVal ? `${letVal} ` : ''}${mixedVal} ${num}/${deno}`;
-    } else {
-      return `${letVal ? `${letVal} ` : ''}${num}/${deno}`;
-    }
-  };
-
   return (
     <div className='pb-5'>
       <h1 className='text-6xl font-cairo flex justify-center'>Let's Get Cookin'!</h1>
@@ -214,8 +162,13 @@ useEffect(() => {
         ></Input>
         <Button onClick={handleSearch} className='text-xl h-fit w-fit'>Submit</Button>
       </div>
-      {loading ? <div className='flex justify-center' ref={meatballLoadRef}>
-        <img src='/meatball.png' className='w-10 h-10' />
+      {loading ?
+      <div className ="flex justify-center">
+        <div className="relative w-24 h-24">
+          <div className='absolute inset-0 flex items-center justify-center' ref={meatballLoadRef}>
+            <img src='/meatball.png' className='w-10 h-10' />
+          </div>
+        </div>
       </div> : null}
       {meal ? (
         <div className=''>
@@ -238,7 +191,7 @@ useEffect(() => {
             <div className='flex flex-row ml-5'>
               <div className='flex flex-col w-1/3 relative shadow-xl rounded mr-16 ml-5'>
                 <img
-                  src="https://bolt-gcdn.sc-cdn.net/3/iAgMd936GPdlxahIYCPlt?bo=EhgaABoAMgF9OgEEQgYI_bOh9AVIAlASYAE%3D&uc=18"
+                  src="/secretEgg.png"
                   className='w-fit self-center'
                 />
                 <div className='mt-5 flex flex-col'>
@@ -254,7 +207,7 @@ useEffect(() => {
                   <h1 className='text-4xl font-medium text-center mb-3'>ingredients: </h1>
                   <ul className='text-xl ml-5 mb-5'>
                     {meal.ingredients.map((item, index) => (
-                      <li className='list-disc ml-5 mb-3' key={index}>{fractionFactory(item[0])} {item[1]} {item[2]}</li>
+                      <li className='list-disc ml-5 mb-3' key={index}>{FractionFactory(item[0])} {item[1]} {item[2]}</li>
                     ))}
                   </ul>
                 </div>
@@ -277,6 +230,10 @@ useEffect(() => {
             <div className='w-3/4 text-start'>
               <span key={promptIndex} style={{ animation: 'fadeInOut 8s infinite' }}> {promptIdeas}</span>
             </div>
+          </div>
+          <div className='p-12'>
+            <strong className='flex justify-center text-2xl pb-8'>TRY SOME RECENTLY GENERATED MEALS MMMMMMMMM</strong>
+          <RecentMeals></RecentMeals>
           </div>
           <Game started={started} setStarted={setStarted}/>
         </div>

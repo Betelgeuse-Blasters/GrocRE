@@ -5,7 +5,7 @@ import anime from 'animejs/lib/anime.es.js';
 import './game.css';
 import confetti from 'canvas-confetti';
 
-const Game = ({setStarted, started}) => {
+const Game = ({ setStarted, started }) => {
   const [isFalling, setIsFalling] = useState(false);
   const [score, setScore] = useState(0);
   const [showWinningText, setShowWinningText] = useState(true);
@@ -189,38 +189,42 @@ const Game = ({setStarted, started}) => {
       {score === 15 && showWinningText ? (
         <div>
           <div className='text-center rounded-lg border border-4 border-rose-500/50 bg-[#FFFFFF]/50 text-[#000000] text-6xl w-1/4 absolute bottom-1/2 left-1/3 z-index-9999 fixed py-5 shadow-xl shadow-blue-500/50'
-          onClick={() => {
-            setShowWinningText(false);
-             setScore(0)
+            onClick={() => {
+              setShowWinningText(false);
+              setScore(0)
             }
-          }
+            }
           >
-          MAMA MIA, ITSA WINNER!🎉
+            MAMA MIA, ITSA WINNER!🎉
           </div>
         </div>
       ) : (
         null
       )
       }
-      <div className='h-[60vh] flex items-end'>
-        <img id='eggboy' ref={eggboyRef} src='/eggboy.png' className='h-1/2 mt-16' style={{ position: 'relative' }} />
-      </div>
-      <div className='mt-10 flex flex-row'>
+      <div>
         <div id='foods' ref={foodsRef}></div>
-        <Button
-          icon={<PlayCircleOutlined />}
-          className='bg-[#FFFFFF]/50 ml-24 text-3xl h-fit w-fit flex items-center font-medium border-slate-400'
-          onClick={()=> setStarted(true)}
-        >
-          Start
-        </Button>
-        <div className='flex justify-end w-full'>
-          <div className='border border-3 border-slate-400 flex items-center justify-end mr-24 text-3xl bg-[#FFFFFF]/50 rounded-md pl-3 pr-3'>
-            {score}/15
+        <div className='bottom-0 left-0 w-full z-10'>
+          <div className='h-[25vh] flex items-end'>
+            <img id='eggboy' ref={eggboyRef} src='/eggboy.png' className='h-4/5' style={{ position: 'relative' }} />
+          </div>
+          <div className='mt-10 flex flex-row'>
+            <Button
+              icon={<PlayCircleOutlined />}
+              className='bg-[#FFFFFF]/50 ml-24 text-3xl h-fit w-fit flex items-center font-medium border-slate-400'
+              onClick={() => setStarted(true)}
+            >
+              Start
+            </Button>
+            <div className='flex justify-end w-full'>
+              <div className='border border-3 border-slate-400 flex items-center justify-end mr-24 text-3xl bg-[#FFFFFF]/50 rounded-md pl-3 pr-3'>
+                {score}/15
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

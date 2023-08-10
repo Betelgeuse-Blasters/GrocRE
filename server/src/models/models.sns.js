@@ -81,6 +81,7 @@ export async function getLikes(postid, boolean) {
 export async function saveRecipe(userid, recipeid) {
   userid = Number(userid)
   recipeid = Number(recipeid)
+
   const exists = await getSavedRecipe(userid, recipeid)
   if (!exists) {
     await db.userSavedMeals.create({
@@ -94,11 +95,10 @@ export async function saveRecipe(userid, recipeid) {
 }
 
 export async function unsaveRecipe(userid, recipeid) {
-  console.log('im running')
   userid = Number(userid)
   recipeid = Number(recipeid)
  const result = await getSavedRecipe(userid, recipeid)
-  await db.userSavedMeals.delete({
+ await db.userSavedMeals.delete({
     where: {
       id: result.id
     }
@@ -148,7 +148,6 @@ export async function getMealPlans(userid) {
  return mealids;
 }
 export async function postMeal(userId, meal) {
-  console.log(meal)
   const{title, mealSelect, photos, description}= meal
   if(photos.length > 0) {
     return await db.post.create({

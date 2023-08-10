@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { useState } from 'react';
 import { Menu } from "antd";
-import axios from 'axios';
 import { PlusOutlined } from '@ant-design/icons';
 
 // Helpers
@@ -48,7 +47,7 @@ const NavMenu = ({mealPlans, setMealPlans, setFocused, api}) => {
       onCancel={() => {setModalVisible(false)}}
       onSubmit={handleSubmission}
     />
-  
+
     <Menu
       style={{ width: 256 }}
       defaultSelectedKeys={[activeKey]}

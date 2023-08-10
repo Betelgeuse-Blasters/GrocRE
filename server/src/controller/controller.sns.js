@@ -3,6 +3,9 @@ import { validationResult } from "express-validator";
 
 
 export async function getAllPosts(req, res) {
+  if(!req.userInfo.loggedIn) {
+    return res.sendStatus(400).json("Unable to complete request, Please log in")
+  }
   try {
     const posts = await model.getAllPosts(req.query.count);
     for (let i = 0; i < posts.length; i++) {
@@ -19,8 +22,11 @@ export async function getAllPosts(req, res) {
 }
 
 export async function updateLikes(req, res) {
+  if(!req.userInfo.loggedIn) {
+    return res.sendStatus(400).json("Unable to complete request, Please log in")
+  }
   try {
-    let test = await model.updateLikes(req.query.postid, req.query.userid, req.query.like)
+    const test = await model.updateLikes(req.query.postid, req.userInfo.id, req.query.like)
     res.sendStatus(201);
   } catch (err) {
     console.log('update likes error: ', err)
@@ -41,8 +47,11 @@ export async function getLikes(req, res) {
 }
 
 export async function saveRecipe(req, res) {
+  if(!req.userInfo.loggedIn) {
+    return res.sendStatus(400).json("Unable to complete request, Please log in")
+  }
   try {
-    await model.saveRecipe(req.query.userid, req.query.recipeid);
+    await model.saveRecipe(req.userInfo.id, req.query.recipeid);
     res.sendStatus(201)
   } catch (err) {
     console.log('saving recipe error: ', err)
@@ -50,8 +59,12 @@ export async function saveRecipe(req, res) {
 }
 
 export async function unsaveRecipe(req, res) {
+  if(!req.userInfo.loggedIn) {
+    return res.sendStatus(400).json("Unable to complete request, Please log in")
+  }
   try {
-    await model.unsaveRecipe(req.query.userid, req.query.recipeid)
+    console.log(req.userInfo.id)
+    await model.unsaveRecipe(req.userInfo.id, req.query.recipeid)
     res.sendStatus(201)
   } catch (err) {
     console.log('Unsaving recipe error: ', err)
@@ -60,6 +73,9 @@ export async function unsaveRecipe(req, res) {
 }
 
 export async function getSavedRecipe(req, res) {
+  if(!req.userInfo.loggedIn) {
+    return res.sendStatus(400).json("Unable to complete request, Please log in")
+  }
   try {
     const saved = await model.getSavedRecipe(req.userInfo.id, req.query.recipeid)
     res.send(saved)
@@ -70,8 +86,12 @@ export async function getSavedRecipe(req, res) {
 }
 
 export async function getMeals(req, res) {
+  if(!req.userInfo.loggedIn) {
+    return res.sendStatus(400).json("Unable to complete request, Please log in")
+  }
   try {
-    const meals = await model.getMeals(req.query.userid);
+    console.log(req.userInfo.id)
+    const meals = await model.getMeals(req.userInfo.id);
     res.send(meals)
   } catch (err) {
     console.log('error getting saved meals: ', err);
@@ -80,8 +100,11 @@ export async function getMeals(req, res) {
 }
 
 export async function getMealPlans(req, res) {
+  if(!req.userInfo.loggedIn) {
+    return res.sendStatus(400).json("Unable to complete request, Please log in")
+  }
   try {
-    const mealplans = await model.getMealPlans(req.query.userid);
+    const mealplans = await model.getMealPlans(req.userInfo.id);
     res.send(mealplans)
   } catch (err) {
     console.log('error getting saved meals: ', err);
@@ -93,7 +116,7 @@ export async function getMealPlans(req, res) {
 
 export async function postMeal(req,res) {
   if(!req.userInfo.loggedIn) {
-    return res.sendStatus(300).json("Unable to complete request, Please log in")
+    return res.sendStatus(400).json("Unable to complete request, Please log in")
   }
   try {
     // const post = req.body

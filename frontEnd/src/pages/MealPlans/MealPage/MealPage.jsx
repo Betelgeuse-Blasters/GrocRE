@@ -1,7 +1,6 @@
 /* eslint-disable */
 
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 
 import { Input, Button } from 'antd';
 import { EditOutlined } from '@ant-design/icons';

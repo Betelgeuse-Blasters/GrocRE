@@ -9,16 +9,16 @@ import {
 import { useState, useEffect } from "react";
 import { faker } from "@faker-js/faker";
 import VirtualList from "rc-virtual-list";
-import axios from "axios";
+import API from '../../../Helper/API.js';
+import axios from 'axios';
 
 const { Meta } = Card;
 export const Cheesieburger =
   "https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg";
 
-export default function MealCard({ isSavedMeal, user, post }) {
+export default function MealCard({ saved, setSaved, isSavedMeal, user, post }) {
   const postTitle = `${post.title} by ${post.username}`;
   const [heartColor, setHeartColor] = useState("white");
-  const [saved, setSaved] = useState(false);
   const [color, setColor] = useState("grey");
   const [likeColor, setLikeColor] = useState("grey");
   const [dislikeColor, setDislikeColor] = useState("grey");
@@ -47,7 +47,7 @@ export default function MealCard({ isSavedMeal, user, post }) {
     },
   };
   const messageTime = 2.5;
-  console.log(post)
+
 
   const containerHeight = 400;
   useEffect(() => {
@@ -67,13 +67,13 @@ export default function MealCard({ isSavedMeal, user, post }) {
     for (let step of post.meal.recipeSteps) {
       setSteps((steps) => [...steps, step]);
     }
-    axios
-      .get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/likes?postid=${post.id}`, {withCredentials: true})
+    API.GET_SNS_LIKES(post.id)
       .then((response) => {
         setLikes(response.data.likes);
         setDislikes(response.data.dislikes);
       });
-      axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/save?userid=${user.id}&recipeid=${post.mealId}`, {withCredentials: true}).then((response) => {
+      API.GET_SNS_SAVE(post.mealId).then((response) => {
+        console.log('response data: ', response.data)
         if (response.data) {
           setSaved(true);
         }
@@ -220,12 +220,12 @@ export default function MealCard({ isSavedMeal, user, post }) {
 
   function savePost() {
     if (!saved) {
-      axios.put(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/save?userid=${user.id}&recipeid=${post.mealId}`, {withCredentials: true}).then(() => {
+      axios.put(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/save?&recipeid=${post.mealId}`, {withCredentials: true}).then(() => {
         message.success(`${post.title} added to Saved Meals`, messageTime);
         setSaved(!saved);
       })
     } else {
-      axios.delete(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/save?userid=${user.id}&recipeid=${post.mealId}`, {withCredentials: true}).then(() => {
+      axios.delete(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/save?&recipeid=${post.mealId}`, {withCredentials: true}).then(() => {
         message.success(`${post.title} removed from Saved Meals`, messageTime);
         setSaved(!saved);
       })

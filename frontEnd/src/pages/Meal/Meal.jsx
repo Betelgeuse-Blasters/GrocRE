@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { Input, Button, Select, message } from 'antd';
 import '../../styles/Ai.css';
 import { StarOutlined, StarFilled, PlusOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import NutritionFacts from '../AI/NutritionFacts.jsx';
 import { useParams } from "react-router-dom";
+import API from '../../Helper/API.js';
 
 
 export default function Meal() {
@@ -19,18 +19,15 @@ export default function Meal() {
 
   useEffect(() => {
     // Define the URL for the API call
-    const url = `http://localhost:3000/meal/getRecipe?mealID=${mealID}`;
 
-    // Make the Axios GET request
-    axios.get(url)
-      .then((response) => {
-        // Set the received meal data to state
-        console.log('MEAL DATA', response.data)
-        setMeal(response.data);
-      })
-      .catch((error) => {
-        console.error("An error occurred while fetching the recipe:", error);
-      });
+    // Make the rrrrrrrrrrrrrrrrrrrrrrrrrrr GET request
+    API.GET_MEAL(mealID)
+    .then((response) => {
+      setMeal(response.data);
+    })
+    .catch((error) => {
+      console.error("An error occurred while fetching the recipe:", error);
+    });
   }, []);
 
   const handleStarHover = () => {
@@ -70,7 +67,7 @@ export default function Meal() {
 
   const getUserMeals = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/mealplans/', { withCredentials: true });
+      const response = await API.GET_MEALPLANS();
       return response.data;
     } catch (error) {
       console.error('Error fetching meal plans:', error);
@@ -79,7 +76,7 @@ export default function Meal() {
   };
 
   const addMealToMealPlan = () => {
-    axios.put(`http://localhost:3000/mealplans/${selectedMeal.id}/recipe/${meal.id}`, { withCredentials: true }).then((response) => {
+    API.PUT_MEALPLANS(selectedMeal.id, meal.id).then((response) => {
       setAddToMealPlan(false);
       message.success(`This meal has been added to your '${selectedMeal.name}' Meal Plan`, 2);
     }).catch((error) => {
@@ -107,23 +104,23 @@ export default function Meal() {
         setMyMealPlans(me);
 
     }).catch((error) => {
-      console.log(error);     
+      console.log(error);
 
-    });    
+    });
   }, []);
 
   const mealPlans = () => {
     if(Object.keys(myMealPlans).length > 0){
     return(
-      <> 
-        <Select        
+      <>
+        <Select
         style={{ width: 120 }}
         defaultValue={myMealPlans.menu[0]}
         onChange={(e) => setSelectedMeal(myMealPlans.plans[e])}
         options={myMealPlans.menu}
         />
-        
-        <CheckOutlined className="self-center pl-5 text-3xl" onClick={() => addMealToMealPlan()}/>     
+
+        <CheckOutlined className="self-center pl-5 text-3xl" onClick={() => addMealToMealPlan()}/>
         <CloseOutlined className="self-center pl-5 text-3xl" onClick={() => setAddToMealPlan(false)}/>
       </>);
     }else{

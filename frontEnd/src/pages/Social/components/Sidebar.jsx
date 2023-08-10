@@ -7,7 +7,6 @@ export default function SideBar({meals, mealplans}) {
   const navigate = useNavigate();
   const [mealNames, setMealNames] = useState([])
   const [planNames, setPlanNames] = useState([]);
-  console.log('MEAL PLAN: ', mealplans);
   useEffect(() => {
     meals.map((meal, i) => {
       setMealNames((mealNames) => [...mealNames, {key: i, label: meal.recipeName}])

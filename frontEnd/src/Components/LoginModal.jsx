@@ -1,9 +1,7 @@
 import { Form, Input, Button, Radio } from "antd";
 import { useState, useContext } from 'react';
-import axios from 'axios';
+import API from '../Helper/API.js';
 import UserContext from '../Context/User.js'
-const API_URL = import.meta.env.VITE_API_URL
-const PORT = import.meta.env.VITE_PORT
 
 export default function LoginModal({handleLogin}) {
   const [isSignup, setIsSignup] = useState(false);
@@ -17,7 +15,6 @@ export default function LoginModal({handleLogin}) {
   const onFinish = async (values) => {
     console.log('Received values of form: ', values);
 
-    const endpoint = `${API_URL}:${PORT}/auth/login`;
 
     const payload = {
       nickname: values.nickname,
@@ -28,7 +25,7 @@ export default function LoginModal({handleLogin}) {
       payload.email = values.email;
     }
     try {
-      const response = await axios.post(endpoint, payload, {withCredentials:true});
+      const response = await API.POST_USER_LOGIN(payload);
 
       if (response.status === 200) {
         console.log("Successfully logged in or signed up", response.data);

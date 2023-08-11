@@ -27,7 +27,7 @@ export default function SideBar({meals, mealplans}) {
         items={[
           {
             label: "Home",
-            key: "/sns/home",
+            key: "/Feed/home",
             icon: <HomeOutlined />,
           },
           {

@@ -10,7 +10,7 @@ import UserContext from '../../Context/User.js'
 import { Link } from "react-router-dom";
 import FractionFactory from '../../Helper/FractionFactory.js';
 import RecentMeals from './RecentMeals'
-
+import * as random from '../../Helper/RandomPhotos.js'
 export default function Ai() {
   const [user] = useContext(UserContext)
   const audioRef = useRef(new Audio('/meatTheme.mp3'))
@@ -150,7 +150,7 @@ export default function Ai() {
   };
 
   return (
-    <div className='pb-5'>
+    <div className='h-[91vh] relative'>
       <h1 className='text-6xl font-cairo flex justify-center'>Let's Get Cookin'!</h1>
       <div className="flex justify-center mt-5 mb-5">
         <h3 className='text-2xl w-2/3 text-center'>Get ready to level up your culinary game with GrocRE's cutting-edge AI! Just toss in your wildest recipe idea or the ingredients you've got in your kitchen, and watch the magic happen - voilà!</h3>
@@ -191,7 +191,7 @@ export default function Ai() {
             <div className='flex flex-row ml-5'>
               <div className='flex flex-col w-1/3 relative shadow-xl rounded mr-16 ml-5'>
                 <img
-                  src="/secretEgg.png"
+                  src={random.RandomPhoto()}
                   className='w-fit self-center'
                 />
                 <div className='mt-5 flex flex-col'>
@@ -232,7 +232,7 @@ export default function Ai() {
             </div>
           </div>
           <div className='p-12'>
-            <strong className='flex justify-center text-2xl pb-8'>TRY SOME RECENTLY GENERATED MEALS MMMMMMMMM</strong>
+            <h3 className='flex justify-center text-2xl pb-8 font-bold font-sans'>Explore recently generated recipes:</h3>
           <RecentMeals></RecentMeals>
           </div>
           <Game started={started} setStarted={setStarted}/>

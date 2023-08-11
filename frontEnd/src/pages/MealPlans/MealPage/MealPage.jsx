@@ -10,8 +10,9 @@ import Ingredients from './components/Ingredients.jsx';
 import { useParams } from "react-router-dom";
 
 import Api from '../api.js';
+import * as random from '../../../Helper/RandomPhotos.js';
 
-export const MealPage = ({recipe, changed, setChanged}) => {
+export const MealPage = ({recipe, changed, setChanged, editMeal}) => {
   const [meal, setMeal] = useState(recipe);
   const [editName, setEditName] = useState(false);
 
@@ -87,7 +88,7 @@ export const MealPage = ({recipe, changed, setChanged}) => {
             <div className='flex flex-row ml-5'>
               <div className='flex flex-col w-1/3 relative shadow-xl rounded mr-16 ml-5'>
                 <img
-                  src="https://bolt-gcdn.sc-cdn.net/3/iAgMd936GPdlxahIYCPlt?bo=EhgaABoAMgF9OgEEQgYI_bOh9AVIAlASYAE%3D&uc=18"
+                  src={random.RandomPhoto()}
                   className='w-fit self-center'
                 />
                 <div className='mt-5 flex flex-col'>
@@ -104,7 +105,7 @@ export const MealPage = ({recipe, changed, setChanged}) => {
 
                 </div>
                 <div className='mt-5'>
-                  <h1 className='text-4xl font-medium text-center'>directions: </h1>
+                  <h1 className='text-4xl font-medium text-center mb-3'>directions: </h1>
                   <ul className='text-xl'>
                     {meal.recipeSteps.map((item, index) => (
                       <li className='mb-3' key={index}>{item}</li>

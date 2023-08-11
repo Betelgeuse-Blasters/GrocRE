@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useRef } from 'react';
-import { Tabs } from 'antd';
+import { Tabs, Button } from 'antd';
 
 // Helpers
 import { getTabMenuItems } from '../helpers';
@@ -8,12 +8,11 @@ import Api from '../api';
 // Components
 import { MealPage } from '../MealPage/MealPage.jsx';
 import { IngredientsModal } from './modals/IngredientsModal.jsx';
+import { AddMealPage } from '../MealPage/AddMealPage.jsx';
 
 const Meal = ({focusedMealPlan, setChanged}) => {
-  const [activeKey, setActiveKey] = useState(0);
+  const [activeKey, setActiveKey] = useState(undefined);
   const [items, setItems] = useState([]);
-
-  // const newTabIndex = useRef(0);
 
   const tabItems = () => {
     let mp = focusedMealPlan?.recipes?.map((recipe) => {
@@ -23,11 +22,11 @@ const Meal = ({focusedMealPlan, setChanged}) => {
         children: <MealPage recipe={recipe} setChanged={setChanged}/>
       }
     });
-
     return mp;
   };
 
   const onChange = (newActiveKey) => {
+    console.log('on change', activeKey)
     setActiveKey(newActiveKey);
   };
 
@@ -47,6 +46,7 @@ const Meal = ({focusedMealPlan, setChanged}) => {
     });
 
     const newPanes = items.filter((item) => item.key !== targetKey);
+
     if (newPanes.length && newActiveKey === targetKey) {
       if (lastIndex >= 0) {
         newActiveKey = newPanes[lastIndex].key;
@@ -56,24 +56,53 @@ const Meal = ({focusedMealPlan, setChanged}) => {
     }
     setItems(newPanes);
     setActiveKey(newActiveKey);
-  
-  
   };
 
   const onEdit = (targetKey, action) => {
     remove(targetKey);
   };
 
+  const DeleteButton = () => {
+    const clickHander = (e) => {
+      e.preventDefault();
+      let api = new Api();
+      api.delete('/' + focusedMealPlan.id)
+      setChanged(true);
+    };
+
+    return (
+      <Button
+        danger
+        onClick={clickHander}
+      >Delete Meal Plan</Button>
+    );
+  }
+
+  const activeComponent = (focusedMealPlan) => {
+    if (focusedMealPlan && focusedMealPlan.recipes && focusedMealPlan.recipes.length) {
+      const tabContent = tabItems();
+      let defaultActiveKey = tabContent[0].key;
+
+      return (
+        <Tabs
+          type="editable-card"
+          onChange={onChange}
+          activeKey={activeKey ?? defaultActiveKey}
+          onEdit={onEdit}
+          items={tabItems()}
+          tabBarExtraContent={{ left: <DeleteButton />, right: <IngredientsModal mealPlan={focusedMealPlan} />}}
+          hideAdd={true}
+        />
+      )
+    } else if (focusedMealPlan?.id){
+      return <AddMealPage mealPlanId={focusedMealPlan?.id} setChanged={setChanged} />
+    } else {
+      return <div></div>
+    }
+  };
+
   return (
-    <Tabs
-      type="editable-card"
-      onChange={onChange}
-      activeKey={activeKey}
-      onEdit={onEdit}
-      items={tabItems()}
-      tabBarExtraContent={{ left: <button onClick={(e) => { let api = new Api(); api.delete('/' + focusedMealPlan.id); setChanged(true)}}className="px-[2rem] text-center">Delete Meal Plan</button>, right: <IngredientsModal mealPlan={focusedMealPlan} />}}
-      hideAdd={true}
-    />
+    activeComponent(focusedMealPlan)
   );
 
 };

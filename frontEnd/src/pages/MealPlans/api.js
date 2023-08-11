@@ -18,8 +18,9 @@ export default class Api {
   }
 
   async put(path = '', data) {
-    const response = await axios.put(this.endpoint + path, data, {withCredentials:true});
-    return response.data;
+    return axios.put(this.endpoint + path, data, {withCredentials:true})
+      .then(() => { return true; })
+      .catch((err) => { console.log(err); return false; });
   }
 
   async delete(path = '') {

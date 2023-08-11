@@ -1,18 +1,18 @@
-import {useEffect, useState, useContext} from 'react';
+import { useEffect, useState, useContext } from 'react';
 import MealCard from './MealCard.jsx';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import {  Divider, List, Skeleton } from 'antd';
+import { Divider, List, Skeleton } from 'antd';
 import UserContext from '../../../Context/User.js';
 import API from '../../../Helper/API.js';
 
-export default function Feed({setMeals}) {
+export default function Feed({ setMeals }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(true)
   const [user, setUser] = useContext(UserContext);
   useEffect(() => {
     loadMorePosts();
-  },[])
+  }, [])
 
   function loadMorePosts() {
     if (loading) {
@@ -42,15 +42,15 @@ export default function Feed({setMeals}) {
       scrollableTarget="scrollableDiv"
     >
       <List
-        style={{overflowX: 'hidden'}}
+        style={{ overflowX: 'hidden' }}
         grid={{
           gutter: 16,
-          column: 3,
+          //column: 3,
         }}
         dataSource={posts}
         renderItem={(item) => (
           <List.Item key={item.id}>
-            <MealCard isSavedMeal={false} user={user} post={item} setMeals={setMeals}/>
+            <MealCard isSavedMeal={false} user={user} post={item} setMeals={setMeals} />
           </List.Item>
         )}
       >

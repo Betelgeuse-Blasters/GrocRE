@@ -12,12 +12,14 @@ import VirtualList from "rc-virtual-list";
 import API from '../../../Helper/API.js';
 import axios from 'axios';
 import NutritionFacts from '../../AI/NutritionFacts.jsx';
+import * as random from "../../../Helper/RandomPhotos.js"
 
 const { Meta } = Card;
+
 export const Cheesieburger =
   "https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg";
 
-export default function MealCard({isSavedMeal, user, post, setMeals }) {
+export default function MealCard({ isSavedMeal, user, post, setMeals }) {
   const postTitle = `${post.title} by ${post.username}`;
   const [heartColor, setHeartColor] = useState("white");
   const [color, setColor] = useState("grey");
@@ -76,13 +78,13 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
         setLikes(response.data.likes);
         setDislikes(response.data.dislikes);
       });
-      API.GET_SNS_SAVE(post.mealId).then((response) => {
-        console.log(post.mealId + ' response data: ', response.data)
-        if (typeof response.data === 'object') {
-          console.log(post.mealId, post.title, ' setting to true')
-          setSaved(true);
-        }
-      })
+    API.GET_SNS_SAVE(post.mealId).then((response) => {
+      console.log(post.mealId + ' response data: ', response.data)
+      if (typeof response.data === 'object') {
+        console.log(post.mealId, post.title, ' setting to true')
+        setSaved(true);
+      }
+    })
   }, []);
 
   useEffect(() => {
@@ -112,7 +114,7 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
       setDislikeColor("grey")
     }
 
-  },[likes, dislikes])
+  }, [likes, dislikes])
 
   let action;
   if (isSavedMeal) {
@@ -124,9 +126,9 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
         onClick={() => {
           like(1);
         }}
-        style={{color: likeColor}}
+        style={{ color: likeColor }}
       >
-        <LikeOutlined  />
+        <LikeOutlined />
         <p>{likes.length}</p>
       </div>,
       <div
@@ -134,9 +136,9 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
         onClick={() => {
           like(0);
         }}
-        style={{color: dislikeColor}}
+        style={{ color: dislikeColor }}
       >
-        <DislikeOutlined  />
+        <DislikeOutlined />
         <p>{dislikes.length}</p>
       </div>,
       <Collapse
@@ -227,7 +229,7 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
 
   function savePost() {
     if (!saved) {
-      axios.put(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/save?&recipeid=${post.mealId}`, {withCredentials: true}).then(() => {
+      axios.put(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/save?&recipeid=${post.mealId}`, { withCredentials: true }).then(() => {
         message.success(`${post.title} added to Saved Meals`, messageTime);
         setSaved(!saved);
       }).then(() => {
@@ -236,7 +238,7 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
         })
       })
     } else {
-      axios.delete(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/save?&recipeid=${post.mealId}`, {withCredentials: true}).then(() => {
+      axios.delete(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/save?&recipeid=${post.mealId}`, { withCredentials: true }).then(() => {
         message.success(`${post.title} removed from Saved Meals`, messageTime);
         setSaved(!saved);
       }).then(() => {
@@ -251,14 +253,13 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
     if (like) {
       axios
         .put(
-          `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/likes?postid=${
-            post.id
-          }&userid=${user.id}&like=true`, {withCredentials: true}
+          `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/likes?postid=${post.id
+          }&userid=${user.id}&like=true`, { withCredentials: true }
         )
         .then(() => {
 
           axios
-            .get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/likes?postid=${post.id}`, {withCredentials: true})
+            .get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/likes?postid=${post.id}`, { withCredentials: true })
             .then((response) => {
               setLikes(response.data.likes);
               setDislikes(response.data.dislikes);
@@ -270,14 +271,13 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
     } else {
       axios
         .put(
-          `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/likes?postid=${
-            post.id
-          }&userid=${user.id}&like=false`, {withCredentials: true}
+          `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/likes?postid=${post.id
+          }&userid=${user.id}&like=false`, { withCredentials: true }
         )
         .then(() => {
 
           axios
-            .get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/likes?postid=${post.id}`, {withCredentials: true})
+            .get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_PORT}/sns/likes?postid=${post.id}`, { withCredentials: true })
             .then((response) => {
               setLikes(response.data.likes);
               setDislikes(response.data.dislikes);
@@ -308,8 +308,8 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
   return (
     <div>
       <Card
-        style={{ minHeight: 575, width: 400,  margin: "15px" }}
-        cover={<Image style={{height: 250}} fallback={Cheesieburger} />}
+        style={{ width: 450, margin: "15px" }}
+        cover={<Image style={{ }} src={random.RandomPhoto()} />}
         actions={action}
         hoverable
       >
@@ -331,7 +331,7 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
               key: "1",
               label: "Nutritional Info",
               children: (
-                <NutritionFacts style={{height: '50%', width: '50%'}} meal={post.meal}/>
+                <NutritionFacts style={{ height: '50%', width: '50%' }} meal={post.meal} />
               ),
             },
             {
@@ -339,8 +339,8 @@ export default function MealCard({isSavedMeal, user, post, setMeals }) {
               label: "Ingredients",
               children: (
                 <List
-                size='small'
-                dataSource={ingredients}
+                  size='small'
+                  dataSource={ingredients}
                   split={false}
                   renderItem={(item) => (
                     <List.Item>

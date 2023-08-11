@@ -204,11 +204,11 @@ const Game = ({ setStarted, started }) => {
       }
       <div>
         <div id='foods' ref={foodsRef}></div>
-        <div className='absolute bottom-20'>
+        <div className='absolute bottom-20 w-full'>
           <div className='w-1/12 flex items-end mt-20'>
-            <img id='eggboy' ref={eggboyRef} src='/eggboy.png' className='' />
+            <img id='eggboy' ref={eggboyRef} src='/eggboy.png'/>
           </div>
-          <div className='mt-10 flex flex-row'>
+          <div className='mt-10 flex flex-row justify-center'>
             <Button
               icon={<PlayCircleOutlined />}
               className='bg-[#FFFFFF]/50 ml-24 text-3xl h-fit w-fit flex items-center font-medium border-slate-400'

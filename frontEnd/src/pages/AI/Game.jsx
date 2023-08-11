@@ -94,7 +94,7 @@ const Game = ({ setStarted, started }) => {
       var food_element = document.createElement('div');
       food_element.setAttribute('id', 'food_' + global_food_count);
       food_element.classList.add('falling-food');
-      food_element.style.top = '-15vh';
+      food_element.style.top = '-25vh';
       food_element.style.left = Math.floor(Math.random() * 95) + 'vw';
       foodsRef.current.appendChild(food_element);
       global_food_count++;
@@ -112,8 +112,8 @@ const Game = ({ setStarted, started }) => {
 
     await anime({
       targets: '#' + food_element_id,
-      translateY: '105vh',
-      translateX: position,
+      translateY: document.body.clientHeight,
+      translateX: 0,
       rotate: 1000,
       easing: 'linear',
       duration: 2000
@@ -202,7 +202,7 @@ const Game = ({ setStarted, started }) => {
         null
       )
       }
-      <div>
+      <div className='h-[400px]'>
         <div id='foods' ref={foodsRef}></div>
         <div className='absolute bottom-20 w-full'>
           <div className='w-1/12 flex items-end mt-20'>

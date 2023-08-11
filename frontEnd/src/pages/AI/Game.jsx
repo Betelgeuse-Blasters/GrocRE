@@ -204,9 +204,9 @@ const Game = ({ setStarted, started }) => {
       }
       <div>
         <div id='foods' ref={foodsRef}></div>
-        <div className='bottom-0 left-0 w-full z-10'>
-          <div className='h-[25vh] flex items-end'>
-            <img id='eggboy' ref={eggboyRef} src='/eggboy.png' className='h-4/5' style={{ position: 'relative' }} />
+        <div className='absolute bottom-20'>
+          <div className='w-1/12 flex items-end mt-20'>
+            <img id='eggboy' ref={eggboyRef} src='/eggboy.png' className='' />
           </div>
           <div className='mt-10 flex flex-row'>
             <Button

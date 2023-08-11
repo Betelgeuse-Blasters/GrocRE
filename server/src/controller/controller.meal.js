@@ -10,7 +10,7 @@ export const getRecipe = async (req, res) => {
   console.log('MEAL ID', mealID)
   try {
     const recipe = await model.getRecipebyID(mealID);
-    console.log('RECIPE CONTROLLER++++++', recipe)
+    // console.log('RECIPE CONTROLLER++++++', recipe)
     res.json(recipe);
   } catch(err){
     console.log('RECIPE CONTROLLER ERROOR ------', err)

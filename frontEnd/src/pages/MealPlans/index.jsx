@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useEffect, useState } from 'react';
 
 // Helpers
@@ -13,6 +15,7 @@ const MealPlan = () => {
   const [changed, setChanged] = useState(false);
   const api = new Api('/mealplans');
 
+  // get initial list of meal plans
   useEffect(() => {
     api.get()
       .then((response) => {
@@ -22,6 +25,7 @@ const MealPlan = () => {
       .catch(err => console.log('mealplans get err', err));
   }, [])
 
+  // get updated list of meal plans
   useEffect(() => {
     if (changed) {
       const api = new Api('/mealplans');
@@ -31,7 +35,6 @@ const MealPlan = () => {
         setFocused(response[0])
       })
       .catch(err => console.log('mealplans get err', err));
-      console.log('mealplans changed', changed)
     }
   }, [changed])
 
@@ -39,7 +42,7 @@ const MealPlan = () => {
     <>
       <div className="flex">
         <div className="flex-none">
-          <NavMenu mealPlans={mealPlans} setMealPlans={setMealPlans} setFocused={setFocused} api={api} />
+          <NavMenu mealPlans={mealPlans} setMealPlans={setMealPlans} setFocused={setFocused} api={api}/>
         </div>
         <div className="flex-1 mr-[5%]">
           <Meal focusedMealPlan={focused} changed={changed} setChanged={setChanged}/>

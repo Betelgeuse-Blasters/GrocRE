@@ -15,7 +15,7 @@ let NewMealPlan = ({ visible, onCancel, onSubmit }) => {
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title="Add a Meal Plan"
       onCancel={onCancel}
       onOk={onFinish}

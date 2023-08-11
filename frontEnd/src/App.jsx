@@ -35,7 +35,8 @@ export default function App() {
 
   return (
     <UserContext.Provider value={[user, setUser]}>
-      <div className='bg-image min-h-screen'>
+      <>
+      <div className='bg-image' style={{minHeight: '97vh'}}>
       <NavBar/>
       <Routes>
         <Route path="/" element={<Ai setMeal={setMealID}/>} />
@@ -45,8 +46,10 @@ export default function App() {
         <Route path="/Feed/*" element={<Sns setMeal={setMealID}/>} />
         <Route path="/meal/:mealID" element={<Meal />} />
       </Routes>
-      <Footer className=''/>
+
       </div>
+      <Footer className=''/>
+      </>
     </UserContext.Provider>
   );
 }

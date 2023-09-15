@@ -85,25 +85,25 @@ OpenAI
 
 In a one-week sprint, our team delivered an MVP for our client, Hugh Jappetite. This intense period of collaboration, learning, and problem-solving resulted in a product that we're proud to showcase.
 
-# Technical Challenges and Research
+### Technical Challenges and Research
 Our main challenge was integrating various technologies in our stack to deliver a coherent, user-friendly application.  One particular challenge was making efficient OpenAI API calls to retrieve recipe and nutritional data, and rendering this information effectively on the front-end.  Tieing together the backend and relating the data in a logical fashion took a lot of planning to allow everyone to work on their individual components.
 
-# Unexpected Challenges
+### Unexpected Challenges
 Authentication was a recurring challenge through development.  Handling session and user logins were originally going to be handled by Auth0.  It took too much time to try and learn how to properly interface and save Auth0 user information to our backend so the team pivoted to using a home-baked user authentication process.  Another challenge was understanding each other's coding conventions when trying to build upon each other's work.
 
 <!-- # Video Demo / Screenshot Walkthrough
 [Link to the demo or screenshot walkthrough] -->
 
-# How Does the App Work?
+### How Does the App Work?
 When a user interacts with GrocRe, data is processed through our Node.js/Express server and stored in a PostgreSQL database through our ORM of choice, Prisma. This information is then relayed back to the user interface.
 
 <!-- [Include Diagram if possible] -->
 
-# Research Required
+### Research Required
 
 We had to conduct research in how to interact with OpenAI, optimizing tokens, and prompting. We also learned a great deal about Agile project management, which played a crucial role in our workflow.
 
-# Workflow and Key Lessons
+### Workflow and Key Lessons
 
 We followed an Agile workflow, maintaining a Trello board for ticketing, conducting daily standups, and periodically reviewing our code. The process taught us the importance of regular communication, efficient task delegation, and timely feedback.  In a below section is our git workflow.
 

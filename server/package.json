@@ -8,6 +8,7 @@
   "license": "ISC",
   "scripts": {
     "nodemon": "nodemon ./src/index",
+    "generate": "npx prisma generate",
     "prisma-migrate": "npx prisma migrate dev --name init",
     "seed": "node ./prisma/seed.js",
     "studio": "npx prisma studio",

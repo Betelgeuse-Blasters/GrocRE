@@ -2,7 +2,7 @@
 <img src="./frontEnd/public/logo.png" width="400"/>
 
 ## Description
-GrocRe is a web application designed to help you personalize your meal planning experience. Developed as a part of the Jmart Corporation, GrocRe leverages AI to provide you with recipes, nutritional facts, and a shopping list for meal preparation. Share your plans and discover new recipes through our built-in social network.
+GrocRe is a web application designed to help you personalize your meal planning experience.  GrocRe leverages AI to provide you with recipes, nutritional facts, and a shopping list for meal preparation. Share your plans and discover new recipes through our built-in social network.
 
 ## Table of Contents
 

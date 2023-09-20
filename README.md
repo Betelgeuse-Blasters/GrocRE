@@ -2,7 +2,7 @@
 <img src="./frontEnd/public/logo.png" width="400"/>
 
 ## Description
-GrocRE is a web application that acts as a subsidy to the Jmart corperation allowing users to prompt and share personalized meals and meal plans with the assistance of an A.I. model. Our custom API call returns a recipe, nutrition facts, and all of the ingredients needed to perpare a meal, which the end user can save to a plans and share on the built in social networking site.
+GrocRe is a web application designed to help you personalize your meal planning experience. Developed as a part of the Jmart Corporation, GrocRe leverages AI to provide you with recipes, nutritional facts, and a shopping list for meal preparation. Share your plans and discover new recipes through our built-in social network.
 
 ## Table of Contents
 
@@ -83,29 +83,29 @@ OpenAI
   <summary><b>Development</b></summary>
 
 
-In a one-week sprint, our team delivered an MVP for our client, Hugh Jappetite. This intense period of collaboration, learning, and problem-solving resulted in a product that we're proud to showcase.
+Our team worked in a one-week sprint to deliver a minimum viable product (MVP) for our client. We focused on agile methodology, daily standups, and continuous feedback loops for smooth collaboration.
 
 ### Technical Challenges and Research
-Our main challenge was integrating various technologies in our stack to deliver a coherent, user-friendly application.  One particular challenge was making efficient OpenAI API calls to retrieve recipe and nutritional data, and rendering this information effectively on the front-end.  Tieing together the backend and relating the data in a logical fashion took a lot of planning to allow everyone to work on their individual components.
+Our main challenge was integrating various technologies in our stack to create a coherent, user-friendly application. One particular challenge was making efficient OpenAI API calls to retrieve recipes and nutritional data. Rendering this information effectively on the front-end required careful planning. Tying together the backend and organizing the data in a logical manner was crucial for seamless collaboration across different components of the project.
 
 ### Unexpected Challenges
-Authentication was a recurring challenge through development.  Handling session and user logins were originally going to be handled by Auth0.  It took too much time to try and learn how to properly interface and save Auth0 user information to our backend so the team pivoted to using a home-baked user authentication process.  Another challenge was understanding each other's coding conventions when trying to build upon each other's work.
+Authentication posed a recurring challenge throughout development. Initially, we planned to use Auth0 for handling session and user logins. However, the steep learning curve and time constraints forced us to pivot to a custom authentication process. Another challenge was aligning coding conventions among team members, especially when building upon each other's work.
 
 <!-- # Video Demo / Screenshot Walkthrough
 [Link to the demo or screenshot walkthrough] -->
 
 ### How Does the App Work?
-When a user interacts with GrocRe, data is processed through our Node.js/Express server and stored in a PostgreSQL database through our ORM of choice, Prisma. This information is then relayed back to the user interface.
+When a user interacts with GrocRe, data is processed through our Node.js/Express server and stored in a PostgreSQL database using our ORM of choice, Prisma. This information is then relayed back to the user interface.
 
 <!-- [Include Diagram if possible] -->
 
 ### Research Required
 
-We had to conduct research in how to interact with OpenAI, optimizing tokens, and prompting. We also learned a great deal about Agile project management, which played a crucial role in our workflow.
+We conducted research on interacting with OpenAI, optimizing tokens, and prompting. We also learned a great deal about Agile project management, which played a crucial role in our workflow.
 
 ### Workflow and Key Lessons
 
-We followed an Agile workflow, maintaining a Trello board for ticketing, conducting daily standups, and periodically reviewing our code. The process taught us the importance of regular communication, efficient task delegation, and timely feedback.  In a below section is our git workflow.
+We followed an Agile workflow, maintained a Trello board for ticketing, conducted daily standups, and periodically reviewed our code. This process taught us the importance of regular communication, efficient task delegation, and timely feedback. Details on our Git workflow are provided in a section below.
 
 <!-- [Link to your Trello board] -->
 </details>
